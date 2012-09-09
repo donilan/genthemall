@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>gen-them-all-root</artifactId>
+		<groupId>com.ii2d.genthemall</groupId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
+	<groupId>com.ii2d.genthemall</groupId>
+	<artifactId>genthemall-example</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>genthemall-example Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>genthemall-example</finalName>
+
+		<!-- mvn genthemall-mojo:generate -Dgenthemall.database.table=[TABLE_NAME] 
+			-Dgenthemall.generate.targetName=[FILE_NAME] -->
+		<plugins>
+			<plugin>
+				<artifactId>genthemall-mojo</artifactId>
+				<groupId>com.ii2d.genthemall</groupId>
+				<version>0.0.2-SNAPSHOT</version>
+				<configuration>
+					<templatePath>src/template</templatePath>
+					<targetPath>target/generator</targetPath>
+					<removePrefix>true</removePrefix>
+					<tablePrefix>BD_</tablePrefix>
+					<genThemAll>true</genThemAll>
+					<databaseSettings>
+						<url>jdbc:oracle:thin:@127.0.0.1:1521:DONILAN</url>
+						<user>root</user>
+						<password>sa</password>
+						<driver>oracle.jdbc.OracleDriver</driver>
+					</databaseSettings>
+					<classTypeFixer>
+						<java.math.BigDecimal>Long</java.math.BigDecimal>
+						<java.lang.String>String</java.lang.String>
+						<java.sql.Timestamp>java.sql.Date</java.sql.Timestamp>
+					</classTypeFixer>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.oracle</groupId>
+						<artifactId>ojdbc14</artifactId>
+						<version>9.2.0.8</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

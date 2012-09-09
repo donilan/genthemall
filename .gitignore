@@ -1,4 +1,11 @@
 *.class
+.project
+.classpath
+.settings
+target
+
+# svn file#
+.svn
 
 # Package Files #
 *.jar
