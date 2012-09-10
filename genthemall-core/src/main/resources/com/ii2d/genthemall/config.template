@@ -1,4 +1,4 @@
-<%sources.each { s-> %>
+<%data.each { s-> %>
 ${s.name} {
 	packageName = "com.ii2d"
 	alias = "${s.name}"
