@@ -33,6 +33,7 @@ public class DatabaseSource extends AbstractSource implements Source {
 
 	protected void _findProperties(String table) {
 		final Source that = this;
+		this.name = table;
 		final ResultSetHandler<Boolean> h = new ResultSetHandler<Boolean>() {
 			@Override
 			public Boolean handle(ResultSet rs) throws SQLException {

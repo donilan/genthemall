@@ -1,1 +1,21 @@
-test
+<%sources.each { s-> %>
+${s.name} {
+	packageName = "com.ii2d"
+	alias = "${s.name}"
+	sourceProperties = { <% s.sourceProperties.each { p-> %>
+		${p.name} {
+			isId = ${p.name?.equalsIgnoreCase('id')}
+			className = "${p.className}"
+			isNullable = ${p.nullable}
+			length = ${p.length}
+			isEmail = false
+			isUrl = false
+			isPassword = false
+			isShow = true
+			isListable = true
+			isPhone = true
+		}
+	<%}%>
+	}
+}
+<%}%>
