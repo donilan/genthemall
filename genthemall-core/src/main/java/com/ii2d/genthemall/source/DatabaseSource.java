@@ -90,4 +90,9 @@ public class DatabaseSource extends AbstractSource implements Source {
 		}
 	}
 
+	public void setDataSource(BasicDataSource dataSource) {
+		//TODO Is there needs?
+		this.dataSource = dataSource;
+	}
+	
 }
