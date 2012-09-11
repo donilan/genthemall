@@ -1,13 +1,21 @@
 <%data.each { s-> %>
 ${s.name} {
 	packageName = "com.ii2d"
-	alias = "${s.name}"
-	sourceProperties = { <% s.sourceProperties.each { p-> %>
+	name = "${s.name}"
+	chinese = "${s.name}"
+	upperCaseFirstName = name[0].toUpperCase()+name[1..-1]
+	lowerCaseFirstName = name[0].toLowerCase()+name[1..-1]
+	
+	attrs = { <% s.attrs.each { p-> %>
 		${p.name} {
-			isId = ${p.name?.equalsIgnoreCase('id')}
+			name = "${p.name}"
+			chinese = "${p.name}"
+			upperCaseFirstName = name[0].toUpperCase()+name[1..-1]
+			lowerCaseFirstName = name[0].toLowerCase()+name[1..-1]
 			className = "${p.className}"
-			isNullable = ${p.nullable}
 			length = ${p.length}
+			isId = ${p.name?.equalsIgnoreCase('id')}
+			isNullable = ${p.nullable}
 			isEmail = false
 			isUrl = false
 			isPassword = false

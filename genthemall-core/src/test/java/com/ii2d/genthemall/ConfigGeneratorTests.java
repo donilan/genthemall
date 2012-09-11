@@ -1,9 +1,11 @@
 package com.ii2d.genthemall;
 
+import groovy.util.ConfigObject;
 import junit.framework.TestCase;
 
+import org.apache.commons.dbcp.BasicDataSource;
+
 import com.ii2d.genthemall.source.DatabaseSource;
-import com.ii2d.genthemall.source.Source;
 
 public class ConfigGeneratorTests extends TestCase {
 
@@ -13,9 +15,13 @@ public class ConfigGeneratorTests extends TestCase {
 	}
 
 	public void testGenerate() {
-		Source s = new DatabaseSource("com.mysql.jdbc.Driver",
-				"jdbc:mysql://127.0.0.1:3306/hnwnew", "root", "sa", "hnw_user");
-		ConfigGenerator g = new ConfigGenerator();
+		BasicDataSource ds = new BasicDataSource();
+		ds.setUrl("jdbc:mysql://127.0.0.1:3306/hnwnew");
+		ds.setDriverClassName("com.mysql.jdbc.Driver");
+		ds.setUsername("root");
+		ds.setPassword("sa");
+		ConfigObject s = new DatabaseSource(ds, "hnw_user");
+		Source2ConfigGenerator g = new Source2ConfigGenerator();
 		g.addSource(s);
 		g.generate();
 	}
