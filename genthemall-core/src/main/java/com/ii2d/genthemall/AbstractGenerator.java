@@ -3,6 +3,7 @@ package com.ii2d.genthemall;
 import groovy.lang.Writable;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
+import groovy.util.ConfigObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.ii2d.dbase.util.DIOUtils;
+import com.ii2d.dbase.util.DResourceUtils;
 import com.ii2d.genthemall.exception.GenthemallException;
 
 public abstract class AbstractGenerator implements Generator {
@@ -43,7 +44,7 @@ public abstract class AbstractGenerator implements Generator {
 	 * @since 2012-9-11
 	 * @return A map for data binding.
 	 */
-	abstract Map<String, Object> getDataBindingMap();
+	abstract ConfigObject getBindingData();
 
 	/**
 	 * add a path replace string
@@ -90,7 +91,7 @@ public abstract class AbstractGenerator implements Generator {
 			throw new GenthemallException(
 					"The param template path cann't be null or empty.");
 		}
-		return DIOUtils.getAsReader(this.getTemplatePath());
+		return DResourceUtils.getResourceAsReader(this.getTemplatePath());
 	}
 
 	public void generate() {
@@ -100,7 +101,7 @@ public abstract class AbstractGenerator implements Generator {
 			LOG.info("Loading Config template...");
 
 			Template template = engine.createTemplate(getTemplateAsReader());
-			Writable writable = template.make(getDataBindingMap());
+			Writable writable = template.make(getBindingData());
 			File out = new File(this.getTargetFile());
 			FileUtils.touch(out);
 			FileWriter f = new FileWriter(out);

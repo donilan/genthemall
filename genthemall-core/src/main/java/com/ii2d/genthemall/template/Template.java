@@ -9,7 +9,8 @@ package com.ii2d.genthemall.template;
 public class Template {
 	
 	protected String absolutePath;
-	protected String path;
+	protected String relativePath;
+	protected String relativeTargetPath;
 	protected String name;
 
 	public String getAbsolutePath() {
@@ -18,11 +19,11 @@ public class Template {
 	public void setAbsolutePath(String absolutePath) {
 		this.absolutePath = absolutePath;
 	}
-	public String getPath() {
-		return path;
+	public String getRelativePath() {
+		return relativePath;
 	}
-	public void setPath(String path) {
-		this.path = path;
+	public void setRelativePath(String path) {
+		this.relativePath = path;
 	}
 	public String getName() {
 		return name;
@@ -30,7 +31,11 @@ public class Template {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+	public String getRelativeTargetPath() {
+		return relativeTargetPath;
+	}
+	public void setRelativeTargetPath(String relativeTargetPath) {
+		this.relativeTargetPath = relativeTargetPath;
+	}
 	
 }

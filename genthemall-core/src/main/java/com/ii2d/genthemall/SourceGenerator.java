@@ -4,7 +4,6 @@ import groovy.util.ConfigObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SourceGenerator extends AbstractGenerator {
 	
@@ -27,7 +26,7 @@ public class SourceGenerator extends AbstractGenerator {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	Map<String, Object> getDataBindingMap() {
+	ConfigObject getBindingData() {
 		ConfigObject bind = new ConfigObject();
 		bind.put(BINDING_DATA_NAME, sourceList);
 		return bind;
