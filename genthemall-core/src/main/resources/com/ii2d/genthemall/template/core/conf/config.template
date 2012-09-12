@@ -1,4 +1,5 @@
 <% import static com.ii2d.dbase.util.DNameUtils.toPascalName %>
+<% import static com.ii2d.dbase.util.DNameUtils.toCamelName %>
 <%data.each { s-> %>
 ${s.name} {
 	packageName = "com.ii2d"
@@ -9,25 +10,24 @@ ${s.name} {
 	pascalName = name
 	camelName = name[0].toLowerCase()+name[1..-1]
 	
-	attrs = { <% s.attrs.each { p-> %>
-		${p.name} {
-			name = "${toPascalName(p.name)}"
-			originalName = "${p.name}"
-			chinese = name
-			pascalName = name
-			camelName = name[0].toLowerCase()+name[1..-1]
-			className = "${p.className}"
-			length = ${p.length}
-			isId = ${p.name?.equalsIgnoreCase('id')}
-			isNullable = ${p.nullable}
-			isEmail = false
-			isUrl = false
-			isPassword = false
-			isShow = true
-			isListable = true
-			isPhone = true
-		}
-	<%}%>
-	}
+	attrs = [ <% s.attrs.each { p-> %>
+		[
+			name : "${toPascalName(p.name)}",
+			originalName : "${p.name}",
+			chinese : "${toPascalName(p.name)}",
+			pascalName : "${toPascalName(p.name)}",
+			camelName : "${toCamelName(p.name)}",
+			className : "${p.className}",
+			length : ${p.length},
+			isId : ${p.name?.equalsIgnoreCase('id')},
+			isNullable : ${p.nullable},
+			isEmail : false,
+			isUrl : false,
+			isPassword : false,
+			isShow : true,
+			isListable : true,
+			isPhone : true
+		],<%}%>
+	]
 }
 <%}%>

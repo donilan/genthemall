@@ -62,7 +62,6 @@ public class TemplateGenerator extends AbstractGenerator {
 				Object tmp = configs.get(key);
 				if (tmp instanceof ConfigObject) {
 					ConfigObject config = (ConfigObject) tmp;
-					LOG.info("Found config file: " + config.getConfigFile());
 					for(int i = 0; i < templates.size(); ++i) {
 						Template t = templates.get(i);
 						this.setTemplatePath(t.getRelativeTargetPath());

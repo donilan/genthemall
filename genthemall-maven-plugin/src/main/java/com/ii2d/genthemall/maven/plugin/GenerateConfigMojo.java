@@ -31,10 +31,10 @@ public class GenerateConfigMojo extends AbstractMojo {
 	private String configTemplateFilePath;
 
 	/**
-	 * @parameter expression="${destPath}"
+	 * @parameter expression="${configDestPath}"
 	 *            default-value="${project.build.directory}/genthemall/"
 	 */
-	private String destPath;
+	private String configDestPath;
 
 	/**
 	 * @parameter expression="${driverClass}"
@@ -87,7 +87,7 @@ public class GenerateConfigMojo extends AbstractMojo {
 				ConfigObject s = new DatabaseSource(ds, t);
 				g.addSource(s);
 				g.setTemplatePath(configTemplateFilePath);
-				g.setDestPath(destPath);
+				g.setDestPath(configDestPath);
 			}
 		}
 		g.generate();

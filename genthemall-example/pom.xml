@@ -23,10 +23,27 @@
 	<build>
 		<plugins>
 			<plugin>
+				<!-- generate config file -->
+				<!-- mvn genthemall-maven-plugin:generate-config -->
+				
+				<!-- generate code by template files -->
+				<!-- mvn genthemall-maven-plugin:generate -->
 				<groupId>com.ii2d</groupId>
 				<artifactId>genthemall-maven-plugin</artifactId>
 				<version>${project.version}</version>
 				<configuration>
+					<!-- for generate config file -->
+					<configTemplateFilePath>classpath:com/ii2d/genthemall/template/core/conf/config.template</configTemplateFilePath>
+					<configDestPath>${project.build.directory}/genthemall/</configDestPath>
+					<driverClass>com.mysql.jdbc.Driver</driverClass>
+					<url>jdbc:mysql://127.0.0.1:3306/mysql</url>
+					<username>root</username>
+					<password>sa</password>
+					<tables>user,db,host,time_zone,time_zone_name</tables>
+					
+					<!-- for generate code by template files -->
+					<destPath>${project.build.directory}/genthemall/</destPath>
+					<templatePath>src/main/template</templatePath>
 					
 				</configuration>
 			</plugin>
