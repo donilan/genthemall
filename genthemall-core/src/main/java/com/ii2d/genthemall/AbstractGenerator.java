@@ -118,7 +118,7 @@ public abstract class AbstractGenerator implements Generator {
 		return StringUtils.isBlank(distPath) ? _DEFAULT_DIST_PATH : distPath;
 	}
 
-	public void setDistPath(String distPath) {
+	public void setDestPath(String distPath) {
 		this.distPath = distPath;
 	}
 

@@ -44,8 +44,8 @@ public class DatabaseSource extends ConfigObject {
 					// add source property to source.
 					attrs.add(attr);
 
-					if (LOG.isInfoEnabled())
-						LOG.info(String
+					if (LOG.isDebugEnabled())
+						LOG.debug(String
 								.format("ColumnName [%s], ColumnClassName [%s]"
 										+ ", CatalogName [%s], ColumnDisplaySize [%s]"
 										+ ", ColumnLabel [%s], ColumnType [%s], ColumnTypeName [%s]"

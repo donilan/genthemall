@@ -19,4 +19,17 @@
 			<version>${dbase.version}</version>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.ii2d</groupId>
+				<artifactId>genthemall-maven-plugin</artifactId>
+				<version>${project.version}</version>
+				<configuration>
+					
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

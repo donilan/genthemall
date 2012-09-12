@@ -4,17 +4,18 @@ ${s.name} {
 	packageName = "com.ii2d"
 	path = "com/ii2d"
 	name = "${toPascalName(s.name)}"
-	original = ${s.name}
+	originalName = "${s.name}"
 	chinese = name
 	pascalName = name
 	camelName = name[0].toLowerCase()+name[1..-1]
 	
 	attrs = { <% s.attrs.each { p-> %>
 		${p.name} {
-			name = "${p.name}"
-			chinese = "${p.name}"
-			upperCaseFirstName = name[0].toUpperCase()+name[1..-1]
-			lowerCaseFirstName = name[0].toLowerCase()+name[1..-1]
+			name = "${toPascalName(p.name)}"
+			originalName = "${p.name}"
+			chinese = name
+			pascalName = name
+			camelName = name[0].toLowerCase()+name[1..-1]
 			className = "${p.className}"
 			length = ${p.length}
 			isId = ${p.name?.equalsIgnoreCase('id')}

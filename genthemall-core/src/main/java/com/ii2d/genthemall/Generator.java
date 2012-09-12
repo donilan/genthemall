@@ -26,4 +26,27 @@ public interface Generator {
 	 */
 	String getTargetFile();
 	
+	/**
+	 * Template file path
+	 * @author Doni
+	 * @since 2012-9-12
+	 * @param templatePath The Template file
+	 */
+	void setTemplatePath(String templatePath);
+	
+	/**
+	 * Set destination path
+	 * @author Doni
+	 * @since 2012-9-12
+	 * @param distPath The Destination path
+	 */
+	void setDestPath(String destPath);
+	
+	/**
+	 * Set target file path
+	 * @author Doni
+	 * @since 2012-9-12
+	 * @param targetFile The target file
+	 */
+	void setTargetFile(String targetFile);
 }
