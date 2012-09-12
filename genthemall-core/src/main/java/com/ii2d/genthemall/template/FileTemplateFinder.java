@@ -9,6 +9,7 @@ import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ii2d.dbase.util.DResourceUtils;
 import com.ii2d.genthemall.exception.GenthemallException;
 
 /**
@@ -27,7 +28,8 @@ public class FileTemplateFinder extends AbstractTemplateFinder implements
 	protected void runFinder(List<Template> templates) {
 		FileFinder ff = new FileFinder();
 		try {
-			ff.run(new File(this.getTemplatePath()), templates);
+			ff.run(DResourceUtils.getResourceAsFile(this.getTemplatePath()),
+					templates);
 		} catch (IOException e) {
 			throw new GenthemallException(e);
 		}
@@ -57,9 +59,11 @@ public class FileTemplateFinder extends AbstractTemplateFinder implements
 			t.setName(file.getName());
 
 			// remove prefix
-			if (t.getRelativePath().trim().startsWith(templatePath)) {
-				t.setRelativePath(t.getRelativePath().substring(
-						templatePath.length() + 1));
+			String rPath = t.getRelativePath().replace("\\", "/");
+			if (rPath.indexOf(_getTemplatePathWithoutClasspath()) > 0) {
+				t.setRelativePath(rPath.substring(rPath
+						.indexOf(_getTemplatePathWithoutClasspath())
+						+ _getTemplatePathWithoutClasspath().length() + 1));
 			}
 			LOG.info(String
 					.format("Found a file, absolutePath: %s, relative path: %s, file name: %s, relative target path: %s",
@@ -67,6 +71,16 @@ public class FileTemplateFinder extends AbstractTemplateFinder implements
 							t.getName(), t.getRelativeTargetPath()));
 			results.add(t);
 		}
+
 	}
 
+	private String templatePathWithoutClasspath;
+
+	private String _getTemplatePathWithoutClasspath() {
+		if (templatePathWithoutClasspath == null) {
+			templatePathWithoutClasspath = getTemplatePath().substring(
+					DResourceUtils.CLASSPATH_URL_PREFIX.length());
+		}
+		return templatePathWithoutClasspath;
+	}
 }

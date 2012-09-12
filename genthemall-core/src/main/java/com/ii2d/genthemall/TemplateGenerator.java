@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ii2d.dbase.util.DNameUtils;
 import com.ii2d.dbase.util.DResourceUtils;
 import com.ii2d.genthemall.exception.GenthemallException;
 import com.ii2d.genthemall.template.ClasspathTemplateFinder;
@@ -28,11 +29,10 @@ public class TemplateGenerator extends AbstractGenerator {
 	protected String configFilePath;
 	protected String templatePath;
 	protected List<Template> templates;
-
+	private ConfigObject toBeUsed;
 	@Override
 	ConfigObject getBindingData() {
-		// TODO Auto-generated method stub
-		return null;
+		return toBeUsed;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -49,6 +49,9 @@ public class TemplateGenerator extends AbstractGenerator {
 			finder.setTemplatePath(this.getTemplatePath());
 			templates = finder.findTemplates();
 			LOG.info(String.format("Found %d template files.", templates.size()));
+			for(int i = 0; i < templates.size(); ++i) {
+				LOG.info(String.format("--Template [%d]: %s", i+1, templates.get(i).getName()));
+			}
 		}
 		try {
 			ConfigObject configs = new ConfigSlurper().parse(DResourceUtils
@@ -59,14 +62,42 @@ public class TemplateGenerator extends AbstractGenerator {
 				Object tmp = configs.get(key);
 				if (tmp instanceof ConfigObject) {
 					ConfigObject config = (ConfigObject) tmp;
-					LOG.info("Found config: " + config.toString());
+					LOG.info("Found config file: " + config.getConfigFile());
+					for(int i = 0; i < templates.size(); ++i) {
+						Template t = templates.get(i);
+						this.setTemplatePath(t.getRelativeTargetPath());
+						this.toBeUsed = config;
+						this.setTargetFile(changeTargetPath(config, t.getRelativePath()));
+						super.generate();
+					}
 				}
 			}
-			// super.generate();
 		} catch (IOException e) {
 			throw new GenthemallException(e);
 		}
-
+	}
+	
+	/**
+	 * change target path to real path
+	 * @author Doni
+	 * @since 2012-9-12
+	 * @param co Config Object
+	 * @param targetPath Origine target path
+	 * @return path to save
+	 */
+	@SuppressWarnings("unchecked")
+	protected String changeTargetPath(ConfigObject co, String targetPath) {
+		Iterator<String> propIt = co.keySet().iterator();
+		while(propIt.hasNext()) {
+			String key = propIt.next();
+			Object valObj = co.get(key);
+			if(valObj instanceof String) {
+				String val = valObj.toString();
+				key = DNameUtils.toKeyName(key);
+				targetPath = targetPath.replaceAll(key, val);
+			}
+		}
+		return targetPath;
 	}
 
 	public String getConfigFilePath() {

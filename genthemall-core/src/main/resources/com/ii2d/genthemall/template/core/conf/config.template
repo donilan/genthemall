@@ -1,10 +1,13 @@
+<% import static com.ii2d.dbase.util.DNameUtils.toPascalName %>
 <%data.each { s-> %>
 ${s.name} {
 	packageName = "com.ii2d"
-	name = "${s.name}"
-	chinese = "${s.name}"
-	upperCaseFirstName = name[0].toUpperCase()+name[1..-1]
-	lowerCaseFirstName = name[0].toLowerCase()+name[1..-1]
+	path = "com/ii2d"
+	name = "${toPascalName(s.name)}"
+	original = ${s.name}
+	chinese = name
+	pascalName = name
+	camelName = name[0].toLowerCase()+name[1..-1]
 	
 	attrs = { <% s.attrs.each { p-> %>
 		${p.name} {

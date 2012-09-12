@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 public class Source2ConfigGenerator extends SourceGenerator {
 
 	public static final String DEFAULT_TARGET = "genthemall.conf.groovy";
-	private static final String DEFAULT_TEMPLATE = "classpath:com/ii2d/genthemall/config.template";
+	private static final String DEFAULT_TEMPLATE = "classpath:com/ii2d/genthemall/template/core/conf/config.template";
 
 	public Source2ConfigGenerator() {
 		super();
