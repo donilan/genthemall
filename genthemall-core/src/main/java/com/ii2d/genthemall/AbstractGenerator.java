@@ -91,6 +91,7 @@ public abstract class AbstractGenerator implements Generator {
 			throw new GenthemallException(
 					"The param template path cann't be null or empty.");
 		}
+		LOG.info("Get resource for: " + getTemplatePath());
 		return DResourceUtils.getResourceAsReader(this.getTemplatePath());
 	}
 

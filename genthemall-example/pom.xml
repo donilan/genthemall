@@ -11,21 +11,22 @@
 	<artifactId>genthemall-example</artifactId>
 	<name>genthemall-example</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.ii2d</groupId>
-			<artifactId>dbase-template-mybatis</artifactId>
+			<artifactId>dbase-utils</artifactId>
 			<version>${dbase.version}</version>
 		</dependency>
+
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
 				<!-- generate config file -->
 				<!-- mvn genthemall-maven-plugin:generate-config -->
-				
+
 				<!-- generate code by template files -->
 				<!-- mvn genthemall-maven-plugin:generate -->
 				<groupId>com.ii2d</groupId>
@@ -40,12 +41,22 @@
 					<username>root</username>
 					<password>sa</password>
 					<tables>user,db,host,time_zone,time_zone_name</tables>
-					
+
 					<!-- for generate code by template files -->
-					<destPath>${project.build.directory}/genthemall/</destPath>
-					<templatePath>src/main/template</templatePath>
-					
+					<!-- Some example template -->
+					<!-- <templatePath>src/main/template</templatePath> <destPath>${project.build.directory}/genthemall/</destPath> -->
+
+					<templatePath>classpath:com/ii2d/genthemall/template/mybatis/mysql</templatePath>
+					<destPath>${project.build.directory}/genthemall/mybatis/mysql</destPath>
+
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.ii2d</groupId>
+						<artifactId>genthemall-template-mybatis</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

@@ -64,7 +64,7 @@ public class TemplateGenerator extends AbstractGenerator {
 					ConfigObject config = (ConfigObject) tmp;
 					for(int i = 0; i < templates.size(); ++i) {
 						Template t = templates.get(i);
-						this.setTemplatePath(t.getRelativeTargetPath());
+						this.setTemplatePath(t.getAbsolutePath());
 						this.toBeUsed = config;
 						this.setTargetFile(changeTargetPath(config, t.getRelativePath()));
 						super.generate();

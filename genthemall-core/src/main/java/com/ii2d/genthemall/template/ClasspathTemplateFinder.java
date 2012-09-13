@@ -49,14 +49,14 @@ public class ClasspathTemplateFinder extends AbstractTemplateFinder implements
 			if (name.startsWith(_getTemplatePathWithoutClasspath())) {
 				Template t = new Template();
 				t.setName(FilenameUtils.getName(name));
-				t.setAbsolutePath("classpath:" + name);
+				t.setAbsolutePath(DResourceUtils.CLASSPATH_URL_PREFIX + name);
 				t.setRelativePath(name);
-				t.setRelativeTargetPath(name
-						.substring(_getTemplatePathWithoutClasspath().length() + 1));
+//				t.setRelativeTargetPath(name
+//						.substring(_getTemplatePathWithoutClasspath().length() + 1));
 				LOG.info(String
-						.format("Found a file, absolutePath: %s, relative path: %s, file name: %s, relative target path: %s",
+						.format("Found a file, absolutePath: %s, relative path: %s, file name: %s",
 								t.getAbsolutePath(), t.getRelativePath(),
-								t.getName(), t.getRelativeTargetPath()));
+								t.getName()));
 				results.add(t);
 			}
 		}

@@ -13,29 +13,38 @@ public class Template {
 	protected String relativeTargetPath;
 	protected String name;
 
+	/**
+	 * 模板的绝对地址
+	 * @author Doni
+	 * @since 2012-9-13
+	 */
 	public String getAbsolutePath() {
 		return absolutePath;
 	}
 	public void setAbsolutePath(String absolutePath) {
 		this.absolutePath = absolutePath;
 	}
+	/**
+	 * 模板的相对地址
+	 * @author Doni
+	 * @since 2012-9-13
+	 */
 	public String getRelativePath() {
 		return relativePath;
 	}
 	public void setRelativePath(String path) {
 		this.relativePath = path;
 	}
+	/**
+	 * 模板名称
+	 * @author Doni
+	 * @since 2012-9-13
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getRelativeTargetPath() {
-		return relativeTargetPath;
-	}
-	public void setRelativeTargetPath(String relativeTargetPath) {
-		this.relativeTargetPath = relativeTargetPath;
-	}
-	
 }
