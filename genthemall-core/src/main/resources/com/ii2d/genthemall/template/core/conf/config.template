@@ -1,16 +1,19 @@
-<% import static com.ii2d.dbase.util.DNameUtils.toPascalName %>
-<% import static com.ii2d.dbase.util.DNameUtils.toCamelName %>
-<% import static com.ii2d.dbase.util.DDBUtils.TYPES %>
+<% 
+import static com.ii2d.dbase.util.DNameUtils.toPascalName
+import static com.ii2d.dbase.util.DNameUtils.toCamelName
+import static com.ii2d.dbase.util.DDBUtils.TYPES
+%>
 <%data.each { s-> %>
 ${s.name} {
 	packageName = "com.ii2d"
-	path = "com/ii2d"
-	name = "${toPascalName(s.name)}"
-	tableName = "${s.name}"
-	chinese = name
-	pascalName = name
-	camelName = name[0].toLowerCase()+name[1..-1]
-	columns = [ <% s.attrs.each { p-> %>
+	path 		= "com/ii2d"
+	name 		= "${toPascalName(s.name)}"
+	tableName 	= "${s.name}"
+	chinese 	= name
+	pascalName 	= name
+	camelName 	= name[0].toLowerCase()+name[1..-1]
+	columns 	= 
+	[ <% s.attrs.each { p-> %>
 		[
 			name 		: "${toPascalName(p.name)}",
 			chinese 	: "${toPascalName(p.name)}",
@@ -18,8 +21,10 @@ ${s.name} {
 			camelName 	: "${toCamelName(p.name)}",
 			columnName 	: "${p.name}",
 			columnType 	: "${TYPES[p.columnType]}",
-			className 	: "${p.className}",
+			classType 	: "${p.className}",
 			length 		: ${p.length},
+			getter		: "get${toPascalName(p.name)}",
+			setter		: "set${toPascalName(p.name)}",
 			isShow 		: ${!p.name.equalsIgnoreCase('id')},
 			isListable 	: ${!p.name.equalsIgnoreCase('id')},
 			isNullable 	: ${p.nullable},
@@ -29,7 +34,14 @@ ${s.name} {
 			isPassword 	: ${p.name?.equalsIgnoreCase('password')},
 			isPhone 	: ${p.name.equalsIgnoreCase('phone')},
 			isTelephone	: ${p.name.equalsIgnoreCase('telephone')},
+			isStatus	: ${p.name.equalsIgnoreCase('status')},
+			isDeleted	: ${p.name.equalsIgnoreCase('deleted')},
 		],<%}%>
 	]
+	idColumn 		= columns.find{it.isId}
+	statusColumn	= columns.find{it.isStatus}
+	deletedColumn	= columns.find{it.isDeleted}
+	columnWithoutId = columns.findAll{!it.isId}
+	
 }
 <%}%>

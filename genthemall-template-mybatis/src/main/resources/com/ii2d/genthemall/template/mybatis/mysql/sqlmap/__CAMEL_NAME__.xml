@@ -1,33 +1,57 @@
 <%
-//!-- find id property
-def idColumn = columns.find{it.isId == true}
-
+def insertColumnsStr = (columnWithoutId*.columnName).toString()[1..-2]
+def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\t\t"}).toString()[1..-2]
+def updateColumnsStr = columnWithoutId.collect {"${it.columnName} = #{${it.camelName}}\n\t\t\t"}.toString()[1..-2]
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="${packageName}">
+
+	<!-- result map for ${packageName}.${pascalName} -->
+	<resultMap type="${packageName}.${pascalName}" id="${camelName}">
+	<%columns.each {%><result column="${it.columnName}" property="${it.camelName}" javaType="${it.classType}"/>
+	<%}%></resultMap>
+	
 <% if(idColumn) { //!-- generate if have id column. %>
-	<select id="select_by_id_${pascalName}">
+	<!-- select by id sql -->
+	<select id="select_by_id_${pascalName}" useCache="true" resultType="${camelName}" >
 		SELECT * FROM ${tableName} WHERE ${idColumn.columnName} = #value#
 	</select>
 <% }%>
 	<select id="select_${pascalName}">
-	
+		SELECT * FROM ${tableName}
+		<where>
+			<%if(deletedColumn){print "deleteColumn.columnName = false"}else{print '1=1'}%>
+			<%columnWithoutId.each { %>
+			<if test="${it.camelName} != null">AND ${it.columnName} = #{${it.camelName}}</if><%}%>
+		</where>
 	</select>
 	
 	<select id="limit_select_${pascalName}">
-	
+		SELECT * FROM ${tableName}
+		<where>
+			<%if(deletedColumn){print "deleteColumn.columnName = false"}else{print '1=1'}%>
+			<%columnWithoutId.each { %>
+			<if test="${it.camelName} != null">AND ${it.columnName} = #{${it.camelName}}</if><%}%>
+		</where>
+		LIMIT #{start_row}, #{end_row}
 	</select>
 	
-	<insert id="insert_${pascalName}">
-	
+	<insert id="insert_${pascalName}" parameterType="${packageName}.${pascalName}">
+		INSERT INTO ${tableName} (${insertColumnsStr})
+		VALUES (${insertColumnValuesStr})
 	</insert>
-	
-	<update id="update_${pascalName}">
-	
+
+<% if(idColumn) { //!-- generate if have id column. %>
+	<update id="update_${pascalName}" parameterType="${packageName}.${pascalName}">
+		UPDATE ${tableName} SET
+		${updateColumnsStr}
+		WHERE ${idColumn.columnName} = #{${idColumn.camelName}}
 	</update>
-	
-	<delete id="delete_${pascalName}">
-	
+<%}%>	
+<% if(idColumn) { //!-- generate if have id column. %>
+	<delete id="delete_${pascalName}" >
+		DELETE FROM ${tableName} WHERE ${idColumn.columnName} = #{${idColumn.camelName}}
 	</delete>
+<%}%>
 </mapper>

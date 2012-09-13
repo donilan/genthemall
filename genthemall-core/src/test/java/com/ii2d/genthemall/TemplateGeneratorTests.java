@@ -9,7 +9,9 @@ public class TemplateGeneratorTests extends TestCase {
 		TemplateGenerator tg = new TemplateGenerator();
 //		tg.setTemplatePath("classpath:com/ii2d/genthemall/template/core/test");
 //		tg.setTemplatePath("src/main/resources/com/ii2d/genthemall/template/core/conf");
-		tg.setTemplatePath("classpath:com/ii2d/genthemall/template/mybatis/mysql");
+//		tg.setTemplatePath("classpath:com/ii2d/genthemall/template/mybatis/mysql");
+		tg.setTemplatePath("classpath:com/ii2d/genthemall/template/commons/model");
+		
 		tg.generate();
 	}
 	
