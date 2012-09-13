@@ -51,12 +51,12 @@ public class ClasspathTemplateFinder extends AbstractTemplateFinder implements
 				t.setName(FilenameUtils.getName(name));
 				t.setAbsolutePath(DResourceUtils.CLASSPATH_URL_PREFIX + name);
 				t.setRelativePath(name);
-//				t.setRelativeTargetPath(name
-//						.substring(_getTemplatePathWithoutClasspath().length() + 1));
+				t.setRelativeTargetPath(name
+						.substring(_getTemplatePathWithoutClasspath().length() + 1));
 				LOG.info(String
-						.format("Found a file, absolutePath: %s, relative path: %s, file name: %s",
+						.format("Found a file, absolutePath: %s, relative path: %s, file name: %s, relative targe path: %s",
 								t.getAbsolutePath(), t.getRelativePath(),
-								t.getName()));
+								t.getName(), t.getRelativeTargetPath()));
 				results.add(t);
 			}
 		}

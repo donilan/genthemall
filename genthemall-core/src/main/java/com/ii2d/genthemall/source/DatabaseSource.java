@@ -40,7 +40,7 @@ public class DatabaseSource extends ConfigObject {
 					attr.put("length", md.getPrecision(i));
 					attr.put("nullable", !(md.isNullable(i) == ResultSetMetaData.columnNoNulls));
 					attr.put("className", md.getColumnClassName(i));
-
+					attr.put("columnType", md.getColumnType(i));
 					// add source property to source.
 					attrs.add(attr);
 

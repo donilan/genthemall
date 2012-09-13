@@ -15,14 +15,18 @@ public class ConfigGeneratorTests extends TestCase {
 	}
 
 	public void testGenerate() {
+		Source2ConfigGenerator g = new Source2ConfigGenerator();
 		BasicDataSource ds = new BasicDataSource();
 		ds.setUrl("jdbc:mysql://127.0.0.1:3306/hnwnew");
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
 		ds.setUsername("root");
 		ds.setPassword("sa");
-		ConfigObject s = new DatabaseSource(ds, "hnw_user");
-		Source2ConfigGenerator g = new Source2ConfigGenerator();
-		g.addSource(s);
+		
+		ConfigObject s1 = new DatabaseSource(ds, "user");
+		ConfigObject s2 = new DatabaseSource(ds, "user_abc_info");
+		
+		g.addSource(s1);
+		g.addSource(s2);
 		g.generate();
 	}
 }

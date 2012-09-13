@@ -47,4 +47,17 @@ public class Template {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * 最终生成文件的目标地址
+	 * @author Doni
+	 * @since 2012-9-13
+	 * @return
+	 */
+	public String getRelativeTargetPath() {
+		return relativeTargetPath;
+	}
+	public void setRelativeTargetPath(String relativeTargetPath) {
+		this.relativeTargetPath = relativeTargetPath;
+	}
 }

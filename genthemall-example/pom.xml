@@ -47,7 +47,7 @@
 					<!-- <templatePath>src/main/template</templatePath> <destPath>${project.build.directory}/genthemall/</destPath> -->
 
 					<templatePath>classpath:com/ii2d/genthemall/template/mybatis/mysql</templatePath>
-					<destPath>${project.build.directory}/genthemall/mybatis/mysql</destPath>
+					<destPath>${project.build.directory}/genthemall/mybatis/</destPath>
 
 				</configuration>
 				<dependencies>

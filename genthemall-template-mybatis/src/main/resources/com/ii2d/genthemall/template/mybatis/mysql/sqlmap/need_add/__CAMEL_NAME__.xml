@@ -1,1 +1,2 @@
-<mapper resource="${camelName}"/>
+<mapper resource="mysql/sqlmap/${camelName}.xml"/>
+<mapper resource="mysql/sqlmap/ext/${camelName}Ext.xml"/>

@@ -55,20 +55,20 @@ public class FileTemplateFinder extends AbstractTemplateFinder implements
 			Template t = new Template();
 			t.setAbsolutePath(file.getAbsolutePath());
 			t.setRelativePath(file.getPath());
-//			t.setRelativeTargetPath(file.getPath());
+			t.setRelativeTargetPath(file.getPath().substring(getTemplatePath().length()+1));
 			t.setName(file.getName());
 
 			// remove prefix
-			String rPath = t.getRelativePath().replace("\\", "/");
+			String rPath = t.getRelativeTargetPath().replace("\\", "/");
 			if (rPath.indexOf(_getTemplatePathWithoutClasspath()) > 0) {
-				t.setRelativePath(rPath.substring(rPath
+				t.setRelativeTargetPath(rPath.substring(rPath
 						.indexOf(_getTemplatePathWithoutClasspath())
 						+ _getTemplatePathWithoutClasspath().length() + 1));
 			}
 			LOG.info(String
-					.format("Found a file, absolutePath: %s, relative path: %s, file name: %s",
+					.format("Found a file, absolutePath: %s, relative path: %s, file name: %s, relative targe path: %s",
 							t.getAbsolutePath(), t.getRelativePath(),
-							t.getName()));
+							t.getName(), t.getRelativeTargetPath()));
 			results.add(t);
 		}
 

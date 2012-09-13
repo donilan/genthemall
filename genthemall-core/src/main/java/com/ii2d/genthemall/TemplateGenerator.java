@@ -66,7 +66,7 @@ public class TemplateGenerator extends AbstractGenerator {
 						Template t = templates.get(i);
 						this.setTemplatePath(t.getAbsolutePath());
 						this.toBeUsed = config;
-						this.setTargetFile(changeTargetPath(config, t.getRelativePath()));
+						this.setTargetFile(changeTargetPath(config, t.getRelativeTargetPath()));
 						super.generate();
 					}
 				}
@@ -86,6 +86,7 @@ public class TemplateGenerator extends AbstractGenerator {
 	 */
 	@SuppressWarnings("unchecked")
 	protected String changeTargetPath(ConfigObject co, String targetPath) {
+		LOG.info(String.format("Before change target path: %s", targetPath));
 		Iterator<String> propIt = co.keySet().iterator();
 		while(propIt.hasNext()) {
 			String key = propIt.next();
@@ -96,6 +97,7 @@ public class TemplateGenerator extends AbstractGenerator {
 				targetPath = targetPath.replaceAll(key, val);
 			}
 		}
+		LOG.info(String.format("After change target path: %s", targetPath));
 		return targetPath;
 	}
 
