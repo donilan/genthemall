@@ -1,7 +1,7 @@
 //~ Generate by genthemall
 package ${packageName}.model;
 
-public class <%print pascalName%> extends ${superModelClass} {
+public class <%print pascalName%> extends ${fartherTable? fartherTable.modelClassName: 'com.ii2d.dbase.mybatis.model.BaseMyBatisModel'} {
 	
 	private static final long serialVersionUID = 1L;
 	<%columns.each {%>
