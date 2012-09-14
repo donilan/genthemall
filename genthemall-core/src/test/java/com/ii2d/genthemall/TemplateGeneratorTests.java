@@ -11,7 +11,7 @@ public class TemplateGeneratorTests extends TestCase {
 //		tg.setTemplatePath("src/main/resources/com/ii2d/genthemall/template/core/conf");
 //		tg.setTemplatePath("classpath:com/ii2d/genthemall/template/mybatis/mysql");
 		tg.setTemplateFilePath("classpath:com/ii2d/genthemall/template/commons/model");
-		tg.setConfigFilePath("target/genthemall/mysql.template.config");
+		tg.setConfigFilePath("target/genthemall/mysql.conf");
 		tg.generate();
 	}
 	

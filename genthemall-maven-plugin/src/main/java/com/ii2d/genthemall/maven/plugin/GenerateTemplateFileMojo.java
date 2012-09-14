@@ -8,6 +8,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
+import com.ii2d.dbase.util.Assert;
 import com.ii2d.genthemall.TemplateGenerator;
 
 /**
@@ -22,50 +23,30 @@ public class GenerateTemplateFileMojo extends AbstractMojo {
 			.getLog(GenerateTemplateFileMojo.class);
 
 	/**
-	 * @parameter expression="${templatePath}" default-value="src/main/template"
-	 */
-	private String templatePath;
-	/**
-	 * @parameter expression="${destPath}"
-	 *            default-value="${project.build.directory}/genthemall/"
-	 */
-	private String destPath;
-	/**
 	 * @parameter expression="${configFilePath}"
-	 *            default-value="${project.build.directory}/genthemall/mysql.template.config"
+	 *            default-value="${project.build.directory}/genthemall/mysql.conf"
 	 */
 	private String configFilePath;
 
 	/**
 	 * @parameter
-	 * 
 	 */
 	private List<TemplateInfo> templateInfos;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-
+		Assert.notNull(templateInfos);
 		try {
-			if (templateInfos == null) {
+			LOG.info(String.format("There is %d template info in pom config.",
+					templateInfos.size()));
+			for (TemplateInfo m : templateInfos) {
 				TemplateGenerator g = new TemplateGenerator();
 				g.setConfigFilePath(configFilePath);
-				g.setTemplateFilePath(templatePath);
-				g.setDestPath(destPath);
+				g.setTemplateFilePath(m.getTemplatePath());
+				g.setDestPath(m.getDestPath());
 				g.generate();
-			} else {
-				LOG.info(String.format(
-						"There is %d template info in pom config.",
-						templateInfos.size()));
-				for (TemplateInfo m : templateInfos) {
-					TemplateGenerator g = new TemplateGenerator();
-					g.setConfigFilePath(configFilePath);
-					g.setTemplateFilePath(m.getTemplatePath());
-					g.setDestPath(m.getDestPath());
-					g.generate();
-					LOG.info(String.format(
-							"Done for config:\n\t\t%s\n\t\t%s\n\n",
-							m.getTemplatePath(), m.getDestPath()));
-				}
+				LOG.info(String.format("Done for config:\n\t\t%s\n\t\t%s\n\n",
+						m.getTemplatePath(), m.getDestPath()));
 			}
 		} catch (Exception e) {
 			LOG.error(e);

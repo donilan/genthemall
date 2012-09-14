@@ -10,6 +10,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
+import com.ii2d.dbase.util.Assert;
 import com.ii2d.genthemall.SourceGenerator;
 import com.ii2d.genthemall.exception.GenthemallException;
 import com.ii2d.genthemall.source.DatabaseSource;
@@ -25,7 +26,7 @@ public class GenerateConfigMojo extends AbstractMojo {
 	private static final Log LOG = LogFactory.getLog(GenerateConfigMojo.class);
 	/**
 	 * @parameter expression="${configTemplateFilePath}" default-value=
-	 *            "classpath:com/ii2d/genthemall/template/commons/conf/mysql.config.template"
+	 *            "classpath:com/ii2d/genthemall/template/commons/conf/mysql.conf"
 	 */
 	private String configTemplateFilePath;
 
@@ -36,54 +37,27 @@ public class GenerateConfigMojo extends AbstractMojo {
 	private String configDestPath;
 
 	/**
-	 * @parameter expression="${driverClass}"
-	 *            default-value="com.mysql.jdbc.Driver"
-	 */
-	private String driverClass;
-	/**
-	 * @parameter expression="${url}"
-	 *            default-value="jdbc:mysql://127.0.0.1:3306/mysql"
-	 */
-	private String url;
-	/**
-	 * @parameter expression="${username}" default-value="root"
-	 */
-	private String username;
-	/**
-	 * @parameter expression="${password}" default-value="sa"
-	 */
-	private String password;
-	/**
 	 * @parameter expression="${tables}"
 	 *            default-value="user,db,host,time_zone,time_zone_name"
 	 */
 	private String tables;
+	
+	/**
+	 * @parameter
+	 */
+	private BasicDataSource dataSource;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-
-		if (StringUtils.isBlank(driverClass) || StringUtils.isBlank(url)
-				|| StringUtils.isBlank(username)
-				|| StringUtils.isBlank(password) || StringUtils.isBlank(tables)) {
-			String err = String
-					.format("driver class: %s, url: %s, username: %s, tables %s and password **** Cann't be empty or null.",
-							driverClass, url, username, tables);
-			LOG.error(err);
-			throw new GenthemallException(err);
-		}
-
-		BasicDataSource ds = new BasicDataSource();
-		ds.setUrl(url);
-		ds.setDriverClassName(driverClass);
-		ds.setUsername(username);
-		ds.setPassword(password);
+		Assert.notNull(dataSource);
+		Assert.hasText(tables);
 
 		String tableArr[] = tables.split(",");
 		SourceGenerator g = new SourceGenerator();
 		for (String t : tableArr) {
 			t = StringUtils.trimToEmpty(t);
 			if (StringUtils.isNotBlank(t)) {
-				ConfigObject s = new DatabaseSource(ds, t);
+				ConfigObject s = new DatabaseSource(dataSource, t);
 				g.addSource(s);
 				g.setTemplateFilePath(configTemplateFilePath);
 				g.setDestPath(configDestPath);

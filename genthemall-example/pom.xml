@@ -36,12 +36,13 @@
 					<!-- for generate config file -->
 					<configTemplateFilePath>classpath:com/ii2d/genthemall/template/commons/conf/mysql.config.template</configTemplateFilePath>
 					<configDestPath>${project.build.directory}/genthemall/conf</configDestPath>
-					
-					<driverClass>com.mysql.jdbc.Driver</driverClass>
-					<url>jdbc:mysql://127.0.0.1:3306/mysql</url>
-					<username>root</username>
-					<password>sa</password>
 					<tables>user,db,host,time_zone,time_zone_name</tables>
+					<dataSource>
+						<driverClass>com.mysql.jdbc.Driver</driverClass>
+						<url>jdbc:mysql://127.0.0.1:3306/mysql</url>
+						<username>root</username>
+						<password>sa</password>
+					</dataSource>
 
 					<!-- for generate code by template files -->
 					<templateInfos>
