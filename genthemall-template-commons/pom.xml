@@ -11,4 +11,11 @@
 	<artifactId>genthemall-template-commons</artifactId>
 	<name>genthemall-template-commons</name>
 	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>com.ii2d</groupId>
+			<artifactId>genthemall-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 </project>

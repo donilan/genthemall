@@ -1,7 +1,7 @@
 //~ Generate by genthemall
 package ${packageName}.model;
 
-public class <%print pascalName%> extends com.ii2d.dbase.mybatis.model.BaseMyBatisModel {
+public class <%print pascalName%> extends ${superModelClass} {
 	
 	private static final long serialVersionUID = 1L;
 	<%columns.each {%>
