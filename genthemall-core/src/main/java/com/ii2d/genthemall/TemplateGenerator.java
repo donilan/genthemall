@@ -30,6 +30,7 @@ public class TemplateGenerator extends AbstractGenerator {
 	protected String templatePath;
 	protected List<Template> templates;
 	private ConfigObject toBeUsed;
+
 	@Override
 	ConfigObject getBindingData() {
 		return toBeUsed;
@@ -48,11 +49,16 @@ public class TemplateGenerator extends AbstractGenerator {
 			}
 			finder.setTemplatePath(this.getTemplatePath());
 			templates = finder.findTemplates();
-			LOG.info(String.format("Found %d template files.", templates.size()));
-			for(int i = 0; i < templates.size(); ++i) {
-				LOG.info(String.format("--Template [%d]: %s", i+1, templates.get(i).getName()));
+			LOG.info(String.format("Found %d template files in path: %s",
+					templates.size(), this.getTemplatePath()));
+			for (int i = 0; i < templates.size(); ++i) {
+				LOG.info(String.format("--Template [%d]: %s", i + 1, templates
+						.get(i).getName()));
 			}
 		}
+		
+		if(templates.isEmpty()) return;
+		
 		try {
 			ConfigObject configs = new ConfigSlurper().parse(DResourceUtils
 					.getResourceURL(getConfigFilePath()));
@@ -62,11 +68,12 @@ public class TemplateGenerator extends AbstractGenerator {
 				Object tmp = configs.get(key);
 				if (tmp instanceof ConfigObject) {
 					ConfigObject config = (ConfigObject) tmp;
-					for(int i = 0; i < templates.size(); ++i) {
+					for (int i = 0; i < templates.size(); ++i) {
 						Template t = templates.get(i);
 						this.setTemplatePath(t.getAbsolutePath());
 						this.toBeUsed = config;
-						this.setTargetFile(changeTargetPath(config, t.getRelativeTargetPath()));
+						this.setTargetFile(changeTargetPath(config,
+								t.getRelativeTargetPath()));
 						super.generate();
 					}
 				}
@@ -75,23 +82,26 @@ public class TemplateGenerator extends AbstractGenerator {
 			throw new GenthemallException(e);
 		}
 	}
-	
+
 	/**
 	 * change target path to real path
+	 * 
 	 * @author Doni
 	 * @since 2012-9-12
-	 * @param co Config Object
-	 * @param targetPath Origine target path
+	 * @param co
+	 *            Config Object
+	 * @param targetPath
+	 *            Origine target path
 	 * @return path to save
 	 */
 	@SuppressWarnings("unchecked")
 	protected String changeTargetPath(ConfigObject co, String targetPath) {
 		LOG.info(String.format("Before change target path: %s", targetPath));
 		Iterator<String> propIt = co.keySet().iterator();
-		while(propIt.hasNext()) {
+		while (propIt.hasNext()) {
 			String key = propIt.next();
 			Object valObj = co.get(key);
-			if(valObj instanceof String) {
+			if (valObj instanceof String) {
 				String val = valObj.toString();
 				key = DNameUtils.toKeyName(key);
 				targetPath = targetPath.replaceAll(key, val);

@@ -1,5 +1,7 @@
 package com.ii2d.genthemall.maven.plugin;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.maven.plugin.AbstractMojo;
@@ -16,12 +18,12 @@ import com.ii2d.genthemall.TemplateGenerator;
  * @phase generate-sources
  */
 public class GenerateTemplateFileMojo extends AbstractMojo {
-	
-	private static final Log LOG = LogFactory.getLog(GenerateTemplateFileMojo.class);
-	
+
+	private static final Log LOG = LogFactory
+			.getLog(GenerateTemplateFileMojo.class);
+
 	/**
-	 * @parameter expression="${templatePath}"
-	 *            default-value="src/main/template"
+	 * @parameter expression="${templatePath}" default-value="src/main/template"
 	 */
 	private String templatePath;
 	/**
@@ -29,16 +31,37 @@ public class GenerateTemplateFileMojo extends AbstractMojo {
 	 *            default-value="${project.build.directory}/genthemall/"
 	 */
 	private String destPath;
-	
+
+	/**
+	 * @parameter
+	 * 
+	 */
+	private List<TemplateInfo> templateInfos;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		Generator g = new TemplateGenerator();
-		g.setTemplatePath(templatePath);
-		g.setDestPath(destPath);
+
 		try {
-			g.generate();
-		} catch(Exception e) {
+			if (templateInfos == null) {
+				Generator g = new TemplateGenerator();
+				g.setTemplatePath(templatePath);
+				g.setDestPath(destPath);
+				g.generate();
+			} else {
+				LOG.info(String.format(
+						"There is %d template info in pom config.",
+						templateInfos.size()));
+				for (TemplateInfo m : templateInfos) {
+					Generator g = new TemplateGenerator();
+					g.setTemplatePath(m.getTemplatePath());
+					g.setDestPath(m.getDestPath());
+					g.generate();
+					LOG.info(String.format(
+							"Done for config:\n\t\t%s\n\t\t%s\n\n",
+							m.getTemplatePath(), m.getDestPath()));
+				}
+			}
+		} catch (Exception e) {
 			LOG.error(e);
 			e.printStackTrace();
 			throw new MojoExecutionException(e.getMessage());

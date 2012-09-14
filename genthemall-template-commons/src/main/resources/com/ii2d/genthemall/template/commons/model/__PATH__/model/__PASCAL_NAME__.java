@@ -1,5 +1,5 @@
 //~ Generate by genthemall
-package ${packageName};
+package ${packageName}.model;
 
 public class <%print pascalName%> extends com.ii2d.dbase.mybatis.model.BaseMyBatisModel {
 	
