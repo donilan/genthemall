@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ii2d.model">
+
+	<!-- result map for com.ii2d.Shop -->
+	<resultMap type="com.ii2d.model.Shop" id="shop">
+	<result column="id" property="id" javaType="java.lang.Integer"/>
+	<result column="user_id" property="userId" javaType="java.lang.Integer"/>
+	<result column="name" property="name" javaType="java.lang.String"/>
+	<result column="status" property="status" javaType="java.lang.Integer"/>
+	<result column="deleted" property="deleted" javaType="java.lang.Boolean"/>
+	<result column="create_date" property="createDate" javaType="java.sql.Timestamp"/>
+	<result column="description" property="description" javaType="java.lang.String"/>
+	<result column="contact" property="contact" javaType="java.lang.String"/>
+	<result column="zip_code" property="zipCode" javaType="java.lang.String"/>
+	<result column="telephone" property="telephone" javaType="java.lang.String"/>
+	<result column="phone" property="phone" javaType="java.lang.String"/>
+	<result column="fax" property="fax" javaType="java.lang.String"/>
+	<result column="email" property="email" javaType="java.lang.String"/>
+	<result column="address" property="address" javaType="java.lang.String"/>
+	</resultMap>
+	
+
+	<!-- select by id sql -->
+	<select id="select_by_id_Shop" useCache="true" resultMap="shop" >
+		SELECT * FROM shop WHERE id = #{value}
+	</select>
+
+	<select id="select_Shop" resultMap="shop" >
+		SELECT * FROM shop
+		<trim prefix="WHERE" prefixOverrides="OR|AND">
+			
+			<if test="orEq.userId != null">OR user_id = #{orEq.userId}</if>
+			<if test="orLike.userId != null">OR user_id LIKE concat('%', #{orLike.userId}, '%')</if>
+			<if test="andEq.userId != null">AND user_id = #{andEq.userId}</if>
+			<if test="andLike.userId != null">AND user_id LIKE concat('%', #{andLike.userId}, '%')</if>
+			
+			<if test="orEq.name != null">OR name = #{orEq.name}</if>
+			<if test="orLike.name != null">OR name LIKE concat('%', #{orLike.name}, '%')</if>
+			<if test="andEq.name != null">AND name = #{andEq.name}</if>
+			<if test="andLike.name != null">AND name LIKE concat('%', #{andLike.name}, '%')</if>
+			
+			<if test="orEq.status != null">OR status = #{orEq.status}</if>
+			<if test="orLike.status != null">OR status LIKE concat('%', #{orLike.status}, '%')</if>
+			<if test="andEq.status != null">AND status = #{andEq.status}</if>
+			<if test="andLike.status != null">AND status LIKE concat('%', #{andLike.status}, '%')</if>
+			
+			<if test="orEq.deleted != null">OR deleted = #{orEq.deleted}</if>
+			<if test="orLike.deleted != null">OR deleted LIKE concat('%', #{orLike.deleted}, '%')</if>
+			<if test="andEq.deleted != null">AND deleted = #{andEq.deleted}</if>
+			<if test="andLike.deleted != null">AND deleted LIKE concat('%', #{andLike.deleted}, '%')</if>
+			
+			<if test="orEq.createDate != null">OR create_date = #{orEq.createDate}</if>
+			<if test="orLike.createDate != null">OR create_date LIKE concat('%', #{orLike.createDate}, '%')</if>
+			<if test="andEq.createDate != null">AND create_date = #{andEq.createDate}</if>
+			<if test="andLike.createDate != null">AND create_date LIKE concat('%', #{andLike.createDate}, '%')</if>
+			
+			<if test="orEq.description != null">OR description = #{orEq.description}</if>
+			<if test="orLike.description != null">OR description LIKE concat('%', #{orLike.description}, '%')</if>
+			<if test="andEq.description != null">AND description = #{andEq.description}</if>
+			<if test="andLike.description != null">AND description LIKE concat('%', #{andLike.description}, '%')</if>
+			
+			<if test="orEq.contact != null">OR contact = #{orEq.contact}</if>
+			<if test="orLike.contact != null">OR contact LIKE concat('%', #{orLike.contact}, '%')</if>
+			<if test="andEq.contact != null">AND contact = #{andEq.contact}</if>
+			<if test="andLike.contact != null">AND contact LIKE concat('%', #{andLike.contact}, '%')</if>
+			
+			<if test="orEq.zipCode != null">OR zip_code = #{orEq.zipCode}</if>
+			<if test="orLike.zipCode != null">OR zip_code LIKE concat('%', #{orLike.zipCode}, '%')</if>
+			<if test="andEq.zipCode != null">AND zip_code = #{andEq.zipCode}</if>
+			<if test="andLike.zipCode != null">AND zip_code LIKE concat('%', #{andLike.zipCode}, '%')</if>
+			
+			<if test="orEq.telephone != null">OR telephone = #{orEq.telephone}</if>
+			<if test="orLike.telephone != null">OR telephone LIKE concat('%', #{orLike.telephone}, '%')</if>
+			<if test="andEq.telephone != null">AND telephone = #{andEq.telephone}</if>
+			<if test="andLike.telephone != null">AND telephone LIKE concat('%', #{andLike.telephone}, '%')</if>
+			
+			<if test="orEq.phone != null">OR phone = #{orEq.phone}</if>
+			<if test="orLike.phone != null">OR phone LIKE concat('%', #{orLike.phone}, '%')</if>
+			<if test="andEq.phone != null">AND phone = #{andEq.phone}</if>
+			<if test="andLike.phone != null">AND phone LIKE concat('%', #{andLike.phone}, '%')</if>
+			
+			<if test="orEq.fax != null">OR fax = #{orEq.fax}</if>
+			<if test="orLike.fax != null">OR fax LIKE concat('%', #{orLike.fax}, '%')</if>
+			<if test="andEq.fax != null">AND fax = #{andEq.fax}</if>
+			<if test="andLike.fax != null">AND fax LIKE concat('%', #{andLike.fax}, '%')</if>
+			
+			<if test="orEq.email != null">OR email = #{orEq.email}</if>
+			<if test="orLike.email != null">OR email LIKE concat('%', #{orLike.email}, '%')</if>
+			<if test="andEq.email != null">AND email = #{andEq.email}</if>
+			<if test="andLike.email != null">AND email LIKE concat('%', #{andLike.email}, '%')</if>
+			
+			<if test="orEq.address != null">OR address = #{orEq.address}</if>
+			<if test="orLike.address != null">OR address LIKE concat('%', #{orLike.address}, '%')</if>
+			<if test="andEq.address != null">AND address = #{andEq.address}</if>
+			<if test="andLike.address != null">AND address LIKE concat('%', #{andLike.address}, '%')</if>
+			
+			AND deleted = false
+		</trim>
+		<if test="limitStartRow gt 0 and limitEndRow gt 0" >
+			LIMIT #{limitStartRow}, #{limitEndRow}
+		</if>
+		<if test="orderBy.size gt 0">
+			ORDER BY 
+			<trim suffixOverrides=",">
+				<foreach collection="orderBy" item="it">${it}, </foreach>
+			</trim>
+		</if>
+	</select>
+	
+	<select id="limit_select_Shop" resultMap="shop" >
+		SELECT * FROM shop
+		<where>
+			deleted = false
+			
+			<if test="userId != null">AND user_id = #{userId}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="status != null">AND status = #{status}</if>
+			<if test="deleted != null">AND deleted = #{deleted}</if>
+			<if test="createDate != null">AND create_date = #{createDate}</if>
+			<if test="description != null">AND description = #{description}</if>
+			<if test="contact != null">AND contact = #{contact}</if>
+			<if test="zipCode != null">AND zip_code = #{zipCode}</if>
+			<if test="telephone != null">AND telephone = #{telephone}</if>
+			<if test="phone != null">AND phone = #{phone}</if>
+			<if test="fax != null">AND fax = #{fax}</if>
+			<if test="email != null">AND email = #{email}</if>
+			<if test="address != null">AND address = #{address}</if>
+		</where>
+		LIMIT #{start_row}, #{end_row}
+	</select>
+	
+	<insert id="insert_Shop" parameterType="com.ii2d.model.Shop">
+		INSERT INTO shop (user_id, name, status, deleted, create_date, description, contact, zip_code, telephone, phone, fax, email, address)
+		VALUES (#{userId}
+			, #{name}
+			, #{status}
+			, #{deleted}
+			, #{createDate}
+			, #{description}
+			, #{contact}
+			, #{zipCode}
+			, #{telephone}
+			, #{phone}
+			, #{fax}
+			, #{email}
+			, #{address}
+			)
+	</insert>
+
+
+	<update id="update_Shop" parameterType="com.ii2d.model.Shop">
+		UPDATE shop SET
+		user_id = #{userId}
+			, name = #{name}
+			, status = #{status}
+			, deleted = #{deleted}
+			, create_date = #{createDate}
+			, description = #{description}
+			, contact = #{contact}
+			, zip_code = #{zipCode}
+			, telephone = #{telephone}
+			, phone = #{phone}
+			, fax = #{fax}
+			, email = #{email}
+			, address = #{address}
+			
+		WHERE id = #{id}
+	</update>
+	
+
+	<delete id="delete_Shop" >
+		DELETE FROM shop WHERE id = #{id}
+	</delete>
+
+</mapper>

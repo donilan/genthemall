@@ -1,49 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <%
 def insertColumnsStr = (columnWithoutId*.columnName).toString()[1..-2]
 def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\t\t"}).toString()[1..-2]
 def updateColumnsStr = columnWithoutId.collect {"${it.columnName} = #{${it.camelName}}\n\t\t\t"}.toString()[1..-2]
 %>
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="${packageName}">
+<mapper namespace="${packageName}.model">
 
 	<!-- result map for ${packageName}.${pascalName} -->
-	<resultMap type="${packageName}.${pascalName}" id="${camelName}">
+	<resultMap type="${modelClassName}" id="${camelName}">
 	<%columns.each {%><result column="${it.columnName}" property="${it.camelName}" javaType="${it.classType}"/>
 	<%}%></resultMap>
 	
 <% if(idColumn) { //!-- generate if have id column. %>
 	<!-- select by id sql -->
-	<select id="select_by_id_${pascalName}" useCache="true" resultType="${camelName}" >
-		SELECT * FROM ${tableName} WHERE ${idColumn.columnName} = #value#
+	<select id="select_by_id_${pascalName}" useCache="true" resultMap="${camelName}" >
+		SELECT * FROM ${tableName} WHERE ${idColumn.columnName} = #{value}
 	</select>
 <% }%>
-	<select id="select_${pascalName}">
+	<select id="select_${pascalName}" resultMap="${camelName}" >
 		SELECT * FROM ${tableName}
-		<where>
-			<%if(deletedColumn){print "deleteColumn.columnName = false"}else{print '1=1'}%>
+		<trim prefix="WHERE" prefixOverrides="OR|AND">
 			<%columnWithoutId.each { %>
-			<if test="${it.camelName} != null">AND ${it.columnName} = #{${it.camelName}}</if><%}%>
-		</where>
+			<if test="orEq.${it.camelName} != null">OR ${it.columnName} = #{orEq.${it.camelName}}</if>
+			<if test="orLike.${it.camelName} != null">OR ${it.columnName} LIKE concat('%', #{orLike.${it.camelName}}, '%')</if>
+			<if test="andEq.${it.camelName} != null">AND ${it.columnName} = #{andEq.${it.camelName}}</if>
+			<if test="andLike.${it.camelName} != null">AND ${it.columnName} LIKE concat('%', #{andLike.${it.camelName}}, '%')</if>
+			<%}%>
+			AND ${if(deletedColumn) deletedColumn.columnName +" = false"}
+		</trim>
+		<if test="limitStartRow gt 0 and limitEndRow gt 0" >
+			LIMIT #{limitStartRow}, #{limitEndRow}
+		</if>
+		<if test="orderBy.size gt 0">
+			ORDER BY 
+			<trim suffixOverrides=",">
+				<foreach collection="orderBy" item="it">\${it}, </foreach>
+			</trim>
+		</if>
 	</select>
 	
-	<select id="limit_select_${pascalName}">
+	<select id="limit_select_${pascalName}" resultMap="${camelName}" >
 		SELECT * FROM ${tableName}
 		<where>
-			<%if(deletedColumn){print "deleteColumn.columnName = false"}else{print '1=1'}%>
+			<%if(deletedColumn){print "${deletedColumn.columnName} = false"}else{print '1=1'}%>
 			<%columnWithoutId.each { %>
 			<if test="${it.camelName} != null">AND ${it.columnName} = #{${it.camelName}}</if><%}%>
 		</where>
 		LIMIT #{start_row}, #{end_row}
 	</select>
 	
-	<insert id="insert_${pascalName}" parameterType="${packageName}.${pascalName}">
+	<insert id="insert_${pascalName}" parameterType="${modelClassName}">
 		INSERT INTO ${tableName} (${insertColumnsStr})
 		VALUES (${insertColumnValuesStr})
 	</insert>
 
 <% if(idColumn) { //!-- generate if have id column. %>
-	<update id="update_${pascalName}" parameterType="${packageName}.${pascalName}">
+	<update id="update_${pascalName}" parameterType="${modelClassName}">
 		UPDATE ${tableName} SET
 		${updateColumnsStr}
 		WHERE ${idColumn.columnName} = #{${idColumn.camelName}}

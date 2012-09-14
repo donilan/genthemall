@@ -20,5 +20,17 @@
 			<artifactId>genthemall-template-commons</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ii2d</groupId>
+			<artifactId>dbase-mybatis</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

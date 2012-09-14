@@ -1,0 +1,2 @@
+<mapper resource="mysql/sqlmap/userAbcInfo.xml"/>
+<mapper resource="mysql/sqlmap/ext/userAbcInfoExt.xml"/>
