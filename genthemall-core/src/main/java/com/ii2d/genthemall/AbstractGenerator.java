@@ -7,8 +7,6 @@ import groovy.util.ConfigObject;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ii2d.dbase.util.Assert;
 import com.ii2d.dbase.util.DResourceUtils;
 import com.ii2d.genthemall.exception.GenthemallException;
 
@@ -29,14 +28,14 @@ public abstract class AbstractGenerator implements Generator {
 
 	private static final String _DEFAULT_DIST_PATH = "target/genthemall/";
 
-	// target path and file name
-	private String targetFile;
-	// Map for replace string
-	private Map<String, String> replaceMap = new HashMap<String, String>();
 	// dist path
-	private String distPath;
+	protected String destPath;
+	// target file name
+	protected String destFile;
+	// Map for replace string
+	protected Map<String, String> replaceMap = new HashMap<String, String>();
 	// template file path
-	private String templatePath;
+	protected String templateFilePath;
 
 	/**
 	 * 
@@ -70,57 +69,50 @@ public abstract class AbstractGenerator implements Generator {
 		Iterator<Entry<String, String>> it = replaceMap.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, String> entry = it.next();
-			targetFile = targetFile.replaceAll(entry.getKey(), entry.getValue());
+			destFile = destFile
+					.replaceAll(entry.getKey(), entry.getValue());
 		}
 	}
 
-	public String getTargetFile() {
-		if (StringUtils.isBlank(targetFile) || targetFile.length() < 3) {
-			throw new GenthemallException("Target cann't be blank or empty");
-		}
-		if (targetFile.startsWith("/") || targetFile.startsWith("\\")) {
-			targetFile = targetFile.substring(1);
+	public String getDestFile() {
+		Assert.hasText(this.destFile);
+		if (destFile.startsWith("/") || destFile.startsWith("\\")) {
+			destFile = destFile.substring(1);
 		}
 		// Replace to final target string.
 		replaceTarget();
-		return FilenameUtils.concat(getDistPath(), targetFile);
-	}
-
-	protected Reader getTemplateAsReader() throws IOException {
-		if (StringUtils.isBlank(this.getTemplatePath())) {
-			throw new GenthemallException(
-					"The param template path cann't be null or empty.");
-		}
-		LOG.info("Get resource for: " + getTemplatePath());
-		return DResourceUtils.getResourceAsReader(this.getTemplatePath());
+		return FilenameUtils.concat(getDestPath(), destFile);
 	}
 
 	public void generate() {
+		Assert.hasText(this.getTemplateFilePath());
+		Assert.hasText(this.getDestFile());
 		SimpleTemplateEngine engine = new SimpleTemplateEngine();
 
 		try {
-			LOG.info("Loading Config template...");
+			LOG.info(String.format("Loading Config template [%s]...", this.getTemplateFilePath()));
 
-			Template template = engine.createTemplate(getTemplateAsReader());
+			Template template = engine.createTemplate(DResourceUtils
+					.getResourceAsReader(this.getTemplateFilePath()));
 			Writable writable = template.make(getBindingData());
-			File out = new File(this.getTargetFile());
+			File out = new File(this.getDestFile());
 			FileUtils.touch(out);
 			FileWriter f = new FileWriter(out);
-			LOG.info("Generating config file to: " + this.getTargetFile());
+			LOG.info("Generating config file to: " + this.getDestFile());
 			writable.writeTo(f);
 			f.close();
-			LOG.info("Finish generating.");
+			LOG.info("Finish generating.\n");
 		} catch (Exception e) {
 			throw new GenthemallException(e);
 		}
 	}
 
-	public String getDistPath() {
-		return StringUtils.isBlank(distPath) ? _DEFAULT_DIST_PATH : distPath;
+	public String getDestPath() {
+		return StringUtils.isBlank(destPath) ? _DEFAULT_DIST_PATH : destPath;
 	}
 
-	public void setDestPath(String distPath) {
-		this.distPath = distPath;
+	public void setDestPath(String destPath) {
+		this.destPath = destPath;
 	}
 
 	/**
@@ -131,16 +123,12 @@ public abstract class AbstractGenerator implements Generator {
 	 * @param templatePath
 	 *            The template file path
 	 */
-	public void setTemplatePath(String templatePath) {
-		this.templatePath = templatePath;
-	}
-	
-	public String getTemplatePath() {
-		return templatePath;
+	public void setTemplateFilePath(String templatePath) {
+		this.templateFilePath = templatePath;
 	}
 
-	public void setTargetFile(String targetFile) {
-		this.targetFile = targetFile;
+	public String getTemplateFilePath() {
+		return templateFilePath;
 	}
 
 }

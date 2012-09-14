@@ -34,8 +34,9 @@
 				<version>${project.version}</version>
 				<configuration>
 					<!-- for generate config file -->
-					<configTemplateFilePath>classpath:com/ii2d/genthemall/template/core/conf/config.template</configTemplateFilePath>
-					<configDestPath>${project.build.directory}/genthemall/</configDestPath>
+					<configTemplateFilePath>classpath:com/ii2d/genthemall/template/commons/conf/mysql.config.template</configTemplateFilePath>
+					<configDestPath>${project.build.directory}/genthemall/conf</configDestPath>
+					
 					<driverClass>com.mysql.jdbc.Driver</driverClass>
 					<url>jdbc:mysql://127.0.0.1:3306/mysql</url>
 					<username>root</username>

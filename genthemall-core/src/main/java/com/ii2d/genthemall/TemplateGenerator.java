@@ -41,16 +41,16 @@ public class TemplateGenerator extends AbstractGenerator {
 	public void generate() {
 		if (templates == null) {
 			TemplateFinder finder = null;
-			if (getTemplatePath().startsWith(
+			if (getTemplateFilePath().startsWith(
 					DResourceUtils.CLASSPATH_URL_PREFIX)) {
 				finder = new ClasspathTemplateFinder();
 			} else {
 				finder = new FileTemplateFinder();
 			}
-			finder.setTemplatePath(this.getTemplatePath());
+			finder.setTemplatePath(this.getTemplateFilePath());
 			templates = finder.findTemplates();
 			LOG.info(String.format("Found %d template files in path: %s",
-					templates.size(), this.getTemplatePath()));
+					templates.size(), this.getTemplateFilePath()));
 			for (int i = 0; i < templates.size(); ++i) {
 				LOG.info(String.format("--Template [%d]: %s", i + 1, templates
 						.get(i).getName()));
@@ -70,10 +70,10 @@ public class TemplateGenerator extends AbstractGenerator {
 					ConfigObject config = (ConfigObject) tmp;
 					for (int i = 0; i < templates.size(); ++i) {
 						Template t = templates.get(i);
-						this.setTemplatePath(t.getAbsolutePath());
+						this.setTemplateFilePath(t.getAbsolutePath());
 						this.toBeUsed = config;
-						this.setTargetFile(changeTargetPath(config,
-								t.getRelativeTargetPath()));
+						this.destFile = changeTargetPath(config,
+								t.getRelativeTargetPath());
 						super.generate();
 					}
 				}
@@ -124,7 +124,7 @@ public class TemplateGenerator extends AbstractGenerator {
 		this.configFilePath = configFilePath;
 	}
 
-	public String getTemplatePath() {
+	public String getTemplateFilePath() {
 		if (StringUtils.isBlank(templatePath)) {
 			LOG.info("Template path is empty, use default "
 					+ DEFAULT_TEMPLATE_PATH);
@@ -133,7 +133,7 @@ public class TemplateGenerator extends AbstractGenerator {
 		return templatePath;
 	}
 
-	public void setTemplatePath(String templatePath) {
+	public void setTemplateFilePath(String templatePath) {
 		this.templatePath = templatePath;
 	}
 

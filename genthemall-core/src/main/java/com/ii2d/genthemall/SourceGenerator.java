@@ -5,18 +5,12 @@ import groovy.util.ConfigObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+
 public class SourceGenerator extends AbstractGenerator {
 	
 	protected List<ConfigObject> sourceList;
 	
-	public SourceGenerator() {
-		this(new ArrayList<ConfigObject>());
-	}
-
-	public SourceGenerator(List<ConfigObject> sourceList) {
-		this.sourceList = sourceList;
-	}
-
 	public boolean addSource(ConfigObject source) {
 		if(sourceList == null) {
 			sourceList = new ArrayList<ConfigObject>();
@@ -32,4 +26,11 @@ public class SourceGenerator extends AbstractGenerator {
 		return bind;
 	}
 
+	@Override
+	public String getDestFile() {
+		this.destFile = FilenameUtils.getName(this.getTemplateFilePath());
+		return super.getDestFile();
+	}
+
+	
 }

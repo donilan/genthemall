@@ -15,7 +15,7 @@ public class ConfigGeneratorTests extends TestCase {
 	}
 
 	public void testGenerate() {
-		Source2ConfigGenerator g = new Source2ConfigGenerator();
+		SourceGenerator g = new SourceGenerator();
 		BasicDataSource ds = new BasicDataSource();
 		ds.setUrl("jdbc:mysql://127.0.0.1:3306/hnwnew");
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
@@ -27,6 +27,8 @@ public class ConfigGeneratorTests extends TestCase {
 		
 		g.addSource(s1);
 		g.addSource(s2);
+		g.setTemplateFilePath("classpath:com/ii2d/genthemall/template/commons/conf/mysql.conf");
+		g.setDestPath("target/genthemall");
 		g.generate();
 	}
 }

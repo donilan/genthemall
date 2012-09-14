@@ -24,7 +24,7 @@ public interface Generator {
 	 * @since 2012-9-11
 	 * @return Target string
 	 */
-	String getTargetFile();
+	String getDestFile();
 	
 	/**
 	 * Template file path
@@ -32,7 +32,7 @@ public interface Generator {
 	 * @since 2012-9-12
 	 * @param templatePath The Template file
 	 */
-	void setTemplatePath(String templatePath);
+	void setTemplateFilePath(String templatePath);
 	
 	/**
 	 * Set destination path
@@ -42,11 +42,4 @@ public interface Generator {
 	 */
 	void setDestPath(String destPath);
 	
-	/**
-	 * Set target file path
-	 * @author Doni
-	 * @since 2012-9-12
-	 * @param targetFile The target file
-	 */
-	void setTargetFile(String targetFile);
 }

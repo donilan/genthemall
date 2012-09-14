@@ -10,7 +10,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
-import com.ii2d.genthemall.Source2ConfigGenerator;
 import com.ii2d.genthemall.SourceGenerator;
 import com.ii2d.genthemall.exception.GenthemallException;
 import com.ii2d.genthemall.source.DatabaseSource;
@@ -26,7 +25,7 @@ public class GenerateConfigMojo extends AbstractMojo {
 	private static final Log LOG = LogFactory.getLog(GenerateConfigMojo.class);
 	/**
 	 * @parameter expression="${configTemplateFilePath}" default-value=
-	 *            "classpath:com/ii2d/genthemall/template/core/conf/config.template"
+	 *            "classpath:com/ii2d/genthemall/template/commons/conf/mysql.config.template"
 	 */
 	private String configTemplateFilePath;
 
@@ -80,13 +79,13 @@ public class GenerateConfigMojo extends AbstractMojo {
 		ds.setPassword(password);
 
 		String tableArr[] = tables.split(",");
-		SourceGenerator g = new Source2ConfigGenerator();
+		SourceGenerator g = new SourceGenerator();
 		for (String t : tableArr) {
 			t = StringUtils.trimToEmpty(t);
 			if (StringUtils.isNotBlank(t)) {
 				ConfigObject s = new DatabaseSource(ds, t);
 				g.addSource(s);
-				g.setTemplatePath(configTemplateFilePath);
+				g.setTemplateFilePath(configTemplateFilePath);
 				g.setDestPath(configDestPath);
 			}
 		}
