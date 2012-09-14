@@ -14,4 +14,17 @@ public class <%print pascalName%> extends ${fartherTable? fartherTable.modelClas
 		return this.${it.camelName};
 	}
 	<%}%>
+	
+	/**
+	 * Generate by genthemall
+	 */
+	public String toString() {
+		StirngBuilder sb = new StringBuilder(100);
+		sb.append("${modelClassName}.toString {\\n\\t");
+		<%allColumns.findAll{it.maxLength < 256}.each {%>
+		sb.append("${it.camelName}: [");
+		sb.append(this.${it.camelName});
+		sb.append("], ");<%}%>
+		sb.append("\\n}");
+	}
 }
