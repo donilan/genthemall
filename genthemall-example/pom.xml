@@ -34,17 +34,18 @@
 				<version>${project.version}</version>
 				<configuration>
 					<!-- for generate config file -->
-					<configTemplateFilePath>classpath:com/ii2d/genthemall/template/commons/conf/mysql.config.template</configTemplateFilePath>
+					<configTemplateFilePath>classpath:com/ii2d/genthemall/template/commons/conf/mysql.conf</configTemplateFilePath>
 					<configDestPath>${project.build.directory}/genthemall/conf</configDestPath>
 					<tables>user,db,host,time_zone,time_zone_name</tables>
 					<dataSource>
-						<driverClass>com.mysql.jdbc.Driver</driverClass>
+						<driverClassName>com.mysql.jdbc.Driver</driverClassName>
 						<url>jdbc:mysql://127.0.0.1:3306/mysql</url>
 						<username>root</username>
 						<password>sa</password>
 					</dataSource>
 
 					<!-- for generate code by template files -->
+					<configFilePath>${project.build.directory}/genthemall/conf/mysql.conf</configFilePath>
 					<templateInfos>
 						<templateInfo>
 							<templatePath>classpath:com/ii2d/genthemall/template/commons/model</templatePath>
