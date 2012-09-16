@@ -3,7 +3,6 @@
 <%
 def insertColumnsStr = (columnWithoutId*.columnName).toString()[1..-2]
 def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\t\t"}).toString()[1..-2]
-def updateColumnsStr = columnWithoutId.collect {"${it.columnName} = #{${it.camelName}}\n\t\t\t"}.toString()[1..-2]
 %>
 <mapper namespace="${packageName}.model">
 
@@ -29,36 +28,48 @@ def updateColumnsStr = columnWithoutId.collect {"${it.columnName} = #{${it.camel
 			<%}%>
 			AND ${if(deletedColumn) deletedColumn.columnName +" = false"}
 		</trim>
-		<if test="limitStartRow gt 0 and limitEndRow gt 0" >
-			LIMIT #{limitStartRow}, #{limitEndRow}
-		</if>
-		<if test="orderBy.size gt 0">
-			ORDER BY 
-			<trim suffixOverrides=",">
-				<foreach collection="orderBy" item="it">\${it}, </foreach>
-			</trim>
-		</if>
+		<choose>
+			<when test="limitStartRow gt -1 and limitEndRow gt 0" >
+				LIMIT #{limitStartRow}, #{limitEndRow}
+			</when>
+			<when test="orderBy.size gt 0">
+				ORDER BY 
+				<trim suffixOverrides=",">
+					<foreach collection="orderBy" item="it">\${it}, </foreach>
+				</trim>
+			</when>
+		</choose>
 	</select>
-	
-	<select id="limit_select_${pascalName}" resultMap="${camelName}" >
-		SELECT * FROM ${tableName}
-		<where>
-			<%if(deletedColumn){print "${deletedColumn.columnName} = false"}else{print '1=1'}%>
+	<!-- Count table. -->
+	<select id="count_${pascalName}" resultType="java.lang.Long">
+		SELECT COUNT(1) FROM ${tableName}
+		<trim prefix="WHERE" prefixOverrides="OR|AND">
 			<%columnWithoutId.each { %>
-			<if test="${it.camelName} != null">AND ${it.columnName} = #{${it.camelName}}</if><%}%>
-		</where>
-		LIMIT #{start_row}, #{end_row}
+			<if test="orEq.${it.camelName} != null">OR ${it.columnName} = #{orEq.${it.camelName}}</if>
+			<if test="orLike.${it.camelName} != null">OR ${it.columnName} LIKE concat('%', #{orLike.${it.camelName}}, '%')</if>
+			<if test="andEq.${it.camelName} != null">AND ${it.columnName} = #{andEq.${it.camelName}}</if>
+			<if test="andLike.${it.camelName} != null">AND ${it.columnName} LIKE concat('%', #{andLike.${it.camelName}}, '%')</if>
+			<%}%>
+			AND ${if(deletedColumn) deletedColumn.columnName +" = false"}
+		</trim>
 	</select>
 	
 	<insert id="insert_${pascalName}" parameterType="${modelClassName}">
 		INSERT INTO ${tableName} (${insertColumnsStr})
 		VALUES (${insertColumnValuesStr})
+		<% if(idColumn) { //!-- generate if have id column. %>
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="${idColumn.columnName}">
+			SELECT LAST_INSERT_ID()
+		</selectKey><%}%>
 	</insert>
 
 <% if(idColumn) { //!-- generate if have id column. %>
 	<update id="update_${pascalName}" parameterType="${modelClassName}">
 		UPDATE ${tableName} SET
-		${updateColumnsStr}
+		<trim prefixOverrides=",">
+			<%columnWithoutId.each {%>
+			<if test="${it.camelName} != null">, ${it.columnName} = #{${it.camelName}}</if><%}%>
+		</trim>
 		WHERE ${idColumn.columnName} = #{${idColumn.camelName}}
 	</update>
 <%}%>	

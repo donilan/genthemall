@@ -42,7 +42,30 @@ public class CommonMyBatisDAOTests extends TestCase {
 	public void testQuery() {
 		User u = new User();
 		u.orLike("name", "二").orderBy("password").orderBy("old_id");
-		System.out.println(dao.queryForList(u));
+		assertTrue(dao.queryForList(u).size()>0);
+		assertTrue(dao.queryForList(new User(), 1, 10).size() == 10);
 	}
 	
+	public void testCount() {
+		User u = new User();
+		u.orLike("name", "二").orderBy("password").orderBy("old_id");
+		assertTrue(dao.count(u) > 0);
+		assertTrue(dao.count(new User()) > 0);
+	}
+	
+	public void testUpdate() {
+		String newName = "符先生2";
+		User u = dao.queryForById(2, User.class);
+		u.setName(newName);
+		dao.update(u);
+		u = dao.queryForById(2, User.class);
+		assertEquals(newName, u.getName());
+	}
+	
+	public void testInsertAndDelete() {
+		User u = dao.queryForById(2, User.class);
+		dao.insert(u);
+		System.out.println(u.getId());
+		dao.delete(u);
+	}
 }
