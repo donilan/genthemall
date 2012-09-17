@@ -1,6 +1,9 @@
 //~ Generate by genthemall
 package com.ii2d.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="businessShop")
 public class BusinessShop extends com.ii2d.model.Shop {
 	
 	private static final long serialVersionUID = 1L;

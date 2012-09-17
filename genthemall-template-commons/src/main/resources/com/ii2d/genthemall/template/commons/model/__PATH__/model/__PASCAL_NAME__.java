@@ -1,6 +1,9 @@
 //~ Generate by genthemall
 package ${packageName}.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="${camelName}")
 public class <%print pascalName%> extends ${fartherTable? fartherTable.modelClassName: 'com.ii2d.dbase.mybatis.model.BaseMyBatisModel'} {
 	
 	private static final long serialVersionUID = 1L;
