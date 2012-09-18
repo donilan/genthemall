@@ -66,6 +66,6 @@ public class CommonMyBatisDAOTests extends TestCase {
 		User u = dao.queryForById(2, User.class);
 		dao.insert(u);
 		System.out.println(u.getId());
-		dao.delete(u);
+		dao.delete(u.getId(), u.getClass());
 	}
 }
