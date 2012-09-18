@@ -26,7 +26,9 @@ def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\
 			<if test="andEq.${it.camelName} != null">AND ${it.columnName} = #{andEq.${it.camelName}}</if>
 			<if test="andLike.${it.camelName} != null">AND ${it.columnName} LIKE concat('%', #{andLike.${it.camelName}}, '%')</if>
 			<%}%>
-			AND ${if(deletedColumn) deletedColumn.columnName +" = false"}
+			<%if(statusColumn) {%>
+			<if test="andEq.${statusColumn.camelName} == null">AND ${statusColumn.columnName} > -1</if>
+			<%}%>
 		</trim>
 		<choose>
 			<when test="limitStartRow gt -1 and limitEndRow gt 0" >
@@ -75,7 +77,11 @@ def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\
 <%}%>	
 <% if(idColumn) { //!-- generate if have id column. %>
 	<delete id="delete_${pascalName}" >
+	<%if(statusColumn) {%>
+		UPDATE ${tableName} SET ${statusColumn.columnName} = -1
+	<%} else {%>
 		DELETE FROM ${tableName} WHERE ${idColumn.columnName} = #{${idColumn.camelName}}
+	<%}%>
 	</delete>
 <%}%>
 </mapper>

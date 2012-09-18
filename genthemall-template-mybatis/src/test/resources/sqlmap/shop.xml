@@ -6,11 +6,14 @@
 	<!-- result map for com.ii2d.Shop -->
 	<resultMap type="com.ii2d.model.Shop" id="shop">
 	<result column="id" property="id" javaType="java.lang.Integer"/>
+	<result column="shop_type_id" property="shopTypeId" javaType="java.lang.Integer"/>
+	<result column="old_id" property="oldId" javaType="java.lang.String"/>
 	<result column="user_id" property="userId" javaType="java.lang.Integer"/>
+	<result column="area_id" property="areaId" javaType="java.lang.Integer"/>
 	<result column="name" property="name" javaType="java.lang.String"/>
 	<result column="status" property="status" javaType="java.lang.Integer"/>
 	<result column="deleted" property="deleted" javaType="java.lang.Boolean"/>
-	<result column="create_date" property="createDate" javaType="java.sql.Timestamp"/>
+	<result column="create_date" property="createDate" javaType="java.util.Date"/>
 	<result column="description" property="description" javaType="java.lang.String"/>
 	<result column="contact" property="contact" javaType="java.lang.String"/>
 	<result column="zip_code" property="zipCode" javaType="java.lang.String"/>
@@ -19,6 +22,7 @@
 	<result column="fax" property="fax" javaType="java.lang.String"/>
 	<result column="email" property="email" javaType="java.lang.String"/>
 	<result column="address" property="address" javaType="java.lang.String"/>
+	<result column="show_order" property="showOrder" javaType="java.lang.Integer"/>
 	</resultMap>
 	
 
@@ -31,10 +35,25 @@
 		SELECT * FROM shop
 		<trim prefix="WHERE" prefixOverrides="OR|AND">
 			
+			<if test="orEq.shopTypeId != null">OR shop_type_id = #{orEq.shopTypeId}</if>
+			<if test="orLike.shopTypeId != null">OR shop_type_id LIKE concat('%', #{orLike.shopTypeId}, '%')</if>
+			<if test="andEq.shopTypeId != null">AND shop_type_id = #{andEq.shopTypeId}</if>
+			<if test="andLike.shopTypeId != null">AND shop_type_id LIKE concat('%', #{andLike.shopTypeId}, '%')</if>
+			
+			<if test="orEq.oldId != null">OR old_id = #{orEq.oldId}</if>
+			<if test="orLike.oldId != null">OR old_id LIKE concat('%', #{orLike.oldId}, '%')</if>
+			<if test="andEq.oldId != null">AND old_id = #{andEq.oldId}</if>
+			<if test="andLike.oldId != null">AND old_id LIKE concat('%', #{andLike.oldId}, '%')</if>
+			
 			<if test="orEq.userId != null">OR user_id = #{orEq.userId}</if>
 			<if test="orLike.userId != null">OR user_id LIKE concat('%', #{orLike.userId}, '%')</if>
 			<if test="andEq.userId != null">AND user_id = #{andEq.userId}</if>
 			<if test="andLike.userId != null">AND user_id LIKE concat('%', #{andLike.userId}, '%')</if>
+			
+			<if test="orEq.areaId != null">OR area_id = #{orEq.areaId}</if>
+			<if test="orLike.areaId != null">OR area_id LIKE concat('%', #{orLike.areaId}, '%')</if>
+			<if test="andEq.areaId != null">AND area_id = #{andEq.areaId}</if>
+			<if test="andLike.areaId != null">AND area_id LIKE concat('%', #{andLike.areaId}, '%')</if>
 			
 			<if test="orEq.name != null">OR name = #{orEq.name}</if>
 			<if test="orLike.name != null">OR name LIKE concat('%', #{orLike.name}, '%')</if>
@@ -96,7 +115,14 @@
 			<if test="andEq.address != null">AND address = #{andEq.address}</if>
 			<if test="andLike.address != null">AND address LIKE concat('%', #{andLike.address}, '%')</if>
 			
-			AND deleted = false
+			<if test="orEq.showOrder != null">OR show_order = #{orEq.showOrder}</if>
+			<if test="orLike.showOrder != null">OR show_order LIKE concat('%', #{orLike.showOrder}, '%')</if>
+			<if test="andEq.showOrder != null">AND show_order = #{andEq.showOrder}</if>
+			<if test="andLike.showOrder != null">AND show_order LIKE concat('%', #{andLike.showOrder}, '%')</if>
+			
+			
+			<if test="andEq.status == null">AND status > -1</if>
+			
 		</trim>
 		<choose>
 			<when test="limitStartRow gt -1 and limitEndRow gt 0" >
@@ -115,10 +141,25 @@
 		SELECT COUNT(1) FROM shop
 		<trim prefix="WHERE" prefixOverrides="OR|AND">
 			
+			<if test="orEq.shopTypeId != null">OR shop_type_id = #{orEq.shopTypeId}</if>
+			<if test="orLike.shopTypeId != null">OR shop_type_id LIKE concat('%', #{orLike.shopTypeId}, '%')</if>
+			<if test="andEq.shopTypeId != null">AND shop_type_id = #{andEq.shopTypeId}</if>
+			<if test="andLike.shopTypeId != null">AND shop_type_id LIKE concat('%', #{andLike.shopTypeId}, '%')</if>
+			
+			<if test="orEq.oldId != null">OR old_id = #{orEq.oldId}</if>
+			<if test="orLike.oldId != null">OR old_id LIKE concat('%', #{orLike.oldId}, '%')</if>
+			<if test="andEq.oldId != null">AND old_id = #{andEq.oldId}</if>
+			<if test="andLike.oldId != null">AND old_id LIKE concat('%', #{andLike.oldId}, '%')</if>
+			
 			<if test="orEq.userId != null">OR user_id = #{orEq.userId}</if>
 			<if test="orLike.userId != null">OR user_id LIKE concat('%', #{orLike.userId}, '%')</if>
 			<if test="andEq.userId != null">AND user_id = #{andEq.userId}</if>
 			<if test="andLike.userId != null">AND user_id LIKE concat('%', #{andLike.userId}, '%')</if>
+			
+			<if test="orEq.areaId != null">OR area_id = #{orEq.areaId}</if>
+			<if test="orLike.areaId != null">OR area_id LIKE concat('%', #{orLike.areaId}, '%')</if>
+			<if test="andEq.areaId != null">AND area_id = #{andEq.areaId}</if>
+			<if test="andLike.areaId != null">AND area_id LIKE concat('%', #{andLike.areaId}, '%')</if>
 			
 			<if test="orEq.name != null">OR name = #{orEq.name}</if>
 			<if test="orLike.name != null">OR name LIKE concat('%', #{orLike.name}, '%')</if>
@@ -180,13 +221,21 @@
 			<if test="andEq.address != null">AND address = #{andEq.address}</if>
 			<if test="andLike.address != null">AND address LIKE concat('%', #{andLike.address}, '%')</if>
 			
+			<if test="orEq.showOrder != null">OR show_order = #{orEq.showOrder}</if>
+			<if test="orLike.showOrder != null">OR show_order LIKE concat('%', #{orLike.showOrder}, '%')</if>
+			<if test="andEq.showOrder != null">AND show_order = #{andEq.showOrder}</if>
+			<if test="andLike.showOrder != null">AND show_order LIKE concat('%', #{andLike.showOrder}, '%')</if>
+			
 			AND deleted = false
 		</trim>
 	</select>
 	
 	<insert id="insert_Shop" parameterType="com.ii2d.model.Shop">
-		INSERT INTO shop (user_id, name, status, deleted, create_date, description, contact, zip_code, telephone, phone, fax, email, address)
-		VALUES (#{userId}
+		INSERT INTO shop (shop_type_id, old_id, user_id, area_id, name, status, deleted, create_date, description, contact, zip_code, telephone, phone, fax, email, address, show_order)
+		VALUES (#{shopTypeId}
+			, #{oldId}
+			, #{userId}
+			, #{areaId}
 			, #{name}
 			, #{status}
 			, #{deleted}
@@ -199,6 +248,7 @@
 			, #{fax}
 			, #{email}
 			, #{address}
+			, #{showOrder}
 			)
 		
 		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
@@ -211,7 +261,10 @@
 		UPDATE shop SET
 		<trim prefixOverrides=",">
 			
+			<if test="shopTypeId != null">, shop_type_id = #{shopTypeId}</if>
+			<if test="oldId != null">, old_id = #{oldId}</if>
 			<if test="userId != null">, user_id = #{userId}</if>
+			<if test="areaId != null">, area_id = #{areaId}</if>
 			<if test="name != null">, name = #{name}</if>
 			<if test="status != null">, status = #{status}</if>
 			<if test="deleted != null">, deleted = #{deleted}</if>
@@ -224,13 +277,16 @@
 			<if test="fax != null">, fax = #{fax}</if>
 			<if test="email != null">, email = #{email}</if>
 			<if test="address != null">, address = #{address}</if>
+			<if test="showOrder != null">, show_order = #{showOrder}</if>
 		</trim>
 		WHERE id = #{id}
 	</update>
 	
 
 	<delete id="delete_Shop" >
-		DELETE FROM shop WHERE id = #{id}
+	
+		UPDATE shop SET status = -1
+	
 	</delete>
 
 </mapper>

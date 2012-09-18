@@ -5,6 +5,7 @@
 
 	<!-- result map for com.ii2d.UserAbcInfo -->
 	<resultMap type="com.ii2d.model.UserAbcInfo" id="userAbcInfo">
+	<result column="id" property="id" javaType="java.lang.Integer"/>
 	<result column="user_id" property="userId" javaType="java.lang.Integer"/>
 	<result column="sign_status" property="signStatus" javaType="java.lang.Integer"/>
 	<result column="customer_no" property="customerNo" javaType="java.lang.String"/>
@@ -12,6 +13,11 @@
 	<result column="authorize_status" property="authorizeStatus" javaType="java.lang.Integer"/>
 	</resultMap>
 	
+
+	<!-- select by id sql -->
+	<select id="select_by_id_UserAbcInfo" useCache="true" resultMap="userAbcInfo" >
+		SELECT * FROM user_abc_info WHERE id = #{value}
+	</select>
 
 	<select id="select_UserAbcInfo" resultMap="userAbcInfo" >
 		SELECT * FROM user_abc_info
@@ -42,7 +48,7 @@
 			<if test="andEq.authorizeStatus != null">AND authorize_status = #{andEq.authorizeStatus}</if>
 			<if test="andLike.authorizeStatus != null">AND authorize_status LIKE concat('%', #{andLike.authorizeStatus}, '%')</if>
 			
-			AND null
+			
 		</trim>
 		<choose>
 			<when test="limitStartRow gt -1 and limitEndRow gt 0" >
@@ -99,8 +105,30 @@
 			, #{authorizeStatus}
 			)
 		
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 
+
+	<update id="update_UserAbcInfo" parameterType="com.ii2d.model.UserAbcInfo">
+		UPDATE user_abc_info SET
+		<trim prefixOverrides=",">
+			
+			<if test="userId != null">, user_id = #{userId}</if>
+			<if test="signStatus != null">, sign_status = #{signStatus}</if>
+			<if test="customerNo != null">, customer_no = #{customerNo}</if>
+			<if test="customerName != null">, customer_name = #{customerName}</if>
+			<if test="authorizeStatus != null">, authorize_status = #{authorizeStatus}</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
 	
+
+	<delete id="delete_UserAbcInfo" >
+	
+		DELETE FROM user_abc_info WHERE id = #{id}
+	
+	</delete>
 
 </mapper>

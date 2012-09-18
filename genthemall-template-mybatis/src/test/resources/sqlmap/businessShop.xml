@@ -24,7 +24,7 @@
 			<if test="andEq.tmpName != null">AND tmp_name = #{andEq.tmpName}</if>
 			<if test="andLike.tmpName != null">AND tmp_name LIKE concat('%', #{andLike.tmpName}, '%')</if>
 			
-			AND null
+			
 		</trim>
 		<choose>
 			<when test="limitStartRow gt -1 and limitEndRow gt 0" >

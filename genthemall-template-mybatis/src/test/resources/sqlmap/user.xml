@@ -6,12 +6,12 @@
 	<!-- result map for com.ii2d.User -->
 	<resultMap type="com.ii2d.model.User" id="user">
 	<result column="id" property="id" javaType="java.lang.Integer"/>
+	<result column="user_type_id" property="userTypeId" javaType="java.lang.Integer"/>
 	<result column="old_id" property="oldId" javaType="java.lang.String"/>
 	<result column="login_id" property="loginId" javaType="java.lang.String"/>
 	<result column="password" property="password" javaType="java.lang.String"/>
 	<result column="status" property="status" javaType="java.lang.Integer"/>
-	<result column="deleted" property="deleted" javaType="java.lang.Boolean"/>
-	<result column="create_date" property="createDate" javaType="java.sql.Timestamp"/>
+	<result column="create_date" property="createDate" javaType="java.util.Date"/>
 	<result column="name" property="name" javaType="java.lang.String"/>
 	<result column="id_card" property="idCard" javaType="java.lang.String"/>
 	<result column="zip_code" property="zipCode" javaType="java.lang.String"/>
@@ -19,9 +19,9 @@
 	<result column="telephone" property="telephone" javaType="java.lang.String"/>
 	<result column="area_code" property="areaCode" javaType="java.lang.String"/>
 	<result column="address" property="address" javaType="java.lang.String"/>
-	<result column="last_login_time" property="lastLoginTime" javaType="java.sql.Timestamp"/>
+	<result column="last_login_time" property="lastLoginTime" javaType="java.util.Date"/>
 	<result column="last_login_ip" property="lastLoginIp" javaType="java.lang.String"/>
-	<result column="recent_login_time" property="recentLoginTime" javaType="java.sql.Timestamp"/>
+	<result column="recent_login_time" property="recentLoginTime" javaType="java.util.Date"/>
 	<result column="recent_login_ip" property="recentLoginIp" javaType="java.lang.String"/>
 	</resultMap>
 	
@@ -34,6 +34,11 @@
 	<select id="select_User" resultMap="user" >
 		SELECT * FROM user
 		<trim prefix="WHERE" prefixOverrides="OR|AND">
+			
+			<if test="orEq.userTypeId != null">OR user_type_id = #{orEq.userTypeId}</if>
+			<if test="orLike.userTypeId != null">OR user_type_id LIKE concat('%', #{orLike.userTypeId}, '%')</if>
+			<if test="andEq.userTypeId != null">AND user_type_id = #{andEq.userTypeId}</if>
+			<if test="andLike.userTypeId != null">AND user_type_id LIKE concat('%', #{andLike.userTypeId}, '%')</if>
 			
 			<if test="orEq.oldId != null">OR old_id = #{orEq.oldId}</if>
 			<if test="orLike.oldId != null">OR old_id LIKE concat('%', #{orLike.oldId}, '%')</if>
@@ -54,11 +59,6 @@
 			<if test="orLike.status != null">OR status LIKE concat('%', #{orLike.status}, '%')</if>
 			<if test="andEq.status != null">AND status = #{andEq.status}</if>
 			<if test="andLike.status != null">AND status LIKE concat('%', #{andLike.status}, '%')</if>
-			
-			<if test="orEq.deleted != null">OR deleted = #{orEq.deleted}</if>
-			<if test="orLike.deleted != null">OR deleted LIKE concat('%', #{orLike.deleted}, '%')</if>
-			<if test="andEq.deleted != null">AND deleted = #{andEq.deleted}</if>
-			<if test="andLike.deleted != null">AND deleted LIKE concat('%', #{andLike.deleted}, '%')</if>
 			
 			<if test="orEq.createDate != null">OR create_date = #{orEq.createDate}</if>
 			<if test="orLike.createDate != null">OR create_date LIKE concat('%', #{orLike.createDate}, '%')</if>
@@ -120,7 +120,9 @@
 			<if test="andEq.recentLoginIp != null">AND recent_login_ip = #{andEq.recentLoginIp}</if>
 			<if test="andLike.recentLoginIp != null">AND recent_login_ip LIKE concat('%', #{andLike.recentLoginIp}, '%')</if>
 			
-			AND deleted = false
+			
+			<if test="andEq.status == null">AND status > -1</if>
+			
 		</trim>
 		<choose>
 			<when test="limitStartRow gt -1 and limitEndRow gt 0" >
@@ -139,6 +141,11 @@
 		SELECT COUNT(1) FROM user
 		<trim prefix="WHERE" prefixOverrides="OR|AND">
 			
+			<if test="orEq.userTypeId != null">OR user_type_id = #{orEq.userTypeId}</if>
+			<if test="orLike.userTypeId != null">OR user_type_id LIKE concat('%', #{orLike.userTypeId}, '%')</if>
+			<if test="andEq.userTypeId != null">AND user_type_id = #{andEq.userTypeId}</if>
+			<if test="andLike.userTypeId != null">AND user_type_id LIKE concat('%', #{andLike.userTypeId}, '%')</if>
+			
 			<if test="orEq.oldId != null">OR old_id = #{orEq.oldId}</if>
 			<if test="orLike.oldId != null">OR old_id LIKE concat('%', #{orLike.oldId}, '%')</if>
 			<if test="andEq.oldId != null">AND old_id = #{andEq.oldId}</if>
@@ -158,11 +165,6 @@
 			<if test="orLike.status != null">OR status LIKE concat('%', #{orLike.status}, '%')</if>
 			<if test="andEq.status != null">AND status = #{andEq.status}</if>
 			<if test="andLike.status != null">AND status LIKE concat('%', #{andLike.status}, '%')</if>
-			
-			<if test="orEq.deleted != null">OR deleted = #{orEq.deleted}</if>
-			<if test="orLike.deleted != null">OR deleted LIKE concat('%', #{orLike.deleted}, '%')</if>
-			<if test="andEq.deleted != null">AND deleted = #{andEq.deleted}</if>
-			<if test="andLike.deleted != null">AND deleted LIKE concat('%', #{andLike.deleted}, '%')</if>
 			
 			<if test="orEq.createDate != null">OR create_date = #{orEq.createDate}</if>
 			<if test="orLike.createDate != null">OR create_date LIKE concat('%', #{orLike.createDate}, '%')</if>
@@ -224,17 +226,17 @@
 			<if test="andEq.recentLoginIp != null">AND recent_login_ip = #{andEq.recentLoginIp}</if>
 			<if test="andLike.recentLoginIp != null">AND recent_login_ip LIKE concat('%', #{andLike.recentLoginIp}, '%')</if>
 			
-			AND deleted = false
+			AND null
 		</trim>
 	</select>
 	
 	<insert id="insert_User" parameterType="com.ii2d.model.User">
-		INSERT INTO user (old_id, login_id, password, status, deleted, create_date, name, id_card, zip_code, phone, telephone, area_code, address, last_login_time, last_login_ip, recent_login_time, recent_login_ip)
-		VALUES (#{oldId}
+		INSERT INTO user (user_type_id, old_id, login_id, password, status, create_date, name, id_card, zip_code, phone, telephone, area_code, address, last_login_time, last_login_ip, recent_login_time, recent_login_ip)
+		VALUES (#{userTypeId}
+			, #{oldId}
 			, #{loginId}
 			, #{password}
 			, #{status}
-			, #{deleted}
 			, #{createDate}
 			, #{name}
 			, #{idCard}
@@ -259,11 +261,11 @@
 		UPDATE user SET
 		<trim prefixOverrides=",">
 			
+			<if test="userTypeId != null">, user_type_id = #{userTypeId}</if>
 			<if test="oldId != null">, old_id = #{oldId}</if>
 			<if test="loginId != null">, login_id = #{loginId}</if>
 			<if test="password != null">, password = #{password}</if>
 			<if test="status != null">, status = #{status}</if>
-			<if test="deleted != null">, deleted = #{deleted}</if>
 			<if test="createDate != null">, create_date = #{createDate}</if>
 			<if test="name != null">, name = #{name}</if>
 			<if test="idCard != null">, id_card = #{idCard}</if>
@@ -282,7 +284,9 @@
 	
 
 	<delete id="delete_User" >
-		DELETE FROM user WHERE id = #{id}
+	
+		UPDATE user SET status = -1
+	
 	</delete>
 
 </mapper>
