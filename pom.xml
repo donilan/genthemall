@@ -77,5 +77,6 @@
     <module>genthemall-maven-plugin</module>
     <module>genthemall-template-mybatis</module>
     <module>genthemall-template-commons</module>
+    <module>genthemall-template-web-admin</module>
   </modules>
 </project>
