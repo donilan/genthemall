@@ -1,2 +1,0 @@
-<mapper resource="mysql/sqlmap/businessShop.xml"/>
-<mapper resource="mysql/sqlmap/ext/businessShopExt.xml"/>
