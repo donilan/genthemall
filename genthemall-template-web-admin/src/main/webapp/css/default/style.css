@@ -1,0 +1,11 @@
+/* main */
+#main-wrapper {}
+#top-wrapper{border-bottom: 1px solid #777; height: 30px;}
+#middle-wrapper{border-bottom: 1px solid #999; height:auto!important; _height:500px; min-height: 500px;}
+#bottom-wrapper{border-bottom: 1px solid #AAA; height: 30px;}
+
+/* common */
+.el-block{display: block;}
+.el-left{float: left;}
+.el-right{float: right;}
+.el-max-width{width: 100%;}
