@@ -1,0 +1,148 @@
+/* main */
+#main-wrapper * {
+	height: auto;
+	width: auto;
+	margin: 0;
+	padding: 0;
+	position: static;
+	text-transform: none;
+	letter-spacing: normal;
+	font: normal 13px/28px sans-serif;
+	font: normal 13px/28px sans-serif;
+	color: #CCC;
+	text-shadow: #444 0 -1px 0;
+}
+
+#main-wrapper a {
+	outline: none;
+	border: none;
+	text-decoration: none;
+	background: none;
+	color: #21759B;
+}
+
+#left-side {
+	border-right: 1px solid #CCC;
+	height: auto !important;
+	_height: 500px;
+	min-height: 500px;
+	width: 180px;
+	float: left;
+}
+
+#right-side {
+	height: auto !important;
+	_height: 500px;
+	min-height: 500px;
+	min-width: 800px;
+	float: left;
+}
+
+/* start topbar menu */
+#topbar-menu {
+	border-bottom: 2px solid #464646;
+	height: 28px;
+	background-color: #444;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 99999;
+	width: 100%;
+}
+
+#topbar-menu .menu-item {
+	display: block;
+}
+
+#topbar-menu ul,#topbar-menu ul li {
+	background: none;
+	clear: none;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	z-index: 99999;
+}
+
+#topbar-menu>ul>li {
+	border-right: 1px solid #555;
+	float: left;
+	display: block;
+	line-height: 28px;
+	margin: 0 10px;
+	float: left;
+	display: block;
+	line-height: 28px;
+	margin: 0 10px;
+	position: relative;
+}
+
+#topbar-menu>ul>li>a {
+	border-right: 1px solid #333;
+	padding: 0 12px;
+}
+
+#topbar-menu .sub-menu-wrapper {
+	margin: 0 0 0 -1px;
+	padding: 0;
+	-moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+	background: white;
+	display: none;
+	position: absolute;
+	float: none;
+	border-width: 0 1px 1px 1px;
+	border-style: solid;
+	border-color: #DFDFDF;
+}
+
+#topbar-menu .sub-menu {
+	padding: 6px 0;
+	border-top: 1px solid #DFDFDF;
+}
+
+#topbar-menu .sub-menu-wrapper .menu-item {
+	line-height: 26px;
+	height: 26px;
+	text-shadow: none;
+	white-space: nowrap;
+	min-width: 140px;
+}
+
+#topbar-menu .sub-menu-wrapper ul {
+	display: block;
+	position: relative;
+	right: auto;
+	margin: 0;
+	background: #EEE;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+#topbar-menu .hover .sub-menu-wrapper {
+	display: block;
+}
+
+/* end topbar menu */
+/* common */
+.el-block {
+	display: block;
+}
+
+.el-left {
+	float: left;
+}
+
+.el-right {
+	float: right;
+}
+
+.el-max-width {
+	width: 100%;
+}
+
+.clear {
+	clear: both;
+}

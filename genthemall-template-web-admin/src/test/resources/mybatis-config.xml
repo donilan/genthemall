@@ -11,5 +11,7 @@
 		<mapper resource="sqlmap/newsType.xml"/>
 		<mapper resource="sqlmap/shop.xml"/>
 		<mapper resource="sqlmap/userAbcInfo.xml"/>
+		<mapper resource="sqlmap/menu.xml"/>
+		<mapper resource="sqlmap/menuType.xml"/>
 	</mappers>
 </configuration>

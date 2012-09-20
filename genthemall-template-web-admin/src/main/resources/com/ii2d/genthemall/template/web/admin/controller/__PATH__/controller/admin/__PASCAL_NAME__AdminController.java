@@ -1,36 +1,39 @@
 package ${packageName}.controller.admin;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ii2d.dbase.commons.service.CommonService;
 import ${packageName}.model.${pascalName};
 
 @Controller
 @RequestMapping("/admin/${camelName}")
-public class ${pascalName}AdminController {
+public class ${pascalName}AdminController extends com.ii2d.dbase.web.controller.AbstractController {
 	
-	public static final String INSTANCE = "instance";
-	
-	@Resource
-	private CommonService commonService;
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public String index(ModelMap model) {
-		return "admin/${camelName}/index";
+	@RequestMapping(method = RequestMethod.GET)
+	public String list(
+			@ModelAttribute(value="${camelName}") ${pascalName} searchObj,
+			@RequestParam(value = "page", defaultValue="1") int page,
+			@RequestParam(value = "rows", defaultValue="10") int rows,
+			ModelMap model) {
+		List<${pascalName}> list = commonService.queryForList(searchObj, page, rows);
+		model.addAttribute(list);
+		return "admin/${camelName}/list";
 	}
 
-	<%if(idColumn) {%>
-	@RequestMapping(method=RequestMethod.GET, value="{id}")
-	public String find${pascalName}(@PathVariable ${idColumn.classType} id, ModelMap model) {
-		model.addAttribute(INSTANCE, commonService.queryForById(id, ${pascalName}.class));
-		return "admin/${camelName}/show";
+	@Override
+	public String getControllerName() {
+		return "${camelName}";
 	}
-	<%}%>
-	
+
+	@Override
+	public Class<?> getInstanceClass() {
+		return ${pascalName}.class;
+	}
 }

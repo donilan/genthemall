@@ -1,0 +1,2 @@
+<mapper resource="sqlmap/shopType.xml"/>
+<mapper resource="sqlmap/ext/shopTypeExt.xml"/>

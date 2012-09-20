@@ -1,0 +1,2 @@
+<mapper resource="sqlmap/menuType.xml"/>
+<mapper resource="sqlmap/ext/menuTypeExt.xml"/>

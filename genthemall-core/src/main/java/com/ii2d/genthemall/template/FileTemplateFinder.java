@@ -6,10 +6,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.DirectoryWalker;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ii2d.dbase.util.DFileNameUtils;
 import com.ii2d.dbase.util.DResourceUtils;
 import com.ii2d.genthemall.exception.GenthemallException;
 
@@ -55,44 +55,15 @@ public class FileTemplateFinder extends AbstractTemplateFinder implements
 				Collection<Template> results) throws IOException {
 			Template t = new Template();
 			t.setAbsolutePath(file.getAbsolutePath());
-			t.setRelativePath(file.getPath());
-			t.setRelativeTargetPath(file.getPath().substring(
-					getTemplatePath().length() + 1));
+			t.setRelativeTargetPath(DFileNameUtils.removePath(file.getPath(), getTemplatePath()));
 			t.setName(file.getName());
-
-			// remove prefix
-			String rPath = t.getRelativeTargetPath().replace("\\", "/");
-			if (rPath.indexOf(_getTemplatePathWithoutClasspath()) > 0) {
-				t.setRelativeTargetPath(rPath.substring(rPath
-						.indexOf(_getTemplatePathWithoutClasspath())
-						+ _getTemplatePathWithoutClasspath().length() + 1));
-			} else if (rPath.indexOf(getTemplatePath()) > 0) {
-				rPath = rPath.substring(rPath
-						.indexOf(getTemplatePath())
-						+ getTemplatePath().length());
-				if(StringUtils.isNotBlank(rPath)) {
-					if(rPath.startsWith("/")) {
-						rPath = rPath.substring(1);
-					}
-				}
-				t.setRelativeTargetPath(rPath);
-			}
 			LOG.info(String
-					.format("Found a file, absolutePath: %s, relative path: %s, file name: %s, relative targe path: %s",
-							t.getAbsolutePath(), t.getRelativePath(),
+					.format("Found a file, absolutePath: %s, file name: %s, relative targe path: %s",
+							t.getAbsolutePath(),
 							t.getName(), t.getRelativeTargetPath()));
 			results.add(t);
 		}
 
 	}
 
-	private String templatePathWithoutClasspath;
-
-	private String _getTemplatePathWithoutClasspath() {
-		if (templatePathWithoutClasspath == null) {
-			templatePathWithoutClasspath = getTemplatePath().substring(
-					DResourceUtils.CLASSPATH_URL_PREFIX.length());
-		}
-		return templatePathWithoutClasspath;
-	}
 }

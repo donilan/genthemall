@@ -26,15 +26,7 @@ public class ClasspathTemplateFinder extends AbstractTemplateFinder implements
 			ClasspathFileFinder cff = new ClasspathFileFinder();
 			ArchiveInputStream in = DResourceUtils.getResourceAsArchiveInputStream(this
 					.getTemplatePath());
-			if (in != null) {
-				
-				cff.walk(in, templates);
-			} else {
-				FileTemplateFinder ftf = new FileTemplateFinder();
-				ftf.setTemplatePath(this.getTemplatePath());
-				ftf.runFinder(templates);
-			}
-
+			cff.walk(in, templates);
 		} catch (IOException e) {
 			throw new GenthemallException(e);
 		}
@@ -50,12 +42,11 @@ public class ClasspathTemplateFinder extends AbstractTemplateFinder implements
 				Template t = new Template();
 				t.setName(FilenameUtils.getName(name));
 				t.setAbsolutePath(DResourceUtils.CLASSPATH_URL_PREFIX + name);
-				t.setRelativePath(name);
 				t.setRelativeTargetPath(name
 						.substring(_getTemplatePathWithoutClasspath().length() + 1));
 				LOG.info(String
-						.format("Found a file, absolutePath: %s, relative path: %s, file name: %s, relative targe path: %s",
-								t.getAbsolutePath(), t.getRelativePath(),
+						.format("Found a file, absolutePath: %s, file name: %s, relative targe path: %s",
+								t.getAbsolutePath(),
 								t.getName(), t.getRelativeTargetPath()));
 				results.add(t);
 			}

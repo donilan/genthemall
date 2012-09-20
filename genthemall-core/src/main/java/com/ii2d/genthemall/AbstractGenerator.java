@@ -19,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ii2d.dbase.util.Assert;
+import com.ii2d.dbase.util.DFileNameUtils;
 import com.ii2d.dbase.util.DResourceUtils;
 import com.ii2d.genthemall.exception.GenthemallException;
 
@@ -76,9 +77,7 @@ public abstract class AbstractGenerator implements Generator {
 
 	public String getDestFile() {
 		Assert.hasText(this.destFile);
-		if (destFile.startsWith("/") || destFile.startsWith("\\")) {
-			destFile = destFile.substring(1);
-		}
+		destFile = DFileNameUtils.removeFirstSeparator(destFile);
 		// Replace to final target string.
 		replaceTarget();
 		return FilenameUtils.concat(getDestPath(), destFile);

@@ -7,7 +7,8 @@ import junit.framework.TestCase;
 public class TemplateFinderTests extends TestCase {
 
 	public void testFindTemplates() {
-		//new TemplateFinder("src").findTemplates();
+		TemplateFinder tf =new FileTemplateFinder();
+		tf.setTemplatePath("src/main");
 	}
 	
 	public void testFindClassPathFile() throws IOException {

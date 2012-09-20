@@ -28,11 +28,11 @@
 
 	<!-- select by id sql -->
 	<select id="select_by_id_User" useCache="true" resultMap="user" >
-		SELECT * FROM user WHERE id = #{value}
+		SELECT * FROM USER WHERE id = #{value}
 	</select>
 
 	<select id="select_User" resultMap="user" >
-		SELECT * FROM user
+		SELECT * FROM USER
 		<trim prefix="WHERE" prefixOverrides="OR|AND">
 			
 			<if test="orEq.userTypeId != null">OR user_type_id = #{orEq.userTypeId}</if>
@@ -138,7 +138,7 @@
 	</select>
 	<!-- Count table. -->
 	<select id="count_User" resultType="java.lang.Long">
-		SELECT COUNT(1) FROM user
+		SELECT COUNT(1) FROM USER
 		<trim prefix="WHERE" prefixOverrides="OR|AND">
 			
 			<if test="orEq.userTypeId != null">OR user_type_id = #{orEq.userTypeId}</if>
@@ -231,7 +231,7 @@
 	</select>
 	
 	<insert id="insert_User" parameterType="com.ii2d.model.User">
-		INSERT INTO user (user_type_id, old_id, login_id, password, status, create_date, name, id_card, zip_code, phone, telephone, area_code, address, last_login_time, last_login_ip, recent_login_time, recent_login_ip)
+		INSERT INTO USER (user_type_id, old_id, login_id, password, status, create_date, name, id_card, zip_code, phone, telephone, area_code, address, last_login_time, last_login_ip, recent_login_time, recent_login_ip)
 		VALUES (#{userTypeId}
 			, #{oldId}
 			, #{loginId}
@@ -258,7 +258,7 @@
 
 
 	<update id="update_User" parameterType="com.ii2d.model.User">
-		UPDATE user SET
+		UPDATE USER SET
 		<trim prefixOverrides=",">
 			
 			<if test="userTypeId != null">, user_type_id = #{userTypeId}</if>
@@ -285,7 +285,7 @@
 
 	<delete id="delete_User" >
 	
-		UPDATE user SET status = -1
+		UPDATE USER SET status = -1
 	
 	</delete>
 

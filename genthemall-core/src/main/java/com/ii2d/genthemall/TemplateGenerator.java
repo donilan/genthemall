@@ -14,10 +14,9 @@ import org.apache.commons.logging.LogFactory;
 import com.ii2d.dbase.util.DNameUtils;
 import com.ii2d.dbase.util.DResourceUtils;
 import com.ii2d.genthemall.exception.GenthemallException;
-import com.ii2d.genthemall.template.ClasspathTemplateFinder;
 import com.ii2d.genthemall.template.Template;
-import com.ii2d.genthemall.template.FileTemplateFinder;
 import com.ii2d.genthemall.template.TemplateFinder;
+import com.ii2d.genthemall.template.TemplateFinderFactory;
 
 public class TemplateGenerator extends AbstractGenerator {
 
@@ -29,6 +28,8 @@ public class TemplateGenerator extends AbstractGenerator {
 	protected String configFilePath;
 	protected String templatePath;
 	protected List<Template> templates;
+	protected List<String> includeConfig;
+	protected List<String> excludeConfig;
 	private ConfigObject toBeUsed;
 
 	@Override
@@ -40,14 +41,7 @@ public class TemplateGenerator extends AbstractGenerator {
 	@Override
 	public void generate() {
 		if (templates == null) {
-			TemplateFinder finder = null;
-			if (getTemplateFilePath().startsWith(
-					DResourceUtils.CLASSPATH_URL_PREFIX)) {
-				finder = new ClasspathTemplateFinder();
-			} else {
-				finder = new FileTemplateFinder();
-			}
-			finder.setTemplatePath(this.getTemplateFilePath());
+			TemplateFinder finder = TemplateFinderFactory.create(this.getTemplateFilePath());
 			templates = finder.findTemplates();
 			LOG.info(String.format("Found %d template files in path: %s",
 					templates.size(), this.getTemplateFilePath()));
@@ -65,6 +59,7 @@ public class TemplateGenerator extends AbstractGenerator {
 			Iterator<String> keysIt = configs.keySet().iterator();
 			while (keysIt.hasNext()) {
 				String key = keysIt.next();
+				if(isSkipThisConfig(key)) continue;
 				Object tmp = configs.get(key);
 				if (tmp instanceof ConfigObject) {
 					ConfigObject config = (ConfigObject) tmp;
@@ -81,6 +76,30 @@ public class TemplateGenerator extends AbstractGenerator {
 		} catch (IOException e) {
 			throw new GenthemallException(e);
 		}
+	}
+
+	/**
+	 * 是否跳过这个配置
+	 * @author Doni
+	 * @since 2012-9-20
+	 */
+	private boolean isSkipThisConfig(String key) {
+		if(includeConfig != null) {
+			for(String c: includeConfig) {
+				if(c.equals(key)) {
+					return false;
+				}
+			}
+		}
+		if(excludeConfig != null) {
+			for(String c: excludeConfig) {
+				if(c.equals(key)) {
+					return true;
+				}
+			}
+		}
+			
+		return false;
 	}
 
 	/**
