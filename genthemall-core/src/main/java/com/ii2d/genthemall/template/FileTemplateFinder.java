@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.DirectoryWalker;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -55,7 +56,8 @@ public class FileTemplateFinder extends AbstractTemplateFinder implements
 			Template t = new Template();
 			t.setAbsolutePath(file.getAbsolutePath());
 			t.setRelativePath(file.getPath());
-			t.setRelativeTargetPath(file.getPath().substring(getTemplatePath().length()+1));
+			t.setRelativeTargetPath(file.getPath().substring(
+					getTemplatePath().length() + 1));
 			t.setName(file.getName());
 
 			// remove prefix
@@ -64,6 +66,16 @@ public class FileTemplateFinder extends AbstractTemplateFinder implements
 				t.setRelativeTargetPath(rPath.substring(rPath
 						.indexOf(_getTemplatePathWithoutClasspath())
 						+ _getTemplatePathWithoutClasspath().length() + 1));
+			} else if (rPath.indexOf(getTemplatePath()) > 0) {
+				rPath = rPath.substring(rPath
+						.indexOf(getTemplatePath())
+						+ getTemplatePath().length());
+				if(StringUtils.isNotBlank(rPath)) {
+					if(rPath.startsWith("/")) {
+						rPath = rPath.substring(1);
+					}
+				}
+				t.setRelativeTargetPath(rPath);
 			}
 			LOG.info(String
 					.format("Found a file, absolutePath: %s, relative path: %s, file name: %s, relative targe path: %s",
