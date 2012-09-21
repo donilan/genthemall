@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ${packageName}.model.${pascalName};
 
@@ -26,6 +26,20 @@ public class ${pascalName}AdminController extends com.ii2d.dbase.web.controller.
 		model.addAttribute(list);
 		return "admin/${camelName}/list";
 	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public @ResponseBody String create(@ModelAttribute(value="${camelName}") ${pascalName} instance) {
+		commonService.insert(instance);
+		return "success";
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value="{id}")
+	public @ResponseBody String update(@ModelAttribute(value="${camelName}") ${pascalName} instance) {
+		//TODO 没有绑定变量
+		commonService.update(instance);
+		return "success";
+	}
+	
 
 	@Override
 	public String getControllerName() {
