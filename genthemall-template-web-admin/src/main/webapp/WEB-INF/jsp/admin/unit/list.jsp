@@ -19,23 +19,23 @@
 	<tr class="${s.count % 2 eq 0 ? 'even' : 'odd' } ${s.first? 'first': s.last ? 'last': ''}">
 		<td class="name editable" title="${vo.name}" >
 			<span>${vo.name}</span>
-			<input class="hide" type="text" name="name" value="${vo.name}" />
+			<input length="255" class="hide" type="text" name="name" value="${vo.name}" />
 		</td>
 		<td class="simplePinYinName editable" title="${vo.simplePinYinName}" >
 			<span>${vo.simplePinYinName}</span>
-			<input class="hide" type="text" name="simplePinYinName" value="${vo.simplePinYinName}" />
+			<input length="255" class="hide" type="text" name="simplePinYinName" value="${vo.simplePinYinName}" />
 		</td>
 		<td class="pinYinName editable" title="${vo.pinYinName}" >
 			<span>${vo.pinYinName}</span>
-			<input class="hide" type="text" name="pinYinName" value="${vo.pinYinName}" />
+			<input length="255" class="hide" type="text" name="pinYinName" value="${vo.pinYinName}" />
 		</td>
 		<td class="showOrder editable" title="${vo.showOrder}" >
 			<span>${vo.showOrder}</span>
-			<input class="hide" type="text" name="showOrder" value="${vo.showOrder}" />
+			<input length="11" class="hide" type="text" name="showOrder" value="${vo.showOrder}" />
 		</td>
 		<td class="unitTypeId editable" title="${vo.unitTypeId}" >
 			<span>${vo.unitTypeId}</span>
-			<input class="hide" type="text" name="unitTypeId" value="${vo.unitTypeId}" />
+			<input length="11" class="hide" type="text" name="unitTypeId" value="${vo.unitTypeId}" />
 		</td>
 		
 		<td class="hide id-holder" >

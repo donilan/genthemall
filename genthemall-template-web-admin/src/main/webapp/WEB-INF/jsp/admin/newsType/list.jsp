@@ -18,19 +18,19 @@
 	<tr class="${s.count % 2 eq 0 ? 'even' : 'odd' } ${s.first? 'first': s.last ? 'last': ''}">
 		<td class="name editable" title="${vo.name}" >
 			<span>${vo.name}</span>
-			<input class="hide" type="text" name="name" value="${vo.name}" />
+			<input length="255" class="hide" type="text" name="name" value="${vo.name}" />
 		</td>
 		<td class="status editable" title="${vo.status}" >
 			<span>${vo.status}</span>
-			<input class="hide" type="text" name="status" value="${vo.status}" />
+			<input length="11" class="hide" type="text" name="status" value="${vo.status}" />
 		</td>
 		<td class="parentTreeCode editable" title="${vo.parentTreeCode}" >
 			<span>${vo.parentTreeCode}</span>
-			<input class="hide" type="text" name="parentTreeCode" value="${vo.parentTreeCode}" />
+			<input length="255" class="hide" type="text" name="parentTreeCode" value="${vo.parentTreeCode}" />
 		</td>
 		<td class="treeCode editable" title="${vo.treeCode}" >
 			<span>${vo.treeCode}</span>
-			<input class="hide" type="text" name="treeCode" value="${vo.treeCode}" />
+			<input length="255" class="hide" type="text" name="treeCode" value="${vo.treeCode}" />
 		</td>
 		
 		<td class="hide id-holder" >

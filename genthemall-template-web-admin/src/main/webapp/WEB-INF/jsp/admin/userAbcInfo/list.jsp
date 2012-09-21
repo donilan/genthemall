@@ -19,23 +19,23 @@
 	<tr class="${s.count % 2 eq 0 ? 'even' : 'odd' } ${s.first? 'first': s.last ? 'last': ''}">
 		<td class="authorizeStatus editable" title="${vo.authorizeStatus}" >
 			<span>${vo.authorizeStatus}</span>
-			<input class="hide" type="text" name="authorizeStatus" value="${vo.authorizeStatus}" />
+			<input length="11" class="hide" type="text" name="authorizeStatus" value="${vo.authorizeStatus}" />
 		</td>
 		<td class="customerName editable" title="${vo.customerName}" >
 			<span>${vo.customerName}</span>
-			<input class="hide" type="text" name="customerName" value="${vo.customerName}" />
+			<input length="20" class="hide" type="text" name="customerName" value="${vo.customerName}" />
 		</td>
 		<td class="customerNo editable" title="${vo.customerNo}" >
 			<span>${vo.customerNo}</span>
-			<input class="hide" type="text" name="customerNo" value="${vo.customerNo}" />
+			<input length="20" class="hide" type="text" name="customerNo" value="${vo.customerNo}" />
 		</td>
 		<td class="signStatus editable" title="${vo.signStatus}" >
 			<span>${vo.signStatus}</span>
-			<input class="hide" type="text" name="signStatus" value="${vo.signStatus}" />
+			<input length="11" class="hide" type="text" name="signStatus" value="${vo.signStatus}" />
 		</td>
 		<td class="userId editable" title="${vo.userId}" >
 			<span>${vo.userId}</span>
-			<input class="hide" type="text" name="userId" value="${vo.userId}" />
+			<input length="11" class="hide" type="text" name="userId" value="${vo.userId}" />
 		</td>
 		
 		<td class="hide id-holder" >

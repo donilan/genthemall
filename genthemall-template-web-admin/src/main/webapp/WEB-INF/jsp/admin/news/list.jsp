@@ -24,23 +24,23 @@
 		</td>
 		<td class="source editable" title="${vo.source}" >
 			<span>${vo.source}</span>
-			<input class="hide" type="text" name="source" value="${vo.source}" />
+			<input length="255" class="hide" type="text" name="source" value="${vo.source}" />
 		</td>
 		<td class="status editable" title="${vo.status}" >
 			<span>${vo.status}</span>
-			<input class="hide" type="text" name="status" value="${vo.status}" />
+			<input length="11" class="hide" type="text" name="status" value="${vo.status}" />
 		</td>
 		<td class="title editable" title="${vo.title}" >
 			<span>${vo.title}</span>
-			<input class="hide" type="text" name="title" value="${vo.title}" />
+			<input length="1023" class="hide" type="text" name="title" value="${vo.title}" />
 		</td>
 		<td class="content editable" title="${vo.content}" >
 			<span>${vo.content}</span>
-			<input class="hide" type="text" name="content" value="${vo.content}" />
+			<input length="21845" class="hide" type="text" name="content" value="${vo.content}" />
 		</td>
 		<td class="newsTypeId editable" title="${vo.newsTypeId}" >
 			<span>${vo.newsTypeId}</span>
-			<input class="hide" type="text" name="newsTypeId" value="${vo.newsTypeId}" />
+			<input length="11" class="hide" type="text" name="newsTypeId" value="${vo.newsTypeId}" />
 		</td>
 		
 		<td class="hide id-holder" >

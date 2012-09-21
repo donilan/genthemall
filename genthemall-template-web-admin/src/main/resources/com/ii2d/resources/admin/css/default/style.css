@@ -175,7 +175,9 @@
 #right-side .list-table {
 	border-collapse: collapse;
 }
-
+#right-side .list-table td {
+	overflow: hidden;
+}
 #right-side .list-table .editable {
 	overflow: hidden;
 	width: 150px;

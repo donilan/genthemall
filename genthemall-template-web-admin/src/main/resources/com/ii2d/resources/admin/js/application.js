@@ -4,7 +4,7 @@ var LI = '<li/>';
 var A = '<a href="###" />';
 var SPAN = '<span/>';
 var DEBUG = true;
-
+var SMALL_TEXT_LENGTH = 12;
 if(typeof console === 'undefined') {
 	window.console = new Object();
 	if(DEBUG)
@@ -55,6 +55,10 @@ function initTopbarClickEvent(topbar, tabs) {
  */
 function initTableEditor(ui) {
 	var $tabPanel = $(ui.panel);
+	var isChanged = false;
+	$tabPanel.find('td span').each(function(i, el){
+		smallTextLength($(el));
+	});
 	$tabPanel.find('.editable').click(function(){
 		$(this).find('span').hide();
 		$(this).find('input').show().focus();
@@ -63,18 +67,22 @@ function initTableEditor(ui) {
 		var $in = $(this);
 		$in.hide();
 		$in.parent().find('span').show();
+		//如果未修改过，则操作完毕
+		if(!isChanged) return;
 		var $idInput = $in.parent().parent().find('.id-holder input');
 		var data = [];
 		data[$in.attr('name')] = $in.val();
 		$.ajax({
 			url: contextPath + 'admin/' + ui.tab.hash.substring(1) + '/' + $idInput.val(),
-			type: 'PUT',
+			type: 'POST',
 			data: {'name': $in.val()}
 		}).done(function(data){
-			console.log(data);
+			log(data);
+			isChanged = false;
 		});
 	}).change(function(){
 		$(this).parent().find('span').text($(this).val());
+		isChanged = true;
 	});
 }
 
@@ -171,4 +179,31 @@ function getMenus() {
 		}
 	});
 	return menus;
+}
+/**
+ * @see #fixTextLength($el, len, suffix)
+ */
+function smallTextLength($el) {
+	fixTextLength($el, SMALL_TEXT_LENGTH);
+}
+/**
+ * 修正元素的文本数据长度
+ * @param $el 元素jquery对象
+ * @param len 长度
+ * @param suffix 后缀，例如...
+ */
+function fixTextLength($el, len, suffix) {
+	if(!suffix)
+		suffix = '...';
+	var text = $el.text();
+	if(text.length > len) {
+		$el.text(text.substring(0, len) + suffix);
+	}
+}
+
+function debug(msg) {
+	
+}
+function log(msg) {
+	
 }

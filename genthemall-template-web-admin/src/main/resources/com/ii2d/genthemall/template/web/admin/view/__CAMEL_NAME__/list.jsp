@@ -21,14 +21,14 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 				def clazz = "${it.camelName } ${it.isEditable? 'editable': ''}"
 				def editor = ""
 				if(it.isEditable) {
-					editor = """<input class="hide" type="text" name="${it.camelName }" value="\${vo.${it.camelName}}" />"""
+					editor = """<input length="${it.maxLength}" class="hide" type="text" name="${it.camelName }" value="\${vo.${it.camelName}}" />"""
 				}
 				if(it.classType == 'java.util.Date') {
 					title = """<fmt:formatDate value="\${vo.${it.camelName }}" pattern="yyyy-MM-dd HH:mm:ss" />"""
 					val = """<fmt:formatDate value="\${vo.${it.camelName }}" pattern="yyyy-MM-dd" />"""
 					clazz = "date ${it.camelName } ${it.isEditable? 'editable': ''}"
 					if(it.isEditable) {
-						editor = """<input class="datetimepicker hide" type="text" name="${it.camelName }" value="\${vo.${it.camelName}}" />"""
+						editor = """<input class="datetimepicker hide" type="text" name="${it.camelName }" value="${title}" />"""
 					}
 				}
 					

@@ -17,7 +17,7 @@
 	<tr class="${s.count % 2 eq 0 ? 'even' : 'odd' } ${s.first? 'first': s.last ? 'last': ''}">
 		<td class="name editable" title="${vo.name}" >
 			<span>${vo.name}</span>
-			<input class="hide" type="text" name="name" value="${vo.name}" />
+			<input length="255" class="hide" type="text" name="name" value="${vo.name}" />
 		</td>
 		<td class="date createDate " title="<fmt:formatDate value="${vo.createDate}" pattern="yyyy-MM-dd HH:mm:ss" />" >
 			<span><fmt:formatDate value="${vo.createDate}" pattern="yyyy-MM-dd" /></span>
@@ -25,7 +25,7 @@
 		</td>
 		<td class="status editable" title="${vo.status}" >
 			<span>${vo.status}</span>
-			<input class="hide" type="text" name="status" value="${vo.status}" />
+			<input length="11" class="hide" type="text" name="status" value="${vo.status}" />
 		</td>
 		
 		<td class="hide id-holder" >

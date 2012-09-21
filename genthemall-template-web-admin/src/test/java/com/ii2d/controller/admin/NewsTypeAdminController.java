@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,13 +29,17 @@ public class NewsTypeAdminController extends com.ii2d.dbase.web.controller.Abstr
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody String create(@ModelAttribute(value="newsType") NewsType instance) {
+	public @ResponseBody String create(
+			@ModelAttribute(value="newsType") NewsType instance) {
 		commonService.insert(instance);
 		return "success";
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, value="{id}")
-	public @ResponseBody String update(@ModelAttribute(value="newsType") NewsType instance) {
+	@RequestMapping(method = RequestMethod.POST, value="{id}")
+	public @ResponseBody String update(
+			@ModelAttribute(value="newsType") NewsType instance,
+			@PathVariable(value = "id") java.lang.Integer id) {
+		instance.setId(id);
 		commonService.update(instance);
 		return "success";
 	}

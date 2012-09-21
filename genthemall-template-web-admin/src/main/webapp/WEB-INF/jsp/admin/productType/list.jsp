@@ -23,27 +23,27 @@
 	<tr class="${s.count % 2 eq 0 ? 'even' : 'odd' } ${s.first? 'first': s.last ? 'last': ''}">
 		<td class="name editable" title="${vo.name}" >
 			<span>${vo.name}</span>
-			<input class="hide" type="text" name="name" value="${vo.name}" />
+			<input length="255" class="hide" type="text" name="name" value="${vo.name}" />
 		</td>
 		<td class="showOrder editable" title="${vo.showOrder}" >
 			<span>${vo.showOrder}</span>
-			<input class="hide" type="text" name="showOrder" value="${vo.showOrder}" />
+			<input length="11" class="hide" type="text" name="showOrder" value="${vo.showOrder}" />
 		</td>
 		<td class="description editable" title="${vo.description}" >
 			<span>${vo.description}</span>
-			<input class="hide" type="text" name="description" value="${vo.description}" />
+			<input length="1023" class="hide" type="text" name="description" value="${vo.description}" />
 		</td>
 		<td class="parentTreeCode editable" title="${vo.parentTreeCode}" >
 			<span>${vo.parentTreeCode}</span>
-			<input class="hide" type="text" name="parentTreeCode" value="${vo.parentTreeCode}" />
+			<input length="255" class="hide" type="text" name="parentTreeCode" value="${vo.parentTreeCode}" />
 		</td>
 		<td class="treeCode editable" title="${vo.treeCode}" >
 			<span>${vo.treeCode}</span>
-			<input class="hide" type="text" name="treeCode" value="${vo.treeCode}" />
+			<input length="255" class="hide" type="text" name="treeCode" value="${vo.treeCode}" />
 		</td>
 		<td class="status editable" title="${vo.status}" >
 			<span>${vo.status}</span>
-			<input class="hide" type="text" name="status" value="${vo.status}" />
+			<input length="11" class="hide" type="text" name="status" value="${vo.status}" />
 		</td>
 		<td class="date createDate " title="<fmt:formatDate value="${vo.createDate}" pattern="yyyy-MM-dd HH:mm:ss" />" >
 			<span><fmt:formatDate value="${vo.createDate}" pattern="yyyy-MM-dd" /></span>
@@ -51,11 +51,11 @@
 		</td>
 		<td class="pinYinName editable" title="${vo.pinYinName}" >
 			<span>${vo.pinYinName}</span>
-			<input class="hide" type="text" name="pinYinName" value="${vo.pinYinName}" />
+			<input length="255" class="hide" type="text" name="pinYinName" value="${vo.pinYinName}" />
 		</td>
 		<td class="parentId editable" title="${vo.parentId}" >
 			<span>${vo.parentId}</span>
-			<input class="hide" type="text" name="parentId" value="${vo.parentId}" />
+			<input length="11" class="hide" type="text" name="parentId" value="${vo.parentId}" />
 		</td>
 		
 		<td class="hide id-holder" >
