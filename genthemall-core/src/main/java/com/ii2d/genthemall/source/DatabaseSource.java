@@ -15,6 +15,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ii2d.dbase.util.Assert;
 import com.ii2d.genthemall.exception.GenthemallException;
 
 public class DatabaseSource extends ConfigObject {
@@ -24,6 +25,8 @@ public class DatabaseSource extends ConfigObject {
 
 	@SuppressWarnings("unchecked")
 	public DatabaseSource(DataSource dataSource, String table) {
+		Assert.notNull(dataSource);
+		Assert.hasLength(table);
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		final ConfigObject that = this;
 		
