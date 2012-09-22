@@ -18,7 +18,7 @@
 			<artifactId>dbase-utils</artifactId>
 			<version>${dbase.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>

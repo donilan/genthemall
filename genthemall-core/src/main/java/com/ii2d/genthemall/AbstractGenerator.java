@@ -26,6 +26,29 @@ import com.ii2d.genthemall.exception.GenthemallException;
 public abstract class AbstractGenerator implements Generator {
 
 	private static final Log LOG = LogFactory.getLog(AbstractGenerator.class);
+	
+	private Map<String, String> targetPathMap = new HashMap<String, String>();
+	
+	public AbstractGenerator() {
+		targetPathMap.put("javaCode", "src/test/java");
+		targetPathMap.put("resources", "src/test/resources");
+		targetPathMap.put("web", "src/webapp");
+		targetPathMap.put("default", "target/genthemall");
+	}
+	
+	public Map<String, String> getTargetPathMap() {
+		return targetPathMap;
+	}
+
+	public void setTargetPathMap(Map<String, String> map) {
+		targetPathMap.putAll(map);
+	}
+	
+	
+	
+	
+	
+	
 
 	private static final String _DEFAULT_DIST_PATH = "target/genthemall/";
 
