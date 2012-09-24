@@ -20,6 +20,14 @@ public class TemplateInfo {
 	private String generator;
 	private List<String> templates;
 	private String targetPath;
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getName() {
 		return name;
 	}

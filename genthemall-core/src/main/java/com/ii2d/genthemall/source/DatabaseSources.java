@@ -23,14 +23,14 @@ public class DatabaseSources extends AbstractSources {
 	private static final long serialVersionUID = 1L;
 	public static final Log LOG = LogFactory.getLog(DatabaseSources.class);
 	private DataSource dataSource;
-	private String tables;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initResources() {
+		String tablesStr = (String) get("tables");
 		Assert.notNull(dataSource);
-		Assert.hasLength(tables);
-		String tables[] = this.tables.split(",");
+		Assert.hasLength(tablesStr);
+		String tables[] = tablesStr.split(",");
 		for (String table : tables) {
 			QueryRunner queryRunner = new QueryRunner(dataSource);
 			final ConfigObject subConfig = new ConfigObject();
@@ -98,14 +98,5 @@ public class DatabaseSources extends AbstractSources {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-
-	public String getTables() {
-		return tables;
-	}
-
-	public void setTables(String tables) {
-		this.tables = tables;
-	}
-
 	
 }

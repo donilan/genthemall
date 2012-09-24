@@ -8,9 +8,7 @@ import groovy.util.ConfigObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -19,23 +17,33 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ii2d.dbase.util.Assert;
-import com.ii2d.dbase.util.DFileNameUtils;
 import com.ii2d.dbase.util.DResourceUtils;
+import com.ii2d.dbase.util.DStringUtils;
 import com.ii2d.genthemall.exception.GenthemallException;
+import com.ii2d.genthemall.source.Sources;
+import com.ii2d.genthemall.template.TemplateInfo;
 
 public abstract class AbstractGenerator implements Generator {
 
 	private static final Log LOG = LogFactory.getLog(AbstractGenerator.class);
 	
-	private Map<String, String> targetPathMap = new HashMap<String, String>();
-	
+	public static final String TARGET_TYPE_DEFAULT = "default";
+	public static final String TARGET_TYPE_WEB = "web";
+	public static final String TARGET_TYPE_RESOURCES = "resources";
+	public static final String TARGET_TYPE_JAVA_CODE = "javaCode";
+
+	protected Map<String, String> targetPathMap = new HashMap<String, String>();
+
+	protected TemplateInfo templateInfo;
+	protected Sources sources;
+
 	public AbstractGenerator() {
-		targetPathMap.put("javaCode", "src/test/java");
-		targetPathMap.put("resources", "src/test/resources");
-		targetPathMap.put("web", "src/webapp");
-		targetPathMap.put("default", "target/genthemall");
+		targetPathMap.put(TARGET_TYPE_JAVA_CODE, "src/test/java");
+		targetPathMap.put(TARGET_TYPE_RESOURCES, "src/test/resources");
+		targetPathMap.put(TARGET_TYPE_WEB, "src/webapp");
+		targetPathMap.put(TARGET_TYPE_DEFAULT, "target/genthemall");
 	}
-	
+
 	public Map<String, String> getTargetPathMap() {
 		return targetPathMap;
 	}
@@ -43,114 +51,73 @@ public abstract class AbstractGenerator implements Generator {
 	public void setTargetPathMap(Map<String, String> map) {
 		targetPathMap.putAll(map);
 	}
-	
-	
-	
-	
-	
-	
 
-	private static final String _DEFAULT_DIST_PATH = "target/genthemall/";
-
-	// dist path
-	protected String destPath;
-	// target file name
-	protected String destFile;
-	// Map for replace string
-	protected Map<String, String> replaceMap = new HashMap<String, String>();
-	// template file path
-	protected String templateFilePath;
-
-	/**
-	 * 
-	 * @author Doni
-	 * @since 2012-9-11
-	 * @return A map for data binding.
-	 */
-	abstract ConfigObject getBindingData();
-
-	/**
-	 * add a path replace string
-	 * 
-	 * @author Doni
-	 * @since 2012-9-11
-	 * @param target
-	 *            Replaces target
-	 * @param replace
-	 *            String for replace
-	 */
-	public void addReplaceString(String target, String replace) {
-		replaceMap.put(target, replace);
+	public TemplateInfo getTemplateInfo() {
+		return templateInfo;
 	}
 
-	/**
-	 * Replace the target path and file name.
-	 * 
-	 * @author Doni
-	 * @since 2012-9-11
-	 */
-	protected void replaceTarget() {
-		Iterator<Entry<String, String>> it = replaceMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, String> entry = it.next();
-			destFile = destFile
-					.replaceAll(entry.getKey(), entry.getValue());
-		}
+	public void setTemplateInfo(TemplateInfo templateInfo) {
+		this.templateInfo = templateInfo;
 	}
 
-	public String getDestFile() {
-		Assert.hasText(this.destFile);
-		destFile = DFileNameUtils.removeFirstSeparator(destFile);
-		// Replace to final target string.
-		replaceTarget();
-		return FilenameUtils.concat(getDestPath(), destFile);
+	public Sources getSources() {
+		return sources;
+	}
+
+	public void setSources(Sources sources) {
+		this.sources = sources;
 	}
 
 	public void generate() {
-		Assert.hasText(this.getTemplateFilePath());
-		Assert.hasText(this.getDestFile());
+		generate(Sources.ONE_RESOURCE);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void generate(String sourceName) {
+		Assert.notNull(sources);
+		Assert.notNull(templateInfo);
 		SimpleTemplateEngine engine = new SimpleTemplateEngine();
-
+		ConfigObject data = sources.getSource(sourceName);
 		try {
-			LOG.info(String.format("Loading Config template [%s]...", this.getTemplateFilePath()));
+			LOG.info(String.format("Loading template info[%s]...",
+					templateInfo.getName()));
+			for (String templatePath : templateInfo.getTemplates()) {
 
-			Template template = engine.createTemplate(DResourceUtils
-					.getResourceAsReader(this.getTemplateFilePath()));
-			Writable writable = template.make(getBindingData());
-			File out = new File(this.getDestFile());
-			FileUtils.touch(out);
-			FileWriter f = new FileWriter(out);
-			LOG.info("Generating config file to: " + this.getDestFile());
-			writable.writeTo(f);
-			f.close();
+				// Base path for dest file.
+				String basePath = this.targetPathMap
+						.get(templateInfo.getType());
+				if (StringUtils.isBlank(basePath)) {
+					LOG.info(
+							"Template type in properties file is not defined or this type: ["
+									+ templateInfo.getType() + "] not found. So use default.");
+					basePath = this.targetPathMap.get(TARGET_TYPE_DEFAULT);
+				}
+				String destDir = FilenameUtils.concat(basePath,
+						templateInfo.getTargetPath());
+				String originPath = FilenameUtils.concat(destDir, templatePath);
+				String templateDestPath = FilenameUtils.getName(originPath);
+				// End path handler
+
+				
+				Template template = engine.createTemplate(DResourceUtils
+						.getResourceAsReader(templatePath));
+				Writable writable = template.make(data);
+
+				String destPath = DStringUtils.replaceAll(templateDestPath,
+						data);
+
+				File out = new File(destPath);
+				FileUtils.touch(out);
+				FileWriter f = new FileWriter(out);
+				LOG.info("Generating dest file to: " + destPath);
+				writable.writeTo(f);
+				f.close();
+
+			}
 			LOG.info("Finish generating.\n");
 		} catch (Exception e) {
 			throw new GenthemallException(e);
 		}
-	}
-
-	public String getDestPath() {
-		return StringUtils.isBlank(destPath) ? _DEFAULT_DIST_PATH : destPath;
-	}
-
-	public void setDestPath(String destPath) {
-		this.destPath = destPath;
-	}
-
-	/**
-	 * Template file cann't use "classpath:" or "file:", by default is "file:"
-	 * 
-	 * @author Doni
-	 * @since 2012-9-11
-	 * @param templatePath
-	 *            The template file path
-	 */
-	public void setTemplateFilePath(String templatePath) {
-		this.templateFilePath = templatePath;
-	}
-
-	public String getTemplateFilePath() {
-		return templateFilePath;
 	}
 
 }

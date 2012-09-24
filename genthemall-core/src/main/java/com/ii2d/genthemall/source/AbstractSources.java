@@ -13,7 +13,7 @@ public abstract class AbstractSources extends ConfigObject implements Sources {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(AbstractSources.class);
-	public static final String ONE_RESOURCE = "ONE-RESOURCE";
+	
 	private boolean isInit = false;
 	
 	protected boolean isInit() {
@@ -30,7 +30,7 @@ public abstract class AbstractSources extends ConfigObject implements Sources {
 	}
 	
 	@Override
-	public ConfigObject getResource(String name) {
+	public ConfigObject getSource(String name) {
 		_init();
 		if(ONE_RESOURCE.equals(name))
 			return this;

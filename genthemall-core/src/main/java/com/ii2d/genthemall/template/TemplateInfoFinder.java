@@ -50,7 +50,7 @@ public class TemplateInfoFinder {
 		return null;
 	}
 	
-	public void setScanPackage(String scanPackage) {
+	public void setScanPath(String scanPackage) {
 		this.scanPackage = scanPackage;
 	}
 

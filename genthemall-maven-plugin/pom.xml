@@ -12,9 +12,6 @@
 	<packaging>maven-plugin</packaging>
 	<name>genthemall-maven-plugin Maven Plugin</name>
 	<url>http://maven.apache.org</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -35,6 +32,28 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.ii2d</groupId>
+				<artifactId>genthemall-maven-plugin</artifactId>
+				<version>${project.version}</version>
+				<configuration>
+					<dataSource>
+						<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+						<url>jdbc:mysql://127.0.0.1:3306/hnwnew</url>
+						<username>root</username>
+						<password>sa</password>
+					</dataSource>
+					<databaseSources>
+						<tables>user</tables>
+					</databaseSources>
+					<configSources>
+						<configFilePath>target/genthemall/mysql.conf</configFilePath>
+					</configSources>
+					<templates>
+						<template>mysqlConfig</template>
+					</templates>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-plugin-plugin</artifactId>
 				<version>2.5.1</version>
