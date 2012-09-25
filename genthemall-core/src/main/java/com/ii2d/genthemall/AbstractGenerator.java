@@ -94,7 +94,7 @@ public abstract class AbstractGenerator implements Generator {
 				}
 				String destDir = FilenameUtils.concat(basePath,
 						templateInfo.getTargetPath());
-				LOG.info(destDir);
+				LOG.info("Template path is: " + templatePath);
 				String templateDestPath = FilenameUtils.concat(destDir, FilenameUtils.getName(templatePath));
 				// End path handler
 

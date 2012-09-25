@@ -22,34 +22,33 @@ import com.ii2d.dbase.util.DResourceUtils;
  * @version $id$
  */
 public class TemplateInfoFinder {
-	
+
 	protected List<TemplateInfo> infos;
 
 	protected String scanPackage;
 
-	public List<TemplateInfo> findAllTemplateInfo()
-			throws IOException {
+	public List<TemplateInfo> findAllTemplateInfo() throws IOException {
 		Assert.hasLength(scanPackage);
-		if(infos != null) {
+		if (infos != null) {
 			return infos;
 		}
 		List<String> infoPropFiles = DResourceFinder.find(scanPackage,
 				new String[] { TemplateInfo.TEMPLATE_INFO_FILE_NAME }, null);
 		infos = new ArrayList<TemplateInfo>();
-		for(String p: infoPropFiles) {
+		for (String p : infoPropFiles) {
 			infos.add(_findTemplateInfo(p));
 		}
 		return infos;
 	}
-	
+
 	public TemplateInfo findTemplateInfoByName(String name) throws IOException {
-		for(TemplateInfo info: findAllTemplateInfo()) {
-			if(info.getName().equals(name))
+		for (TemplateInfo info : findAllTemplateInfo()) {
+			if (info.getName().equals(name))
 				return info;
 		}
 		return null;
 	}
-	
+
 	public void setScanPath(String scanPackage) {
 		this.scanPackage = scanPackage;
 	}
@@ -71,9 +70,10 @@ public class TemplateInfoFinder {
 				e.printStackTrace();
 			}
 		}
-		t.setTemplates(DResourceFinder.find(
-				FilenameUtils.getFullPath(propertiesPath), null,
+		String baseTemplatePath = FilenameUtils.getFullPath(propertiesPath);
+		t.setTemplates(DResourceFinder.find(baseTemplatePath, null,
 				new String[] { TemplateInfo.TEMPLATE_INFO_FILE_NAME }));
+
 		return t;
 	}
 }

@@ -12,6 +12,11 @@
 	<packaging>war</packaging>
 	<name>genthemall-template-web-admin Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	
+	<properties>
+		<genthemall.templates>mysqlConfig,model</genthemall.templates>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.ii2d</groupId>
@@ -38,46 +43,33 @@
 		<finalName>genthemall-template-web-admin</finalName>
 		<plugins>
 			<plugin>
-				<!-- generate config file -->
-				<!-- mvn genthemall-maven-plugin:generate-config -->
-
-				<!-- generate code by template files -->
-				<!-- mvn genthemall-maven-plugin:generate -->
 				<groupId>com.ii2d</groupId>
 				<artifactId>genthemall-maven-plugin</artifactId>
 				<version>${project.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>generate-source</phase>
+					</execution>
+				</executions>
 				<configuration>
-					<!-- for generate config file -->
-					<configTemplateFilePath>classpath:com/ii2d/genthemall/template/commons/conf/mysql.conf</configTemplateFilePath>
-					<configDestPath>${project.build.directory}/genthemall/conf</configDestPath>
-					<tables>unit,unit_type,USER,user_abc_info,user_type,shop,shop_type,product,product_type,news,news_type,menu,menu_type</tables>
 					<dataSource>
-						<driverClassName>com.mysql.jdbc.Driver</driverClassName>
-						<url>jdbc:mysql://127.0.0.1:3306/hnwnew</url>
-						<username>root</username>
-						<password>sa</password>
+						<driverClassName>${dataSource.driver}</driverClassName>
+						<url>${dataSource.url}</url>
+						<username>${dataSource.username}</username>
+						<password>${dataSource.password}</password>
 					</dataSource>
-
-					<!-- for generate code by template files -->
-					<configFilePath>${project.build.directory}/genthemall/conf/mysql.conf</configFilePath>
-					<templateInfos>
-						<templateInfo>
-							<templatePath>classpath:com/ii2d/genthemall/template/commons/model</templatePath>
-							<destPath>src/test/java/</destPath>
-						</templateInfo>
-						<templateInfo>
-							<templatePath>classpath:com/ii2d/genthemall/template/mybatis/mysql</templatePath>
-							<destPath>src/test/resources/</destPath>
-						</templateInfo>
-						<templateInfo>
-							<templatePath>src/main/resources/com/ii2d/genthemall/template/web/admin/controller</templatePath>
-							<destPath>src/test/java</destPath>
-						</templateInfo>
-						<templateInfo>
-							<templatePath>src/main/resources/com/ii2d/genthemall/template/web/admin/view</templatePath>
-							<destPath>src/main/webapp/WEB-INF/jsp/admin</destPath>
-						</templateInfo>
-					</templateInfos>
+					<databaseSources>
+						<tables>user</tables>
+					</databaseSources>
+					<configSources>
+						<configFilePath>target/genthemall/conf/mysql.conf</configFilePath>
+					</configSources>
+					<templates>
+						${genthemall.templates}
+					</templates>
 				</configuration>
 				<dependencies>
 					<dependency>

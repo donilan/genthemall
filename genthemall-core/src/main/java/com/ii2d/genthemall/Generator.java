@@ -17,4 +17,6 @@ public interface Generator {
 	 */
 	void generate();
 	
+	void generate(String name);
+	
 }
