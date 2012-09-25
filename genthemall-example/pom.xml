@@ -12,61 +12,30 @@
 	<name>genthemall-example</name>
 	<url>http://maven.apache.org</url>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.ii2d</groupId>
-			<artifactId>dbase-utils</artifactId>
-			<version>${dbase.version}</version>
-		</dependency>
-
-	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
-				<!-- generate config file -->
-				<!-- mvn genthemall-maven-plugin:generate-config -->
-
-				<!-- generate code by template files -->
-				<!-- mvn genthemall-maven-plugin:generate -->
 				<groupId>com.ii2d</groupId>
 				<artifactId>genthemall-maven-plugin</artifactId>
 				<version>${project.version}</version>
 				<configuration>
-					<!-- for generate config file -->
-					<configTemplateFilePath>classpath:com/ii2d/genthemall/template/commons/conf/mysql.conf</configTemplateFilePath>
-					<configDestPath>${project.build.directory}/genthemall/conf</configDestPath>
-					<tables>user,db,host,time_zone,time_zone_name</tables>
 					<dataSource>
-						<driverClassName>com.mysql.jdbc.Driver</driverClassName>
-						<url>jdbc:mysql://127.0.0.1:3306/mysql</url>
-						<username>root</username>
-						<password>sa</password>
+						<driverClassName>${dataSource.driver}</driverClassName>
+						<url>${dataSource.url}</url>
+						<username>${dataSource.username}</username>
+						<password>${dataSource.password}</password>
 					</dataSource>
-
-					<!-- for generate code by template files -->
-					<configFilePath>${project.build.directory}/genthemall/conf/mysql.conf</configFilePath>
-					<templateInfos>
-						<templateInfo>
-							<templatePath>classpath:com/ii2d/genthemall/template/commons/model</templatePath>
-							<destPath>${project.build.directory}/genthemall/</destPath>
-						</templateInfo>
-						<templateInfo>
-							<templatePath>classpath:com/ii2d/genthemall/template/mybatis/mysql</templatePath>
-							<destPath>${project.build.directory}/genthemall/mybatis/</destPath>
-						</templateInfo>
-						<templateInfo>
-							<templatePath>src/main/template</templatePath>
-							<destPath>${project.build.directory}/genthemall/example/</destPath>
-						</templateInfo>
-					</templateInfos>
+					<databaseSources>
+						<tables>user</tables>
+					</databaseSources>
+					<configSources>
+						<configFilePath>target/genthemall/mysql.conf</configFilePath>
+					</configSources>
+					<templates>
+						${genthemall.templates}
+					</templates>
 				</configuration>
 				<dependencies>
-					<dependency>
-						<groupId>com.ii2d</groupId>
-						<artifactId>genthemall-template-mybatis</artifactId>
-						<version>${project.version}</version>
-					</dependency>
 					<dependency>
 						<groupId>com.ii2d</groupId>
 						<artifactId>genthemall-template-commons</artifactId>

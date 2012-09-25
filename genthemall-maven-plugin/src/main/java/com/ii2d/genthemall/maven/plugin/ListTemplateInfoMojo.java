@@ -27,7 +27,7 @@ public class ListTemplateInfoMojo extends AbstractGenerateMojo {
 		int i = 0;
 		getLog().info(String.format("\nFound [%d] sources in pom.xml config.", sourceName.size()));
 		while(it.hasNext()) {
-			getLog().info(String.format("[%d] %s", i, it.next()));
+			getLog().info(String.format("[%d] %s", ++i, it.next()));
 		}
 		
 		TemplateInfoFinder finder = new TemplateInfoFinder();

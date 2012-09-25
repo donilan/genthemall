@@ -14,6 +14,11 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<dbase.version>0.0.1-SNAPSHOT</dbase.version>
+		<dataSource.url>jdbc:mysql://127.0.0.1:3306/hnwnew</dataSource.url>
+		<dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
+		<dataSource.username>root</dataSource.username>
+		<dataSource.password>sa</dataSource.password>
+		<genthemall.templates>mysqlConfig</genthemall.templates>
 	</properties>
 
 	<dependencies>
@@ -23,6 +28,7 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		
 	</dependencies>
 
 	<distributionManagement>
@@ -46,6 +52,7 @@
 			</extension>
 		</extensions>
 		<plugins>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>

@@ -11,6 +11,11 @@
 	<artifactId>genthemall-template-commons</artifactId>
 	<name>genthemall-template-commons</name>
 	<url>http://maven.apache.org</url>
+	
+	<properties>
+		<genthemall.templates>mysqlConfig</genthemall.templates>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.ii2d</groupId>

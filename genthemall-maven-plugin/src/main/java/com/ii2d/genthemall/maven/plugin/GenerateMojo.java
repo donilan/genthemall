@@ -1,7 +1,5 @@
 package com.ii2d.genthemall.maven.plugin;
 
-import java.util.List;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
@@ -23,17 +21,18 @@ public class GenerateMojo extends AbstractGenerateMojo {
 	/**
 	 * @parameter
 	 */
-	private List<String> templates;
+	private String templates;
 
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		Assert.notNull(templates);
+		Assert.hasLength(templates);
 		_initSourcesMap();
 		try {
 			TemplateInfoFinder finder = new TemplateInfoFinder();
 			finder.setScanPath(this.getScanPackage());
-			for(String template: templates) {
+			
+			for(String template: templates.split(",")) {
 				TemplateInfo t = finder.findTemplateInfoByName(template);
 				Assert.notNull(t, String.format("Template info [%s] not found.", template));
 				Sources s = this.getSourcesMap().get(t.getSourceType());

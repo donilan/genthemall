@@ -12,6 +12,7 @@
 	<packaging>maven-plugin</packaging>
 	<name>genthemall-maven-plugin Maven Plugin</name>
 	<url>http://maven.apache.org</url>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -23,13 +24,8 @@
 			<artifactId>genthemall-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -38,10 +34,10 @@
 				<version>${project.version}</version>
 				<configuration>
 					<dataSource>
-						<driverClassName>com.mysql.jdbc.Driver</driverClassName>
-						<url>jdbc:mysql://127.0.0.1:3306/hnwnew</url>
-						<username>root</username>
-						<password>sa</password>
+						<driverClassName>${dataSource.driver}</driverClassName>
+						<url>${dataSource.url}</url>
+						<username>${dataSource.username}</username>
+						<password>${dataSource.password}</password>
 					</dataSource>
 					<databaseSources>
 						<tables>user</tables>
@@ -50,9 +46,16 @@
 						<configFilePath>target/genthemall/mysql.conf</configFilePath>
 					</configSources>
 					<templates>
-						<template>mysqlConfig</template>
+						${genthemall.templates}
 					</templates>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.ii2d</groupId>
+						<artifactId>genthemall-template-commons</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<artifactId>maven-plugin-plugin</artifactId>
@@ -63,6 +66,7 @@
 						<goals>
 							<goal>helpmojo</goal>
 						</goals>
+						<phase>generate-sources</phase>
 					</execution>
 				</executions>
 				<configuration>
