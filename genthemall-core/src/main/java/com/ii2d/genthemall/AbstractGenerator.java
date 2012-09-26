@@ -23,7 +23,7 @@ import com.ii2d.genthemall.exception.GenthemallException;
 import com.ii2d.genthemall.source.Sources;
 import com.ii2d.genthemall.template.TemplateInfo;
 
-public abstract class AbstractGenerator implements Generator {
+public abstract class AbstractGenerator implements GeneratorInterface {
 
 	private static final Log LOG = LogFactory.getLog(AbstractGenerator.class);
 	

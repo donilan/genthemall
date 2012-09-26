@@ -7,18 +7,17 @@ def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'Las
 def uneditableColumns = unlistableColumns + ['CreateDate']
 %>
 <%
-def data = binding.variables.values().findAll{it instanceof Map};
-data.each { s-> %>
-${s.name} {
+tables.each { s-> %>
+${s.table} {
 	packageName = "com.ii2d"
 	path 		= "com/ii2d"
-	name 		= "${toPascalName(s.name)}"
-	tableName 	= "${s.name}"
+	name 		= "${toPascalName(s.table)}"
+	tableName 	= "${s.table}"
 	chinese 	= name
 	pascalName 	= name
 	camelName 	= name[0].toLowerCase()+name[1..-1]
 	modelClassName = packageName + '.model.' + pascalName
-	fartherTable= ${def tmpName = data.find{s.name ==~ ("^.+_"+it.name)}?.name; if(tmpName){return tmpName}}
+	fartherTable= ${def tmpName = tables.find{s.table ==~ ("^.+_"+it.name)}?.name; if(tmpName){return tmpName}}
 	columns 	= 
 	[ <% s.attrs.each { p-> %>
 		[

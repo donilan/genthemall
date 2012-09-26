@@ -1,22 +1,55 @@
 package com.ii2d.genthemall;
 
-/**
- * Generator
- * @author Doni
- * @since 2012-9-11
- * @version $id$
- */
-public interface Generator {
+import groovy.text.SimpleTemplateEngine;
+import groovy.text.Template;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Map;
+
+import org.codehaus.groovy.control.CompilationFailedException;
+
+public class Generator {
 	
-	public static final String BINDING_DATA_NAME = "data";
+	private Writer out;
+	private String templateText;
+	private Map<?, ?> binding;
 	
-	/**
-	 * Generate method
-	 * @author Doni
-	 * @since 2012-9-11
-	 */
-	void generate();
-	
-	void generate(String name);
+	public void generate() throws CompilationFailedException, ClassNotFoundException, IOException {
+		SimpleTemplateEngine engine = new SimpleTemplateEngine();
+		Template t = engine.createTemplate(templateText);
+		t.make(binding).writeTo(out);
+	}
+
+
+	public Writer getOut() {
+		return out;
+	}
+
+
+	public void setOut(Writer out) {
+		this.out = out;
+	}
+
+
+	public String getTemplateText() {
+		return templateText;
+	}
+
+
+	public void setTemplateText(String templateText) {
+		this.templateText = templateText;
+	}
+
+
+	public Map<?, ?> getBinding() {
+		return binding;
+	}
+
+
+	public void setBinding(Map<?, ?> binding) {
+		this.binding = binding;
+	}
+
 	
 }
