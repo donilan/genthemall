@@ -18,6 +18,10 @@ import com.ii2d.dbase.util.DResourceFinder;
 import com.ii2d.dbase.util.DResourceUtils;
 
 public class TemplateFinder {
+	
+	public static TemplateHolder findToHodler(String path) throws IOException {
+		return new TemplateHolder(find(path));
+	}
 
 	public static List<Template> find(String path) throws IOException {
 		List<Template> tList = new ArrayList<Template>();

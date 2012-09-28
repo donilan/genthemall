@@ -1,6 +1,7 @@
 <%/*
 name="model"
 type="javaCode"
+iterateKey="tables"
 description="Model template"
 path="__PACKAGE_PATH__/__PASCAL_NAME__.java"
 version="0.4.0"
@@ -10,8 +11,8 @@ package ${packageName}.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="${camelName}")
-public class <%print pascalName%> extends ${fartherTable? fartherTable.modelClassName: 'com.ii2d.dbase.mybatis.model.BaseMyBatisModel'} {
-	
+public class <%print pascalName%> extends com.ii2d.dbase.mybatis.model.BaseMyBatisModel {
+
 	private static final long serialVersionUID = 1L;
 	<%columns.each {%>
 	protected ${it.classType} ${it.camelName};<%}%>

@@ -6,51 +6,44 @@ import static com.ii2d.dbase.util.DDBUtils.TYPES
 def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime']
 def uneditableColumns = unlistableColumns + ['CreateDate']
 %>
-<%
-tables.each { s-> %>
-${s.table} {
-	packageName = "com.ii2d"
-	path 		= "com/ii2d"
-	name 		= "${toPascalName(s.table)}"
-	tableName 	= "${s.table}"
-	chinese 	= name
-	pascalName 	= name
-	camelName 	= name[0].toLowerCase()+name[1..-1]
-	modelClassName = packageName + '.model.' + pascalName
-	fartherTable= ${def tmpName = tables.find{s.table ==~ ("^.+_"+it.name)}?.name; if(tmpName){return tmpName}}
-	columns 	= 
-	[ <% s.attrs.each { p-> %>
-		[
-			name 		: "${toPascalName(p.name)}",
-			chinese 	: "${toPascalName(p.name)}",
-			pascalName 	: "${toPascalName(p.name)}",
-			camelName 	: "${toCamelName(p.name)}",
-			columnName 	: "${p.name}",
-			columnType 	: "${TYPES[p.columnType]}",
-			classType 	: "${p.className == 'java.sql.Timestamp'? 'java.util.Date': p.className}",
-			maxLength 	: ${p.length},
-			getter		: "get${toPascalName(p.name)}",
-			setter		: "set${toPascalName(p.name)}",
-			isShow 		: ${!p.name.equalsIgnoreCase('id')},
-			isListable 	: ${!unlistableColumns.contains(toPascalName(p.name))},
-			isNullable 	: ${p.nullable},
-			isEditable	: ${!uneditableColumns.contains(toPascalName(p.name))},
-			isId 		: ${p.name?.equalsIgnoreCase('id')},
-			isEmail 	: ${p.name?.equalsIgnoreCase('email')},
-			isUrl 		: ${p.name?.equalsIgnoreCase('url')},
-			isPassword 	: ${p.name?.equalsIgnoreCase('password')},
-			isPhone 	: ${p.name.equalsIgnoreCase('phone')},
-			isTelephone	: ${p.name.equalsIgnoreCase('telephone')},
-			isStatus	: ${p.name.equalsIgnoreCase('status')},
-			isDeleted	: ${p.name.equalsIgnoreCase('deleted')},
-		],<%}%>
-	]
-	idColumn 			= columns.find{it.isId}
-	statusColumn		= columns.find{it.isStatus}
-	deletedColumn		= columns.find{it.isDeleted}
-	columnWithoutId 	= columns.findAll{!it.isId}
-	allColumns			= fartherTable? columns + fartherTable.columns: columns
-	allColumnsWithoutId = allColumns.findAll{!it.isId}
-	defaultSuperModelClass = 'com.ii2d.mybatis.model.BaseMyBatisModel'
-}
-<%}%>
+packageName = "com.ii2d"
+packagePath	= packageName.replaceAll(/\\./, '/')
+name 		= "${toPascalName(table)}"
+tableName 	= "${table}"
+pascalName 	= name
+camelName 	= name[0].toLowerCase()+name[1..-1]
+modelClassName = packageName + '.model.' + pascalName
+columns 	= 
+[ <% attrs.each { p-> %>
+	[
+		name 		: "${toPascalName(p.name)}",
+		pascalName 	: "${toPascalName(p.name)}",
+		camelName 	: "${toCamelName(p.name)}",
+		columnName 	: "${p.name}",
+		columnType 	: "${TYPES[p.columnType]}",
+		classType 	: "${p.className == 'java.sql.Timestamp'? 'java.util.Date': p.className}",
+		maxLength 	: ${p.length},
+		getter		: "get${toPascalName(p.name)}",
+		setter		: "set${toPascalName(p.name)}",
+		isShow 		: ${!p.name.equalsIgnoreCase('id')},
+		isListable 	: ${!unlistableColumns.contains(toPascalName(p.name))},
+		isNullable 	: ${p.nullable},
+		isEditable	: ${!uneditableColumns.contains(toPascalName(p.name))},
+		isId 		: ${p.name?.equalsIgnoreCase('id')},
+		isEmail 	: ${p.name?.equalsIgnoreCase('email')},
+		isUrl 		: ${p.name?.equalsIgnoreCase('url')},
+		isPassword 	: ${p.name?.equalsIgnoreCase('password')},
+		isPhone 	: ${p.name.equalsIgnoreCase('phone')},
+		isTelephone	: ${p.name.equalsIgnoreCase('telephone')},
+		isStatus	: ${p.name.equalsIgnoreCase('status')},
+		isDeleted	: ${p.name.equalsIgnoreCase('deleted')},
+	],<%}%>
+]
+idColumn 			= columns.find{it.isId}
+statusColumn		= columns.find{it.isStatus}
+deletedColumn		= columns.find{it.isDeleted}
+columnWithoutId 	= columns.findAll{!it.isId}
+allColumns			= fartherTable? columns + fartherTable.columns: columns
+allColumnsWithoutId = allColumns.findAll{!it.isId}
+defaultSuperModelClass = 'com.ii2d.mybatis.model.BaseMyBatisModel'
+	

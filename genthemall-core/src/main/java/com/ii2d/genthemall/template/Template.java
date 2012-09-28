@@ -8,11 +8,20 @@ public class Template {
 	private String version;
 	private String path;
 	private String templateText;
+	private String iterateKey;
 	
 	public String toString() {
-		return String.format("%s-%s[%s]: %s \n\tDest path: [%s]", name, version, type, description, path);
+		return String.format("%s-%s[%s]: %s \n\tDest path: [%s] Iterate key: [%s]", name, version, type, description, path, iterateKey);
 	}
 	
+	public String getIterateKey() {
+		return iterateKey;
+	}
+
+	public void setIterateKey(String iterateKey) {
+		this.iterateKey = iterateKey;
+	}
+
 	public String getType() {
 		return type;
 	}

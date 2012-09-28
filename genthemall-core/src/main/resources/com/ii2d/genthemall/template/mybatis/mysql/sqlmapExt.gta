@@ -1,6 +1,7 @@
 <%/*
 name="sqlmap-mysql-ext"
 type="resources"
+iterateKey="tables"
 description="Mysql mybatis sqlmap ext template"
 path="mybatis/mysql/ext/__CAMEL_NAME__Ext.xml"
 version="0.4.0"

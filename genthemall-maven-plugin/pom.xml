@@ -39,12 +39,6 @@
 						<username>${dataSource.username}</username>
 						<password>${dataSource.password}</password>
 					</dataSource>
-					<databaseSources>
-						<tables>user</tables>
-					</databaseSources>
-					<configSources>
-						<configFilePath>target/genthemall/mysql.conf</configFilePath>
-					</configSources>
 					<templates>
 						${genthemall.templates}
 					</templates>
