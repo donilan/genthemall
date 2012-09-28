@@ -38,6 +38,10 @@ public class GeneratorUtils {
 	public static void generate(Template t, ConfigObject bindingData, String destPath) throws FileNotFoundException, IOException, CompilationFailedException, ClassNotFoundException {
 		String path = replaceAll(destPath, DNameUtils.toReplaceMap(bindingData));
 		File file = new File(path);
+		if(!t.isOverridable() && file.exists()) {
+			// return, If template cannot override.
+			return;
+		}
 		FileUtils.touch(file);
 		Generator g = GeneratorFactory.create(t.getTemplateText(), file, bindingData);
 		g.generate();
