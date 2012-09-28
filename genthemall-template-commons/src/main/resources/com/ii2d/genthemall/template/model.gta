@@ -3,7 +3,7 @@ name="model"
 type="javaCode"
 iterateKey="tables"
 description="Model template"
-path="__PACKAGE_PATH__/__PASCAL_NAME__.java"
+path="__PACKAGE_PATH__/model/__PASCAL_NAME__.java"
 version="0.4.0"
 */%>
 package ${packageName}.model;

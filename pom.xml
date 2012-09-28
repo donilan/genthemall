@@ -18,7 +18,6 @@
 		<dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
 		<dataSource.username>root</dataSource.username>
 		<dataSource.password>sa</dataSource.password>
-		<genthemall.templates>mysqlConfig</genthemall.templates>
 	</properties>
 
 	<dependencies>
@@ -82,7 +81,6 @@
 		<module>genthemall-example</module>
 		<module>genthemall-maven-plugin</module>
 		<module>genthemall-template-commons</module>
-		<module>genthemall-template-mybatis</module>
 		<module>genthemall-template-web-admin</module>
 	</modules>
 </project>

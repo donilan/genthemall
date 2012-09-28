@@ -41,49 +41,6 @@
 	</dependencies>
 	<build>
 		<finalName>genthemall-template-web-admin</finalName>
-		<plugins>
-			<plugin>
-				<groupId>com.ii2d</groupId>
-				<artifactId>genthemall-maven-plugin</artifactId>
-				<version>${project.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<phase>generate-source</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<dataSource>
-						<driverClassName>${dataSource.driver}</driverClassName>
-						<url>${dataSource.url}</url>
-						<username>${dataSource.username}</username>
-						<password>${dataSource.password}</password>
-					</dataSource>
-					<databaseSources>
-						<tables>user</tables>
-					</databaseSources>
-					<configSources>
-						<configFilePath>target/genthemall/conf/mysql.conf</configFilePath>
-					</configSources>
-					<templates>
-						${genthemall.templates}
-					</templates>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.ii2d</groupId>
-						<artifactId>genthemall-template-commons</artifactId>
-						<version>${project.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.ii2d</groupId>
-						<artifactId>genthemall-template-mybatis</artifactId>
-						<version>${project.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
+
 	</build>
 </project>

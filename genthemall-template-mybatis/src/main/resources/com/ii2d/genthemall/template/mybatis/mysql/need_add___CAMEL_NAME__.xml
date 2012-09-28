@@ -1,2 +1,0 @@
-<mapper resource="sqlmap/${camelName}.xml"/>
-<mapper resource="sqlmap/ext/${camelName}Ext.xml"/>

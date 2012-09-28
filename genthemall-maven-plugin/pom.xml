@@ -24,6 +24,16 @@
 			<artifactId>genthemall-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ii2d</groupId>
+			<artifactId>genthemall-template-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
@@ -33,23 +43,20 @@
 				<artifactId>genthemall-maven-plugin</artifactId>
 				<version>${project.version}</version>
 				<configuration>
-					<dataSource>
+					<databaseSource>
 						<driverClassName>${dataSource.driver}</driverClassName>
 						<url>${dataSource.url}</url>
 						<username>${dataSource.username}</username>
 						<password>${dataSource.password}</password>
-					</dataSource>
-					<templates>
-						${genthemall.templates}
-					</templates>
+						<tables>user,product,shop</tables>
+					</databaseSource>
+					<generateConfigs>
+						<generateConfig>
+							<tables>user,product</tables>
+							<includeTemplate>sqlmap-mysql.*</includeTemplate>
+						</generateConfig>
+					</generateConfigs>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.ii2d</groupId>
-						<artifactId>genthemall-template-commons</artifactId>
-						<version>${project.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 			<plugin>
 				<artifactId>maven-plugin-plugin</artifactId>

@@ -1,2 +1,0 @@
-<mapper resource="sqlmap/userAbcInfo.xml"/>
-<mapper resource="sqlmap/ext/userAbcInfoExt.xml"/>

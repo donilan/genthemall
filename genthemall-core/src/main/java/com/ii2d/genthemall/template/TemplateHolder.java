@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class TemplateHolder {
 
@@ -22,5 +23,13 @@ public class TemplateHolder {
 	
 	public Template getTemplateByName(String name) {
 		return nameMap.get(name);
+	}
+	
+	public Set<String> names() {
+		return nameMap.keySet();
+	}
+	
+	public int size() {
+		return templates.size();
 	}
 }
