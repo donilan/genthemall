@@ -8,20 +8,29 @@ public class Template {
 	private String version;
 	private String path;
 	private String templateText;
-	private String iterateKey;
+	private boolean allCache;
+	private boolean overridable = true;
 	
+	public boolean isOverridable() {
+		return overridable;
+	}
+
+	public void setOverridable(boolean overridable) {
+		this.overridable = overridable;
+	}
+
+	public boolean isAllCache() {
+		return allCache;
+	}
+
+	public void setAllCache(boolean allCache) {
+		this.allCache = allCache;
+	}
+
 	public String toString() {
-		return String.format("%s-%s[%s]: %s \n\tDest path: [%s] Iterate key: [%s]", name, version, type, description, path, iterateKey);
+		return String.format("%s-%s[%s]: %s \n\t\tDest path: [%s]", name, version, type, description, path);
 	}
 	
-	public String getIterateKey() {
-		return iterateKey;
-	}
-
-	public void setIterateKey(String iterateKey) {
-		this.iterateKey = iterateKey;
-	}
-
 	public String getType() {
 		return type;
 	}

@@ -1,3 +1,10 @@
+<%/*
+name="web-admin-views-index"
+type="jsp"
+description="Admin web view index"
+path="__CAMEL_NAME__/index.jsp"
+version="0.4.0"
+*/%>
 ${'<' }%@ page language="java" pageEncoding="UTF-8"%>
 ${'<' }%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 ${'<' }%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>

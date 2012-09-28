@@ -20,7 +20,23 @@ public class GeneratorUtils {
 	public static void generate(Template t, ConfigObject bindingData)
 			throws FileNotFoundException, IOException,
 			CompilationFailedException, ClassNotFoundException {
-		String path = replaceAll(t.getPath(), DNameUtils.toReplaceMap(bindingData));
+		generate(t, bindingData, t.getPath());
+	}
+	
+	/**
+	 * 如果修改修改最终生成路径可以使用这个方法
+	 * @author Doni
+	 * @since 2012-9-28
+	 * @param t
+	 * @param bindingData
+	 * @param destPath
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws CompilationFailedException
+	 * @throws ClassNotFoundException
+	 */
+	public static void generate(Template t, ConfigObject bindingData, String destPath) throws FileNotFoundException, IOException, CompilationFailedException, ClassNotFoundException {
+		String path = replaceAll(destPath, DNameUtils.toReplaceMap(bindingData));
 		File file = new File(path);
 		FileUtils.touch(file);
 		Generator g = GeneratorFactory.create(t.getTemplateText(), file, bindingData);

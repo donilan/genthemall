@@ -19,29 +19,20 @@
 				<artifactId>genthemall-maven-plugin</artifactId>
 				<version>${project.version}</version>
 				<configuration>
-					<dataSource>
+					<databaseSource>
 						<driverClassName>${dataSource.driver}</driverClassName>
 						<url>${dataSource.url}</url>
 						<username>${dataSource.username}</username>
 						<password>${dataSource.password}</password>
-					</dataSource>
-					<databaseSources>
-						<tables>user</tables>
-					</databaseSources>
-					<configSources>
-						<configFilePath>target/genthemall/mysql.conf</configFilePath>
-					</configSources>
-					<templates>
-						${genthemall.templates}
-					</templates>
+						<tables>user,product,shop</tables>
+					</databaseSource>
+					<generateConfigs>
+						<generateConfig>
+							<tables>user,product</tables>
+							<includeTemplate>sqlmap-mysql.*,mybatis-config</includeTemplate>
+						</generateConfig>
+					</generateConfigs>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.ii2d</groupId>
-						<artifactId>genthemall-template-commons</artifactId>
-						<version>${project.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

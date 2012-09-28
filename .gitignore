@@ -13,4 +13,5 @@ target
 *.ear
 
 # user
-genthemall-template-web-admin/src/test/java/com/ii2d/controller/
+genthemall-template-web-admin/src/test
+genthemall-example/src/test

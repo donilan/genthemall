@@ -22,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.groovy.control.CompilationFailedException;
 
+import com.ii2d.dbase.util.Assert;
 import com.ii2d.dbase.util.DDBUtils;
 import com.ii2d.dbase.util.DResourceUtils;
 import com.ii2d.genthemall.Generator;
@@ -67,5 +68,17 @@ public class DatabaseCache {
 		InputStream in = DResourceUtils.getResourceAsStream(FilenameUtils.concat(CACHE_PATH, tableName + ".cache"));
 		String text = IOUtils.toString(in);
 		return new ConfigSlurper().parse(text);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static ConfigObject loadCache(String tables[], String keyName) throws IOException {
+		Assert.hasText(keyName, "Param keyName must not null or empty.");
+		ConfigObject conf = new ConfigObject();
+		List<ConfigObject> caches = new ArrayList<ConfigObject>();
+		for(String table: tables) {
+			caches.add(loadCache(table));
+		}
+		conf.put(keyName, caches);
+		return conf;
 	}
 }
