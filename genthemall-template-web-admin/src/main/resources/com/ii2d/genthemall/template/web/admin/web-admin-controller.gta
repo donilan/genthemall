@@ -2,7 +2,7 @@
 name="web-admin-controller"
 type="javaCode"
 description="Admin web controller"
-path="__PACKAGE_PATH__/controller/admin/__PASCAL_NAME__.java"
+path="__PACKAGE_PATH__/controller/admin/__PASCAL_NAME__AdminController.java"
 version="0.4.0"
 */%>
 package ${packageName}.controller.admin;

@@ -20,12 +20,19 @@ import com.ii2d.dbase.util.DResourceUtils;
 public class TemplateFinder {
 	
 	public static TemplateHolder findToHodler(String path) throws IOException {
-		return new TemplateHolder(find(path));
+		return findToHodler(DResourceUtils.getDefaultClassLoad(), path);
+	}
+	
+	public static TemplateHolder findToHodler(ClassLoader cl, String path) throws IOException {
+		return new TemplateHolder(find(cl, path));
 	}
 
 	public static List<Template> find(String path) throws IOException {
+		return find(DResourceUtils.getDefaultClassLoad(), path);
+	}
+	public static List<Template> find(ClassLoader cl, String path) throws IOException {
 		List<Template> tList = new ArrayList<Template>();
-		List<String> templatePaths = DResourceFinder.find(path, new String[]{".*\\.gta"}, null);
+		List<String> templatePaths = DResourceFinder.find(cl, path, new String[]{".*\\.gta"}, null);
 		for(String p: templatePaths) {
 			Template tmp = _makeTemplate(p);
 			if(tmp != null) {

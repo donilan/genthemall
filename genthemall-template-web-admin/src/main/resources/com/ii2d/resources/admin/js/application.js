@@ -70,12 +70,12 @@ function initTableEditor(ui) {
 		//如果未修改过，则操作完毕
 		if(!isChanged) return;
 		var $idInput = $in.parent().parent().find('.id-holder input');
-		var data = [];
+		var data = {};
 		data[$in.attr('name')] = $in.val();
 		$.ajax({
 			url: contextPath + 'admin/' + ui.tab.hash.substring(1) + '/' + $idInput.val(),
 			type: 'POST',
-			data: {'name': $in.val()}
+			data: data
 		}).done(function(data){
 			log(data);
 			isChanged = false;

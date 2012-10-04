@@ -12,21 +12,16 @@
 	<packaging>war</packaging>
 	<name>genthemall-template-web-admin Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<properties>
 		<genthemall.templates>mysqlConfig,model</genthemall.templates>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.ii2d</groupId>
 			<artifactId>dbase-web</artifactId>
 			<version>${dbase.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ii2d</groupId>
-			<artifactId>genthemall-template-mybatis</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -41,6 +36,27 @@
 	</dependencies>
 	<build>
 		<finalName>genthemall-template-web-admin</finalName>
-
+		<testOutputDirectory>target/classes</testOutputDirectory>
+		<plugins>
+			<plugin>
+				<groupId>com.ii2d</groupId>
+				<artifactId>genthemall-maven-plugin</artifactId>
+				<version>${project.version}</version>
+				<configuration>
+					<databaseSource>
+						<driverClassName>${dataSource.driver}</driverClassName>
+						<url>${dataSource.url}</url>
+						<username>${dataSource.username}</username>
+						<password>${dataSource.password}</password>
+						<tables>area,comment,comment_type,dictionary,menu,menu_type,news,news_type,printmodule,product,product_type,shop,shop_type,unit,unit_type,user,user_abc_info,user_type</tables>
+					</databaseSource>
+					<generateConfigs>
+						<generateConfig>
+							<tables>area,comment,comment_type,dictionary,menu,menu_type,news,news_type,printmodule,product,product_type,shop,shop_type,unit,unit_type,user,user_abc_info,user_type</tables>
+						</generateConfig>
+					</generateConfigs>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

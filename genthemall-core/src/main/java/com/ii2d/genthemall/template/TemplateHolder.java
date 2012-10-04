@@ -32,4 +32,7 @@ public class TemplateHolder {
 	public int size() {
 		return templates.size();
 	}
+	public List<Template> getTemplates() {
+		return this.templates;
+	}
 }

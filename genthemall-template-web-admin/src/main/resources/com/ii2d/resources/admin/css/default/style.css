@@ -157,7 +157,7 @@
 	padding: 5px 6px;
 	text-align: left;
 	vertical-align: top;
-	border-left: 1px solid #ddd;
+	border: 1px solid #ddd;
 }
 
 #right-side .list-table th:hover,#right-side .list-table tr:hover {
