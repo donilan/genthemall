@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/admin/index")
 public class IndexAdminController {
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, value="page")
 	public @ResponseBody String index() {
 		return "Hello world";
 	}

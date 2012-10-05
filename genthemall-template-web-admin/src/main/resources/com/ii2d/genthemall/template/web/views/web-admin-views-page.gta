@@ -2,7 +2,7 @@
 name="web-admin-views-page"
 type="jsp"
 description="Admin web view page."
-path="__CAMEL_NAME__/page.jsp"
+path="admin/__CAMEL_NAME__/page.jsp"
 version="0.4.1"
 */%>
 ${'<' }%@ page language="java" pageEncoding="UTF-8"%>
@@ -17,10 +17,10 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 	<thead>
 		<tr class="head">
 			<% showCloumn.each { %> 
-			<th>${it.chinese }</th><%}%>
+			<th>${it.camelName }</th><%}%>
 		</tr>
 	</thead>
-	<c:forEach items="\${${camelName }List }" var="vo" varStatus="s">
+	<c:forEach items="\${page.data }" var="vo" varStatus="s">
 	<tr class="\${s.count % 2 eq 0 ? 'even' : 'odd' } \${s.first? 'first': s.last ? 'last': ''}">
 		<% showCloumn.each {
 				def title = "\${vo.${it.camelName}}"
@@ -50,4 +50,8 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 	</tr>
 	</c:forEach>
 </table>
-<div id="page" ></div>
+<div class="page" >
+	<input type="hidden" name="url" value='<spring:url value="admin/${camelName}/page" />'/>
+	<input type="hidden" name="page" value="\${page.currentPage }" />
+	<input type="hidden" name="count" value="\${page.maxPage }" />
+</div>

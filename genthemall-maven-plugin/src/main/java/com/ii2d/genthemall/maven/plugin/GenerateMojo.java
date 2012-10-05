@@ -55,9 +55,9 @@ public class GenerateMojo extends AbstractGenerateMojo {
 	public GenerateMojo() {
 		defaultTargetPathMap.put(TARGET_TYPE_JAVA_CODE, "src/test/java");
 		defaultTargetPathMap.put(TARGET_TYPE_RESOURCES, "src/test/resources");
-		defaultTargetPathMap.put(TARGET_TYPE_WEB, "src/webapp");
+		defaultTargetPathMap.put(TARGET_TYPE_WEB, "src/main/webapp");
 		defaultTargetPathMap.put(TARGET_TYPE_DEFAULT, "target/genthemall");
-		defaultTargetPathMap.put(TARGET_TYPE_JSP, "src/webapp/WEB-INF/jsp");
+		defaultTargetPathMap.put(TARGET_TYPE_JSP, "src/main/webapp/WEB-INF/jsp");
 	}
 
 	private String _getTargetBasePath(String type) {

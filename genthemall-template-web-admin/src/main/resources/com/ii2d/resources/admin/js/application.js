@@ -86,6 +86,33 @@ function initTableEditor(ui) {
 	});
 }
 
+function initPage(ui) {
+	var $tabPanel = $(ui.panel);
+	var $page = $tabPanel.find('.page');
+	var count = $page.find('input[name=count]').val();
+	var page = $page.find('input[name=page]').val();
+	if(count == undefined || page == undefined)
+		return;
+	$page.paginate({
+		count: count,
+		start: page,
+		display: 10,
+		border: true,
+		border_color: '#BEF8B8',
+		text_color: '#68BA64',
+		background_color: '#E3F2E1',	
+		border_hover_color: '#68BA64',
+		text_hover_color: 'black',
+		background_hover_color: '#CAE6C6', 
+		rotate: false,
+		images: false,
+		mouse: 'press',
+		onChange: function(p){
+			console.log(p);
+		}
+	});
+}
+
 /**
  * 初始化tab
  * @param tabsWrapper tab容器
@@ -96,13 +123,14 @@ function initTabs(tabsWrapper) {
 		add: function( event, ui ) {
 			var $panel = $(ui.panel);
 			$.ajax({
-				url: contextPath + 'admin/page' + ui.tab.hash.substring(1),
+				url: contextPath + 'admin/' + ui.tab.hash.substring(1) + '/page',
 				type: 'GET'
 			}).done(function(html){
 				$panel.append(html);
 				//TODO 可优化为先加载数据，然后再显示
 				initTableEditor(ui);
 				tabsWrapper.tabs('select', ui.index);
+				initPage(ui);
 			});
 			
 		}

@@ -14,5 +14,5 @@ target
 
 # user
 genthemall-template-web-admin/src/test
-genthemall-template-web-admin/src/webapp/WEB-INF/jsp
+genthemall-template-web-admin/src/main/webapp/WEB-INF/jsp
 genthemall-example/src/test

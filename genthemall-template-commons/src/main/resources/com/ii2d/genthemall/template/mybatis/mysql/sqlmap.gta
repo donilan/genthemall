@@ -33,7 +33,7 @@ def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\
 			<if test="andLike.${it.camelName} != null">AND ${it.columnName} LIKE concat('%', #{andLike.${it.camelName}}, '%')</if>
 			<%}%>
 			<%if(statusColumn) {%>
-			<if test="andEq.${statusColumn.camelName} == null">AND ${statusColumn.columnName} > -1</if>
+			<if test="andEq.${statusColumn.camelName} == null">AND ${statusColumn.columnName} &gt; -1</if>
 			<%}%>
 		</trim>
 		<choose>
@@ -58,7 +58,9 @@ def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\
 			<if test="andEq.${it.camelName} != null">AND ${it.columnName} = #{andEq.${it.camelName}}</if>
 			<if test="andLike.${it.camelName} != null">AND ${it.columnName} LIKE concat('%', #{andLike.${it.camelName}}, '%')</if>
 			<%}%>
-			AND ${if(deletedColumn) deletedColumn.columnName +" = false"}
+			<%if(statusColumn) {%>
+			<if test="andEq.${statusColumn.camelName} == null">AND ${statusColumn.columnName} &gt; -1</if>
+			<%}%>
 		</trim>
 	</select>
 	
