@@ -11,9 +11,13 @@
 	<link rel="stylesheet" type="text/css"
 		href="<spring:url value="/resources/admin/css/jquery-ui/ui-lightness/jquery-ui-1.8.23.custom.css" />">
 	<link rel="stylesheet" type="text/css"
+		href="<spring:url value="/resources/admin/css/jPaginate.css" />">
+	<link rel="stylesheet" type="text/css"
 		href="<spring:url value="/resources/admin/css/default/style.css" />">
 	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery-1.8.1.js" />"></script>
+	<script type="text/javascript"
+		src="<spring:url value="/resources/admin/js/jquery.paginate.js" />"></script>
 	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery-ui-1.8.23.custom.min.js" />"></script>
 	<script type="text/javascript"

@@ -96,7 +96,7 @@ function initTabs(tabsWrapper) {
 		add: function( event, ui ) {
 			var $panel = $(ui.panel);
 			$.ajax({
-				url: contextPath + 'admin/' + ui.tab.hash.substring(1),
+				url: contextPath + 'admin/page' + ui.tab.hash.substring(1),
 				type: 'GET'
 			}).done(function(html){
 				$panel.append(html);
@@ -156,7 +156,7 @@ function initTopbarMenu(wrapper, menus) {
 function getMenus() {
 	var menus = [];
 	$.ajax({
-		url: contextPath + '/admin/menu?menuType=1&rows=999',
+		url: contextPath + 'admin/menu/list?menuType=1',
 		type: 'GET',
 		dataType: 'json',
 		async: false

@@ -18,31 +18,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ii2d.dbase.mybatis.Page;
 import ${packageName}.model.${pascalName};
 
 @Controller
 @RequestMapping("/admin/${camelName}")
 public class ${pascalName}AdminController extends com.ii2d.dbase.web.controller.AbstractController {
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String list(
+	@RequestMapping(method = RequestMethod.GET, value="page")
+	public String page(
 			@ModelAttribute(value="${camelName}") ${pascalName} searchObj,
 			@RequestParam(value = "page", defaultValue="1") int page,
 			@RequestParam(value = "rows", defaultValue="10") int rows,
 			ModelMap model) {
-		List<${pascalName}> list = commonService.queryForList(searchObj, page, rows);
+		Page pageInstance = commonService.queryForPage(searchObj, page, rows);
+		model.addAttribute(pageInstance);
+		return "admin/${camelName}/page";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="list")
+	public String list(
+			@ModelAttribute(value="${camelName}") ${pascalName} searchObj,
+			ModelMap model) {
+		List<${pascalName}> list = commonService.queryForList(searchObj);
 		model.addAttribute(list);
 		return "admin/${camelName}/list";
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody String create(
+	@RequestMapping(method = RequestMethod.POST, value="save")
+	public @ResponseBody String save(
 			@ModelAttribute(value="${camelName}") ${pascalName} instance) {
 		commonService.insert(instance);
 		return "success";
 	}
 	<%if(idColumn) {%>
-	@RequestMapping(method = RequestMethod.POST, value="{id}")
+	@RequestMapping(method = RequestMethod.POST, value="update/{id}")
 	public @ResponseBody String update(
 			@ModelAttribute(value="${camelName}") ${pascalName} instance,
 			@PathVariable(value = "id") ${idColumn.classType} ${idColumn.camelName}) {
