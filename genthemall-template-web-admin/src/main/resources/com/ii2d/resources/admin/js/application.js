@@ -113,6 +113,8 @@ function initPage(ui) {
 	});
 }
 
+
+
 /**
  * 初始化tab
  * @param tabsWrapper tab容器
