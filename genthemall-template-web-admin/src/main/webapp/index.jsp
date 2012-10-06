@@ -23,6 +23,12 @@
 	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery-ui-1.8.23.custom.min.js" />"></script>
 	<script type="text/javascript"
+		src="<spring:url value="/resources/admin/js/jquery.tmpl.js" />"></script>
+	<script type="text/javascript"
+		src="<spring:url value="/resources/admin/js/jquery.tmplPlus.js" />"></script>
+	<script type="text/javascript"
+		src="<spring:url value="/resources/admin/js/admin-functions.js" />"></script>
+	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/application.js" />"></script>
 	</head>
 <body>

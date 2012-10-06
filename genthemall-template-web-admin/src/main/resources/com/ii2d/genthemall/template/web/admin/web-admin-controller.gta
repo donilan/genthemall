@@ -36,6 +36,11 @@ public class ${pascalName}AdminController extends com.ii2d.dbase.web.controller.
 		return "admin/${camelName}/page";
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value="count")
+	public @ResponseBody String count(@ModelAttribute(value="${camelName}") ${pascalName} searchObj) {
+		return String.valueOf(commonService.count(searchObj));
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value="list")
 	public String list(
 			@ModelAttribute(value="${camelName}") ${pascalName} searchObj,

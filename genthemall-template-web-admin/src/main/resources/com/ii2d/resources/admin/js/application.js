@@ -20,34 +20,53 @@ $(function() {
 	window.$RIGHT_SIDE = $('#right-side');
 	window.$MAIN_TABS = $(DIV).append($(UL)).appendTo($RIGHT_SIDE);
 	
-	//初始化菜单
-	initTopbarMenu($TOPBAR, getMenus());
-	
 	//初始化tab
-	initTabs($MAIN_TABS);
-	initTopbarClickEvent($TOPBAR, $MAIN_TABS);
-	
-	//初始化弹出菜单
-	$TOPBAR.find('.popmenu').hover(function() {
-		$(this).addClass("hover");
-	}, function() {
-		$(this).removeClass("hover");
+	$MAIN_TABS.tabs({
+		tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
+		add: function(event, ui ) {
+			var $panel = $(ui.panel);
+			var pageName = ui.tab.hash.substring(1);
+			var $div = $(DIV).addClass('content-wrapper').appendTo($panel);
+			
+			$div.bind('afterPageLoaded', function(){
+				$MAIN_TABS.trigger('afterAddTab', [ui, this]);
+			});
+			$div.loadAdminPage({pageName: pageName});
+			
+			if(pageName != 'index') {
+				$MAIN_TABS.tabs('select', ui.index);
+				var $pageDiv = $(DIV).addClass('page').appendTo($panel);
+				$pageDiv.loadPaginate({pageName: pageName});
+			}
+		}
 	});
+	$MAIN_TABS.bind('afterAddTab', function(event, tab, table){
+		
+	});
+	$MAIN_TABS.tabs('add', '#index', 'Home');
+	$MAIN_TABS.on('click', "span.ui-icon-close", function() {
+		var index = $("li", tabsWrapper).index($( this ).parent());
+		$MAIN_TABS.tabs("remove", index);
+	});
+
+	$LEFT_SIDE.bind('afterMenuLoaded', function(event, menu){
+		$(this).find('.sub-menu .item a').click(function(){
+			var item = $(this);
+			$MAIN_TABS.tabs('add', item.attr('href'), item.text());
+		});
+	});
+	//初始化菜单
+	$LEFT_SIDE.loadMenu();
+	//初始化弹出菜单
+//	$TOPBAR.find('.popmenu').hover(function() {
+//		$(this).addClass("hover");
+//	}, function() {
+//		$(this).removeClass("hover");
+//	});
 	
 	
 });
 
-/**
- * 初始化topbar的点击事件
- * @param topbar
- * @param tabs
- */
-function initTopbarClickEvent(topbar, tabs) {
-	topbar.find('.sub-menu .menu-item').click(function(){
-		var item = $(this);
-		tabs.tabs('add', item.attr('href'), item.text());
-	});
-}
 
 /**
  * 初始化tab panel的可以编辑属性
@@ -113,103 +132,6 @@ function initPage(ui) {
 	});
 }
 
-
-
-/**
- * 初始化tab
- * @param tabsWrapper tab容器
- */
-function initTabs(tabsWrapper) {
-	tabsWrapper.tabs({
-		tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
-		add: function( event, ui ) {
-			var $panel = $(ui.panel);
-			$.ajax({
-				url: contextPath + 'admin/' + ui.tab.hash.substring(1) + '/page',
-				type: 'GET'
-			}).done(function(html){
-				$panel.append(html);
-				//TODO 可优化为先加载数据，然后再显示
-				initTableEditor(ui);
-				tabsWrapper.tabs('select', ui.index);
-				initPage(ui);
-			});
-			
-		}
-	});
-	tabsWrapper.tabs('add', '#index', 'Home');
-	tabsWrapper.on('click', "span.ui-icon-close", function() {
-		var index = $("li", tabsWrapper).index($( this ).parent());
-		tabsWrapper.tabs("remove", index);
-	});
-	
-}
-
-/**
- * 初始化顶部菜单
- * @author Doni
- * @since 2012-09-21
- * @param menus 菜单
- */
-function initTopbarMenu(wrapper, menus) {
-	var elMenu = $(UL).addClass('menu');
-	for(var i in menus) {
-		var menu = menus[i];
-		var menuLi = $(LI).addClass('popmenu');
-		if(i == 0) menuLi.addClass('first');
-		if(i == menus.length-1) menuLi.addClass('last');
-		
-		menuLi.append($(A).addClass('menu-item').append($(SPAN).text(menu.name)));
-		if(menu.subMenus.length > 0) {
-			var subMenuUL = $(UL).addClass('sub-menu');
-			for(var i2 in menu.subMenus) {
-				var subMenu = menu.subMenus[i2];
-				subMenuUL.append($(LI).append(
-						$(A).addClass('menu-item').attr('href', '#'+subMenu.menuKey)
-						.append($(SPAN).text(subMenu.name))));
-				
-			}
-			menuLi.append($(DIV).addClass('sub-menu-wrapper').append(subMenuUL));
-		}
-		
-		elMenu.append(menuLi);
-		
-	}
-	wrapper.append(elMenu);
-}
-
-/**
- * 获取所有菜单
- * @author Doni
- * @since 2012-09-21
- */
-function getMenus() {
-	var menus = [];
-	$.ajax({
-		url: contextPath + 'admin/menu/list?menuType=1',
-		type: 'GET',
-		dataType: 'json',
-		async: false
-	}).done(function(data){
-		var menuList = data['menuList'];
-		for(var i in menuList) {
-			var m = menuList[i];
-			for(var i2 in menuList) {
-				var sub = menuList[i2];
-				if(!m.subMenus) {
-					m.subMenus = [];
-				}
-				if(m.id == sub.parentId) {
-					m.subMenus[m.subMenus.length] = sub;
-				}
-			}
-			if(m.parentId == 0) {
-				menus[menus.length] = m;
-			}
-		}
-	});
-	return menus;
-}
 /**
  * @see #fixTextLength($el, len, suffix)
  */
