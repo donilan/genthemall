@@ -40,29 +40,27 @@ $(function() {
 			}
 		}
 	});
+	//增加tab后既处理
 	$MAIN_TABS.bind('afterAddTab', function(event, tab, table){
-		
+		initTableEditor(tab);
 	});
+	//增加一个首页tab
 	$MAIN_TABS.tabs('add', '#index', 'Home');
+	//tab关闭事件
 	$MAIN_TABS.on('click', "span.ui-icon-close", function() {
 		var index = $("li", tabsWrapper).index($( this ).parent());
 		$MAIN_TABS.tabs("remove", index);
 	});
 
+	//菜单事件
 	$LEFT_SIDE.bind('afterMenuLoaded', function(event, menu){
 		$(this).find('.sub-menu .item a').click(function(){
 			var item = $(this);
 			$MAIN_TABS.tabs('add', item.attr('href'), item.text());
 		});
 	});
-	//初始化菜单
+	//读取菜单
 	$LEFT_SIDE.loadMenu();
-	//初始化弹出菜单
-//	$TOPBAR.find('.popmenu').hover(function() {
-//		$(this).addClass("hover");
-//	}, function() {
-//		$(this).removeClass("hover");
-//	});
 	
 	
 });
@@ -92,7 +90,7 @@ function initTableEditor(ui) {
 		var data = {};
 		data[$in.attr('name')] = $in.val();
 		$.ajax({
-			url: contextPath + 'admin/' + ui.tab.hash.substring(1) + '/' + $idInput.val(),
+			url: contextPath + 'admin/' + ui.tab.hash.substring(1) + '/update/' + $idInput.val(),
 			type: 'POST',
 			data: data
 		}).done(function(data){
@@ -105,32 +103,6 @@ function initTableEditor(ui) {
 	});
 }
 
-function initPage(ui) {
-	var $tabPanel = $(ui.panel);
-	var $page = $tabPanel.find('.page');
-	var count = $page.find('input[name=count]').val();
-	var page = $page.find('input[name=page]').val();
-	if(count == undefined || page == undefined)
-		return;
-	$page.paginate({
-		count: count,
-		start: page,
-		display: 10,
-		border: true,
-		border_color: '#BEF8B8',
-		text_color: '#68BA64',
-		background_color: '#E3F2E1',	
-		border_hover_color: '#68BA64',
-		text_hover_color: 'black',
-		background_hover_color: '#CAE6C6', 
-		rotate: false,
-		images: false,
-		mouse: 'press',
-		onChange: function(p){
-			console.log(p);
-		}
-	});
-}
 
 /**
  * @see #fixTextLength($el, len, suffix)
