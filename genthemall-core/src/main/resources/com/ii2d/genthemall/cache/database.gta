@@ -3,7 +3,7 @@ import static com.ii2d.dbase.util.DNameUtils.toPascalName
 import static com.ii2d.dbase.util.DNameUtils.toCamelName
 import static com.ii2d.dbase.util.DDBUtils.TYPES
 
-def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'address', 'password']
+def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'Address', 'Password', 'IdCard']
 def uneditableColumns = unlistableColumns + ['CreateDate']
 %>
 packageName = "com.ii2d"
