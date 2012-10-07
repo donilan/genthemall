@@ -1,4 +1,7 @@
 /* main */
+#main-wrapper {
+	min-width: 1024px;
+}
 #main-wrapper * {
 	font: normal 13px/28px sans-serif;
 }
@@ -16,15 +19,14 @@
 	height: auto !important;
 	_height: 500px;
 	min-height: 500px;
-	width: 180px;
+	width: 15%;
 	float: left;
-	display: none;
 }
 
 #right-side {
 	height: auto !important;
 	_height: 500px;
-	min-width: 100%;
+	width: 80%;
 	float: left;
 }
 
@@ -157,7 +159,7 @@
 	padding: 5px 6px;
 	text-align: left;
 	vertical-align: top;
-	border-left: 1px solid #ddd;
+	border: 1px solid #ddd;
 }
 
 #right-side .list-table th:hover,#right-side .list-table tr:hover {

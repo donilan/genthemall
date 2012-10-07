@@ -36,6 +36,7 @@
 	</dependencies>
 	<build>
 		<finalName>genthemall-template-web-admin</finalName>
+		<testOutputDirectory>target/classes</testOutputDirectory>
 		<plugins>
 			<plugin>
 				<groupId>com.ii2d</groupId>

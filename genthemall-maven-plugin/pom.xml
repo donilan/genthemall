@@ -20,6 +20,11 @@
 			<version>2.0</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-project</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.ii2d</groupId>
 			<artifactId>genthemall-core</artifactId>
 			<version>${project.version}</version>

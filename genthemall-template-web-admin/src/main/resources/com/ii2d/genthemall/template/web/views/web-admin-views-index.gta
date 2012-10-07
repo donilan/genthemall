@@ -2,7 +2,7 @@
 name="web-admin-views-index"
 type="jsp"
 description="Admin web view index"
-path="__CAMEL_NAME__/index.jsp"
+path="admin/__CAMEL_NAME__/index.jsp"
 version="0.4.0"
 */%>
 ${'<' }%@ page language="java" pageEncoding="UTF-8"%>

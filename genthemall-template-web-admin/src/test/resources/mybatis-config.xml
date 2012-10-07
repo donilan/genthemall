@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
@@ -8,53 +7,53 @@
 	</settings>
 	<mappers>
 
-		<mapper resource="sqlmap/mysql/user.xml"/>
-		<mapper resource="sqlmap/mysql/userExt.xml"/>
+		<mapper resource="mybatis/mysql/user.xml"/>
+		<mapper resource="mybatis/mysql/ext/userExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/userType.xml"/>
-		<mapper resource="sqlmap/mysql/userTypeExt.xml"/>
+		<mapper resource="mybatis/mysql/userType.xml"/>
+		<mapper resource="mybatis/mysql/ext/userTypeExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/userAbcInfo.xml"/>
-		<mapper resource="sqlmap/mysql/userAbcInfoExt.xml"/>
+		<mapper resource="mybatis/mysql/userAbcInfo.xml"/>
+		<mapper resource="mybatis/mysql/ext/userAbcInfoExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/comment.xml"/>
-		<mapper resource="sqlmap/mysql/commentExt.xml"/>
+		<mapper resource="mybatis/mysql/comment.xml"/>
+		<mapper resource="mybatis/mysql/ext/commentExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/commentType.xml"/>
-		<mapper resource="sqlmap/mysql/commentTypeExt.xml"/>
+		<mapper resource="mybatis/mysql/commentType.xml"/>
+		<mapper resource="mybatis/mysql/ext/commentTypeExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/dictionary.xml"/>
-		<mapper resource="sqlmap/mysql/dictionaryExt.xml"/>
+		<mapper resource="mybatis/mysql/dictionary.xml"/>
+		<mapper resource="mybatis/mysql/ext/dictionaryExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/menu.xml"/>
-		<mapper resource="sqlmap/mysql/menuExt.xml"/>
+		<mapper resource="mybatis/mysql/menu.xml"/>
+		<mapper resource="mybatis/mysql/ext/menuExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/menuType.xml"/>
-		<mapper resource="sqlmap/mysql/menuTypeExt.xml"/>
+		<mapper resource="mybatis/mysql/menuType.xml"/>
+		<mapper resource="mybatis/mysql/ext/menuTypeExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/news.xml"/>
-		<mapper resource="sqlmap/mysql/newsExt.xml"/>
+		<mapper resource="mybatis/mysql/news.xml"/>
+		<mapper resource="mybatis/mysql/ext/newsExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/newsType.xml"/>
-		<mapper resource="sqlmap/mysql/newsTypeExt.xml"/>
+		<mapper resource="mybatis/mysql/newsType.xml"/>
+		<mapper resource="mybatis/mysql/ext/newsTypeExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/product.xml"/>
-		<mapper resource="sqlmap/mysql/productExt.xml"/>
+		<mapper resource="mybatis/mysql/product.xml"/>
+		<mapper resource="mybatis/mysql/ext/productExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/productType.xml"/>
-		<mapper resource="sqlmap/mysql/productTypeExt.xml"/>
+		<mapper resource="mybatis/mysql/productType.xml"/>
+		<mapper resource="mybatis/mysql/ext/productTypeExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/shop.xml"/>
-		<mapper resource="sqlmap/mysql/shopExt.xml"/>
+		<mapper resource="mybatis/mysql/shop.xml"/>
+		<mapper resource="mybatis/mysql/ext/shopExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/shopType.xml"/>
-		<mapper resource="sqlmap/mysql/shopTypeExt.xml"/>
+		<mapper resource="mybatis/mysql/shopType.xml"/>
+		<mapper resource="mybatis/mysql/ext/shopTypeExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/unit.xml"/>
-		<mapper resource="sqlmap/mysql/unitExt.xml"/>
+		<mapper resource="mybatis/mysql/unit.xml"/>
+		<mapper resource="mybatis/mysql/ext/unitExt.xml"/>
 
-		<mapper resource="sqlmap/mysql/unitType.xml"/>
-		<mapper resource="sqlmap/mysql/unitTypeExt.xml"/>
+		<mapper resource="mybatis/mysql/unitType.xml"/>
+		<mapper resource="mybatis/mysql/ext/unitTypeExt.xml"/>
 
 	</mappers>
 </configuration>

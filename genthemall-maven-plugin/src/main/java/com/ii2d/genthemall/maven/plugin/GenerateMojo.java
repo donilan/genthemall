@@ -18,7 +18,6 @@ import org.codehaus.groovy.control.CompilationFailedException;
 import com.ii2d.dbase.util.DFilterUtils;
 import com.ii2d.genthemall.cache.DatabaseCache;
 import com.ii2d.genthemall.template.Template;
-import com.ii2d.genthemall.template.TemplateFinder;
 import com.ii2d.genthemall.template.TemplateHolder;
 import com.ii2d.genthemall.util.GeneratorUtils;
 
@@ -56,9 +55,9 @@ public class GenerateMojo extends AbstractGenerateMojo {
 	public GenerateMojo() {
 		defaultTargetPathMap.put(TARGET_TYPE_JAVA_CODE, "src/test/java");
 		defaultTargetPathMap.put(TARGET_TYPE_RESOURCES, "src/test/resources");
-		defaultTargetPathMap.put(TARGET_TYPE_WEB, "src/webapp");
+		defaultTargetPathMap.put(TARGET_TYPE_WEB, "src/main/webapp");
 		defaultTargetPathMap.put(TARGET_TYPE_DEFAULT, "target/genthemall");
-		defaultTargetPathMap.put(TARGET_TYPE_JSP, "src/webapp/WEB-INF/jsp");
+		defaultTargetPathMap.put(TARGET_TYPE_JSP, "src/main/webapp/WEB-INF/jsp");
 	}
 
 	private String _getTargetBasePath(String type) {
@@ -101,8 +100,7 @@ public class GenerateMojo extends AbstractGenerateMojo {
 				DatabaseCache.makeCache(ds, ds.getTables());
 				getLog().info("Make database cache success.");
 			}
-			TemplateHolder templates = TemplateFinder
-					.findToHodler(getTemplatePath());
+			TemplateHolder templates = getTemplateHolder();
 			getLog().info(
 					String.format(
 							"Found %d templates, and load %d config in pom.xml file.",
