@@ -53,7 +53,6 @@
 					<generateConfigs>
 						<generateConfig>
 							<tables>user,user_type,user_abc_info,comment,comment_type,dictionary,menu,menu_type,news,news_type,product,product_type,shop,shop_type,unit,unit_type</tables>
-							<includeTemplate>sqlmap-mysql.*,mybatis-config</includeTemplate>
 						</generateConfig>
 					</generateConfigs>
 				</configuration>
