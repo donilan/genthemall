@@ -19,6 +19,8 @@
 	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery-1.8.1.js" />"></script>
 	<script type="text/javascript"
+		src="<spring:url value="/resources/admin/js/jquery.cookie-1.3.js" />"></script>
+	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery.paginate.js" />"></script>
 	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery-ui-1.8.23.custom.min.js" />"></script>

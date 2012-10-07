@@ -132,10 +132,14 @@ var Admin = {
 	$.fn.loadPaginate = function(options) {
 		this.trigger('beforePaginateLoaded');
 		var that = this;
+		var rows = 12;
+		if(options.rows != undefined && options.rows != null) {
+			rows = parseInt(options.rows);
+		}
 		Admin.loadCount(options, function(count) {
-			if(count < 16) return;
+			if(count <= rows) return;
 			that.paginate({
-				count: count / 15,
+				count: count / rows,
 				start: 1,
 				display: 10,
 				border: true,
@@ -149,7 +153,7 @@ var Admin = {
 				images: false,
 				mouse: 'press',
 				onChange: function(p){
-					console.log(p);
+					that.trigger('pageChange', [p]);
 				}
 			});
 		});

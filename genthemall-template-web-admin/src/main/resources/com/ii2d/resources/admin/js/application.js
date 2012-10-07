@@ -13,6 +13,29 @@ if(typeof console === 'undefined') {
 		console.log = function(msg){};
 }
 
+/**
+ * Cookie存取处理方法
+ * @author Doni
+ * @since 2012-10-07
+ */
+function cookie(key, val) {
+	var k = 'admin-' + key;
+	if(val == undefined || val == null) {
+		return $.cookie(k);
+	}
+	return $.cookie(k, val);
+}
+/**
+ * Init method
+ * @author Doni
+ * @since 2012-10-07
+ */
+(function(){
+	if(cookie('rows') == null) {
+		console.log(cookie('rows', 12));
+	}
+})();
+
 $(function() {
 	/** 全局TAB */
 	window.$TOPBAR = $('#topbar-menu');
@@ -31,12 +54,18 @@ $(function() {
 			$div.bind('afterPageLoaded', function(){
 				$MAIN_TABS.trigger('afterAddTab', [ui, this]);
 			});
-			$div.loadAdminPage({pageName: pageName});
+			//初始页面
+			$div.loadAdminPage({pageName: pageName, rows: cookie('rows')});
 			
 			if(pageName != 'index') {
 				$MAIN_TABS.tabs('select', ui.index);
 				var $pageDiv = $(DIV).addClass('page').appendTo($panel);
-				$pageDiv.loadPaginate({pageName: pageName});
+				$pageDiv.loadPaginate({pageName: pageName, rows: cookie('rows')});
+				$pageDiv.bind('pageChange', function(event2, p){
+					//分页处理
+					$div.loadAdminPage({pageName: pageName, page: p, rows: cookie('rows')});
+					
+				});
 			}
 		}
 	});
