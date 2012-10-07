@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
@@ -6,12 +7,54 @@
 		<setting name="lazyLoadingEnabled" value="false" />
 	</settings>
 	<mappers>
-		<mapper resource="sqlmap/user.xml"/>
-		<mapper resource="sqlmap/news.xml"/>
-		<mapper resource="sqlmap/newsType.xml"/>
-		<mapper resource="sqlmap/shop.xml"/>
-		<mapper resource="sqlmap/userAbcInfo.xml"/>
-		<mapper resource="sqlmap/menu.xml"/>
-		<mapper resource="sqlmap/menuType.xml"/>
+
+		<mapper resource="sqlmap/mysql/user.xml"/>
+		<mapper resource="sqlmap/mysql/userExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/userType.xml"/>
+		<mapper resource="sqlmap/mysql/userTypeExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/userAbcInfo.xml"/>
+		<mapper resource="sqlmap/mysql/userAbcInfoExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/comment.xml"/>
+		<mapper resource="sqlmap/mysql/commentExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/commentType.xml"/>
+		<mapper resource="sqlmap/mysql/commentTypeExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/dictionary.xml"/>
+		<mapper resource="sqlmap/mysql/dictionaryExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/menu.xml"/>
+		<mapper resource="sqlmap/mysql/menuExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/menuType.xml"/>
+		<mapper resource="sqlmap/mysql/menuTypeExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/news.xml"/>
+		<mapper resource="sqlmap/mysql/newsExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/newsType.xml"/>
+		<mapper resource="sqlmap/mysql/newsTypeExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/product.xml"/>
+		<mapper resource="sqlmap/mysql/productExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/productType.xml"/>
+		<mapper resource="sqlmap/mysql/productTypeExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/shop.xml"/>
+		<mapper resource="sqlmap/mysql/shopExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/shopType.xml"/>
+		<mapper resource="sqlmap/mysql/shopTypeExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/unit.xml"/>
+		<mapper resource="sqlmap/mysql/unitExt.xml"/>
+
+		<mapper resource="sqlmap/mysql/unitType.xml"/>
+		<mapper resource="sqlmap/mysql/unitTypeExt.xml"/>
+
 	</mappers>
 </configuration>
