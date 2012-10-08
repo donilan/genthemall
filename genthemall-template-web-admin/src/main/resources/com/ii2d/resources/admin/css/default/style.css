@@ -154,6 +154,9 @@
 	width: 100%;
 }
 
+#right-side .list-table .th-operator {
+	width: 150px;
+}
 #right-side .list-table th,#right-side .list-table td {
 	line-height: 12px;
 	padding: 5px 6px;
@@ -162,7 +165,7 @@
 	border: 1px solid #ddd;
 }
 
-#right-side .list-table th:hover,#right-side .list-table tr:hover {
+#right-side .list-table th:hover, #right-side .list-table tr:hover {
 	background: #b2d1ff;
 }
 
@@ -186,10 +189,10 @@
 	cursor: pointer;
 }
 
-#right-side .list-table .editable input {
+#right-side .list-table input {
 	width: 140px;
-	height: 24px;
-	line-height: 24px;
+	height: 20px;
+	line-height: 20px;
 	border: 1px solid #CCC;
 }
 #right-side .list-table .editable input:focus {

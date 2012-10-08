@@ -72,6 +72,7 @@ $(function() {
 	//增加tab后既处理
 	$MAIN_TABS.bind('afterAddTab', function(event, tab, table){
 		initTableEditor(tab);
+		initTableButtons(table);
 	});
 	//增加一个首页tab
 	$MAIN_TABS.tabs('add', '#index', 'Home');
@@ -102,36 +103,53 @@ $(function() {
 function initTableEditor(ui) {
 	var $tabPanel = $(ui.panel);
 	var isChanged = false;
-	$tabPanel.find('td span').each(function(i, el){
-		smallTextLength($(el));
-	});
-	$tabPanel.find('.editable').click(function(){
-		$(this).find('span').hide();
-		$(this).find('input').show().focus();
-	});
-	$tabPanel.find('.editable input').blur(function(){
+	
+	$tabPanel.find('td .editable').editable().bind('afterChange', function(event, $input){
 		var $in = $(this);
-		$in.hide();
-		$in.parent().find('span').show();
-		//如果未修改过，则操作完毕
-		if(!isChanged) return;
 		var $idInput = $in.parent().parent().find('.id-holder input');
+		var updateProp = $input.attr('name');
 		var data = {};
-		data[$in.attr('name')] = $in.val();
-		$.ajax({
-			url: contextPath + 'admin/' + ui.tab.hash.substring(1) + '/update/' + $idInput.val(),
-			type: 'POST',
-			data: data
-		}).done(function(data){
-			log(data);
-			isChanged = false;
-		});
-	}).change(function(){
-		$(this).parent().find('span').text($(this).val());
-		isChanged = true;
+		data['pageName'] = ui.tab.hash.substring(1);
+		data[$idInput.attr('name')] = $idInput.val();
+		data[$input.attr('name')] = $input.val();
+		console.log($input);
+		console.log(data);
+	});
+//	$tabPanel.find('.editable').click(function(){
+//		$(this).find('span').hide();
+//		$(this).find('input').show().focus();
+//	});
+//	$tabPanel.find('.editable input').blur(function(){
+//		var $in = $(this);
+//		$in.hide();
+//		$in.parent().find('span').show();
+//		//如果未修改过，则操作完毕
+//		if(!isChanged) return;
+//		var $idInput = $in.parent().parent().find('.id-holder input');
+//		var data = {
+//				$in.attr('name')]: $in.val(),
+//				pageName: ui.tab.hash.substring(1),
+//				id: $idInput.val()
+//		};
+//		$.ajax({
+//			url: contextPath + 'admin/' + ui.tab.hash.substring(1) + '/update/' + $idInput.val(),
+//			type: 'POST',
+//			data: data
+//		}).done(function(msg){
+//			log(msg);
+//			isChanged = false;
+//		});
+//	}).change(function(){
+//		$(this).parent().find('span').text($(this).val());
+//		isChanged = true;
+//	});
+}
+function initTableButtons(table) {
+	var $editBtns = $(table).find('.button-edit');
+	$editBtns.click(function(){
+		
 	});
 }
-
 
 /**
  * @see #fixTextLength($el, len, suffix)

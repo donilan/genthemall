@@ -4,7 +4,7 @@ import static com.ii2d.dbase.util.DNameUtils.toCamelName
 import static com.ii2d.dbase.util.DDBUtils.TYPES
 
 def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'Address', 'Password', 'IdCard']
-def uneditableColumns = unlistableColumns + ['CreateDate']
+def uneditableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'CreateDate']
 %>
 packageName = "com.ii2d"
 packagePath	= packageName.replaceAll(/\\./, '/')

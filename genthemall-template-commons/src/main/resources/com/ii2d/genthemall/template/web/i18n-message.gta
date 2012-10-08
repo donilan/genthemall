@@ -1,0 +1,19 @@
+<%/*
+name="i18n-message"
+type="resources"
+allCache=true
+description="Spring web I18N message properties file."
+path="message.properties"
+version="0.0.1"
+*/%><%data.each {table->%>
+${table.camelName}=${table.pascalName}<%table.columns.each { column->%>
+${table.camelName}.${column.camelName}=${column.pascalName}<%}%>
+<%}%>
+edit=Edit
+delete=Delete
+create=Create
+add=Add
+remove=Remove
+operate=Operate
+list=List
+show=Show

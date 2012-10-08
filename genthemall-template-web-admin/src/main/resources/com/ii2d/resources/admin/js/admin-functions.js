@@ -74,6 +74,29 @@ var Admin = {
 		}).done(function(data){
 			callback(data);
 		});
+	},
+	loadEditor: function(options, callback) {
+		if(options.pageName == undefined) {
+			throw 'Param page cannot be null or empty.';
+		}
+		$.ajax({
+			url: contextPath + 'admin/' + options.pageName + '/edit/' + options.id,
+			type: 'GET'
+		}).done(function(html){
+			callback(html);
+		});
+	},
+	doUpdate: function(options, callback) {
+		if(options.pageName == undefined) {
+			throw 'Param page cannot be null or empty.';
+		}
+		$.ajax({
+			url: contextPath + 'admin/' + options.pageName + '/update/' + options.id,
+			type: 'POST',
+			data: options
+		}).done(function(msg){
+			callback(msg);
+		});
 	}
 };
 
@@ -158,5 +181,40 @@ var Admin = {
 			});
 		});
 		return this;
+	};
+	
+	$.fn.editable = function(options) {
+		$(this).each(function(){
+			var $that = $(this);
+			var attr = $that.data();
+			$that.click(function(){
+				$this = $(this);
+				var $input = $('<input />');
+				$input.val($this.text());
+				$input.attr('name', attr.name);
+				switch(attr.type) {
+					case 'java.lang.String':
+						$input.attr({'type': 'text', 'maxLength': attr.maxLength});
+						break;
+					case 'java.lang.Integer':
+					case 'java.lang.Long':
+						$input.attr({'type': 'text', 'maxLength': 10});
+						break;
+				}
+				$this.hide();
+				$input.appendTo($this.parent()).focus();
+				$that.trigger('clicked', [$input]);
+				$input.change(function(){
+					$that.trigger('valueChange');
+				});
+				$input.blur(function(){
+					$that.trigger('afterChange', [$input]);
+					$this.text($input.val());
+					$input.remove();
+					$this.show();
+				});
+			});
+		});
+		return $(this);
 	};
 })(jQuery);

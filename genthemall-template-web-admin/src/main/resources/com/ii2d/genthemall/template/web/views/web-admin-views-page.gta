@@ -17,8 +17,8 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 	<thead>
 		<tr class="head">
 			<% showCloumn.each { %> 
-			<th>${it.camelName }</th><%}%>
-			<th>操作</th>
+			<th><spring:message code="${camelName}.${it.camelName }" /></th><%}%>
+			<th class="th-operator"><spring:message code="operate" /></th>
 		</tr>
 	</thead>
 	<c:forEach items="\${page.data }" var="vo" varStatus="s">
@@ -26,7 +26,7 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 		<% showCloumn.each {
 				def title = "\${vo.${it.camelName}}"
 				def val = "\${vo.${it.camelName}}"
-				def clazz = "${it.camelName } ${it.isEditable? 'editable': ''}"
+				def clazz = "${it.camelName } ${it.isEditable? 'editable': 'uneditable'}"
 				def editor = ""
 				if(it.isEditable) {
 					editor = """<input length="${it.maxLength}" class="hide" type="text" name="${it.camelName }" value="\${vo.${it.camelName}}" />"""
@@ -40,17 +40,16 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 					}
 				}
 					
-		%><td class="${clazz }" title="${title }" >
-			<span>${val}</span>
-			${editor }
+		%><td >
+			<span class="${clazz }" title="${title }" data-type="${it.classType}" data-name="${it.camelName}" data-length="${it.maxLength}" >${val}</span>
 		</td>
 		<%}%>
 		<td class="hide id-holder" >
 			<%if(idColumn){ %><input type="hidden" class="id-column" name="${idColumn.name }" value="\${vo.id }" /><%} %>
 		</td>
 		<td>
-			<a class="button button-edit" href="###">编辑</a>
-			<a class="button button-delete" href="###">删除</a>
+			<a class="button button-edit" href="###"><spring:message code="edit" /></a>
+			<a class="button button-delete" href="###"><spring:message code="delete" /></a>
 		</td>
 	</tr>
 	</c:forEach>

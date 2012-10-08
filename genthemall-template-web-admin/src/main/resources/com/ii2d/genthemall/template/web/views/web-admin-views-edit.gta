@@ -1,0 +1,25 @@
+<%/*
+name="web-admin-views-edit"
+type="jsp"
+description="Admin web view Edit"
+path="admin/__CAMEL_NAME__/edit.jsp"
+version="0.0.1"
+*/%>
+${'<' }%@ page language="java" pageEncoding="UTF-8"%>
+${'<' }%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+${'<' }%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<spring:url var = "action" value='/admin/${camelName}/update' />
+<form:form commandName="instance" action="\${action}">
+<table class="table-edit" >
+	<%columns.findAll{it.isEditable}.each {%>
+	<tr>
+		<td>
+			<label for="${camelName}">
+				<spring:message code="${camelName}.${it.camelName }" />
+			</label>
+		<td>
+		<td><form:input cssClass="text" path="${it.camelName}" /></td>
+	</tr>
+	<%}%>
+</table>
+</form:form>
