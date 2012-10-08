@@ -7,8 +7,14 @@
 	</settings>
 	<mappers>
 
-		<mapper resource="mybatis/mysql/area.xml"/>
-		<mapper resource="mybatis/mysql/ext/areaExt.xml"/>
+		<mapper resource="mybatis/mysql/user.xml"/>
+		<mapper resource="mybatis/mysql/ext/userExt.xml"/>
+
+		<mapper resource="mybatis/mysql/userType.xml"/>
+		<mapper resource="mybatis/mysql/ext/userTypeExt.xml"/>
+
+		<mapper resource="mybatis/mysql/userAbcInfo.xml"/>
+		<mapper resource="mybatis/mysql/ext/userAbcInfoExt.xml"/>
 
 		<mapper resource="mybatis/mysql/comment.xml"/>
 		<mapper resource="mybatis/mysql/ext/commentExt.xml"/>
@@ -31,9 +37,6 @@
 		<mapper resource="mybatis/mysql/newsType.xml"/>
 		<mapper resource="mybatis/mysql/ext/newsTypeExt.xml"/>
 
-		<mapper resource="mybatis/mysql/printmodule.xml"/>
-		<mapper resource="mybatis/mysql/ext/printmoduleExt.xml"/>
-
 		<mapper resource="mybatis/mysql/product.xml"/>
 		<mapper resource="mybatis/mysql/ext/productExt.xml"/>
 
@@ -51,15 +54,6 @@
 
 		<mapper resource="mybatis/mysql/unitType.xml"/>
 		<mapper resource="mybatis/mysql/ext/unitTypeExt.xml"/>
-
-		<mapper resource="mybatis/mysql/user.xml"/>
-		<mapper resource="mybatis/mysql/ext/userExt.xml"/>
-
-		<mapper resource="mybatis/mysql/userAbcInfo.xml"/>
-		<mapper resource="mybatis/mysql/ext/userAbcInfoExt.xml"/>
-
-		<mapper resource="mybatis/mysql/userType.xml"/>
-		<mapper resource="mybatis/mysql/ext/userTypeExt.xml"/>
 
 	</mappers>
 </configuration>

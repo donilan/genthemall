@@ -48,11 +48,11 @@
 						<url>${dataSource.url}</url>
 						<username>${dataSource.username}</username>
 						<password>${dataSource.password}</password>
-						<tables>area,comment,comment_type,dictionary,menu,menu_type,news,news_type,printmodule,product,product_type,shop,shop_type,unit,unit_type,user,user_abc_info,user_type</tables>
+						<tables>user,user_type,user_abc_info,comment,comment_type,dictionary,menu,menu_type,news,news_type,product,product_type,shop,shop_type,unit,unit_type</tables>
 					</databaseSource>
 					<generateConfigs>
 						<generateConfig>
-							<tables>area,comment,comment_type,dictionary,menu,menu_type,news,news_type,printmodule,product,product_type,shop,shop_type,unit,unit_type,user,user_abc_info,user_type</tables>
+							<tables>user,user_type,user_abc_info,comment,comment_type,dictionary,menu,menu_type,news,news_type,product,product_type,shop,shop_type,unit,unit_type</tables>
 						</generateConfig>
 					</generateConfigs>
 				</configuration>
