@@ -86,7 +86,7 @@ def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\
 <% if(idColumn) { //!-- generate if have id column. %>
 	<delete id="delete_${pascalName}" >
 	<%if(statusColumn) {%>
-		UPDATE ${tableName} SET ${statusColumn.columnName} = -1
+		UPDATE ${tableName} SET ${statusColumn.columnName} = -1 WHERE ${idColumn.columnName} = #{${idColumn.camelName}}
 	<%} else {%>
 		DELETE FROM ${tableName} WHERE ${idColumn.columnName} = #{${idColumn.camelName}}
 	<%}%>

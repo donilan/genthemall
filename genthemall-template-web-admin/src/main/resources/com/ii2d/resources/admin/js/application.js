@@ -63,12 +63,17 @@ $(function() {
 				$pageDiv.loadPaginate({action: pageName, page: 'count'}, {rows: cookie('rows')});
 				$pageDiv.bind('pageChange', function(event2, p){
 					//分页处理
-					$div.loadAdminPage({action: pageName, page: p, rows: cookie('rows')});
-					
+					$div.loadAdminPage({action: pageName, page: 'page', data: {page: p, rows: cookie('rows')}});
 				});
 			}
 		}
 	});
+	//tab关闭事件
+	$MAIN_TABS.on('click', "span.ui-icon-close", function() {
+		var index = $("li", $MAIN_TABS).index($( this ).parent());
+		$MAIN_TABS.tabs("remove", index);
+	});
+	
 	//增加tab后既处理
 	$MAIN_TABS.bind('afterAddTab', function(event, tab, table){
 		initTableEditor(tab);
@@ -76,17 +81,24 @@ $(function() {
 	});
 	//增加一个首页tab
 	$MAIN_TABS.tabs('add', '#index', 'Home');
-	//tab关闭事件
-	$MAIN_TABS.on('click', "span.ui-icon-close", function() {
-		var index = $("li", tabsWrapper).index($( this ).parent());
-		$MAIN_TABS.tabs("remove", index);
-	});
+	
 
 	//菜单事件,增加tab
 	$LEFT_SIDE.bind('afterMenuLoaded', function(event, menu){
 		$(this).find('.sub-menu .item a').click(function(){
 			var item = $(this);
-			$MAIN_TABS.tabs('add', item.attr('href'), item.text());
+			var tabName = item.attr('href');
+			var selectTab = null;
+			$MAIN_TABS.find('.ui-tabs-nav li>a').each(function(){
+				if($(this).attr('href') == tabName)
+					selectTab = $(this).parent();
+			});
+			if(selectTab != null) {
+				var index = $("li", $MAIN_TABS).index(selectTab);
+				$MAIN_TABS.tabs('select', index);
+				return;
+			}
+			$MAIN_TABS.tabs('add', tabName, item.text());
 		});
 	});
 	//读取菜单
@@ -125,7 +137,7 @@ function initTableButtons(table) {
 	$editBtns.click(function(){
 		var options = $(this).data();
 		options.done = function(html){
-			$(DIV).addClass('dialog').html(html).dialog({
+			$(DIV).addClass('dialog').html(html).attr('title', '编辑').dialog({
 				modal: true,
 				height: '400',
 				buttons: {
@@ -134,43 +146,45 @@ function initTableButtons(table) {
 						var updateData = $(this).find('form').serializeJSON();
 						$.extend(data, updateData);
 						Admin.doUpdate(data, function(msg){
-							$that.dialog("close").remove();
+							$that.dialog("close");
 						});
-					},
-					'关闭': function() {
-						$(this).dialog("close").remove();
 					}
+				},
+				close: function() {
+					$(this).remove();
 				}
 			});
 		};
 		$.adminAjax(options);
 	});
 	
+	//删除按钮
 	var $deleteBtns = $(table).find('.button-delete');
 	$deleteBtns.click(function(){
+		var $that = $(this);
+		
+		$(DIV).addClass('dialog').attr('title', '请选择一个操作').html('<h1>请确定是否需要删除?</h1>').dialog({
+			modal: true,
+			buttons: {
+				'确定删除': function() {
+					var options = $that.data();
+					options.method = 'DELETE';
+					options.done = function(msg) {
+						$that.parents('tr:first').hide(1000);
+					};
+					$.adminAjax(options);
+					$(this).dialog('close');
+				},
+				'取消': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function() {
+				$(this).remove();
+			}
+		});
 		
 	});
-}
-
-/**
- * @see #fixTextLength($el, len, suffix)
- */
-function smallTextLength($el) {
-	fixTextLength($el, SMALL_TEXT_LENGTH);
-}
-/**
- * 修正元素的文本数据长度
- * @param $el 元素jquery对象
- * @param len 长度
- * @param suffix 后缀，例如...
- */
-function fixTextLength($el, len, suffix) {
-	if(!suffix)
-		suffix = '...';
-	var text = $el.text();
-	if(text.length > len) {
-		$el.text(text.substring(0, len) + suffix);
-	}
 }
 
 function debug(msg) {
