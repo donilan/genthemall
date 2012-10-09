@@ -66,6 +66,7 @@ $(function() {
 					$div.loadAdminPage({action: pageName, page: 'page', data: {page: p, rows: cookie('rows')}});
 				});
 			}
+			
 		}
 	});
 	//tab关闭事件
@@ -132,9 +133,13 @@ function initTableEditor(ui) {
 }
 
 function initTableButtons(table) {
+	var $table = $(table);
+	$table.find('.button').button();
+	
 	//编辑按钮
-	var $editBtns = $(table).find('.button-edit');
+	var $editBtns = $table.find('.button-edit');
 	$editBtns.click(function(){
+		var $btn = $(this);
 		var options = $(this).data();
 		options.done = function(html){
 			$(DIV).addClass('dialog').html(html).attr('title', '编辑').dialog({
@@ -142,12 +147,15 @@ function initTableButtons(table) {
 				height: '400',
 				buttons: {
 					'保存': function() {
-						var $that = $(this);
-						var updateData = $(this).find('form').serializeJSON();
-						$.extend(data, updateData);
-						Admin.doUpdate(data, function(msg){
-							$that.dialog("close");
-						});
+						var updateOptions = {
+							data: $(this).find('form').serialize(),
+							action: options.action,
+							method: 'POST',
+							id: options.id,
+							page: 'update'
+						};
+						$.adminAjax(updateOptions);
+						$(this).dialog('close');
 					}
 				},
 				close: function() {
@@ -159,7 +167,7 @@ function initTableButtons(table) {
 	});
 	
 	//删除按钮
-	var $deleteBtns = $(table).find('.button-delete');
+	var $deleteBtns = $table.find('.button-delete');
 	$deleteBtns.click(function(){
 		var $that = $(this);
 		
@@ -185,10 +193,36 @@ function initTableButtons(table) {
 		});
 		
 	});
+	$table.find('.button-create').click(function(){
+		var $btn = $(this);
+		var options = $btn.data();
+		options.done = function(html){
+			$(DIV).addClass('dialog').html(html).attr('title', '添加').dialog({
+				modal: true,
+				height: '400',
+				buttons: {
+					'保存': function() {
+						var saveOptions = {
+							data: $(this).find('form').serialize(),
+							action: options.action,
+							method: 'POST',
+							page: 'save'
+						};
+						$.adminAjax(saveOptions);
+						$(this).dialog('close');
+					}
+				},
+				close: function() {
+					$(this).remove();
+				}
+			});
+		};
+		$.adminAjax(options);
+	});
 }
 
 function debug(msg) {
-	
+	console.log(msg);
 }
 function log(msg) {
 	

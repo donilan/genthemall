@@ -1,9 +1,13 @@
+body {
+	font: normal 13px/28px sans-serif;
+}
 /* main */
 #main-wrapper {
 	min-width: 1024px;
 }
+
 #main-wrapper * {
-	font: normal 13px/28px sans-serif;
+	
 }
 
 #main-wrapper a {
@@ -150,6 +154,19 @@
 }
 /* end tabs*/
 /* start table */
+#right-side .table-topbar {
+	border: 1px solid green;
+	display: block;
+	padding: 2px;
+	margin: 2px;
+}
+
+#right-side .table-topbar ul li {
+	diplay: block;
+	float: left;
+	padding-left: 5px;
+}
+
 #right-side .list-table {
 	width: 100%;
 }
@@ -157,15 +174,14 @@
 #right-side .list-table .th-operator {
 	width: 150px;
 }
+
 #right-side .list-table th,#right-side .list-table td {
-	line-height: 12px;
-	padding: 5px 6px;
+	padding: 2px 3px;
 	text-align: left;
-	vertical-align: top;
 	border: 1px solid #ddd;
 }
 
-#right-side .list-table th:hover, #right-side .list-table tr:hover {
+#right-side .list-table th:hover,#right-side .list-table tr:hover {
 	background: #b2d1ff;
 }
 
@@ -180,9 +196,11 @@
 #right-side .list-table {
 	border-collapse: collapse;
 }
+
 #right-side .list-table td {
 	overflow: hidden;
 }
+
 #right-side .list-table .editable {
 	overflow: hidden;
 	width: 150px;
@@ -195,6 +213,7 @@
 	line-height: 20px;
 	border: 1px solid #CCC;
 }
+
 #right-side .list-table .editable input:focus {
 	outline: none;
 }
@@ -221,6 +240,6 @@
 	display: none;
 }
 
-.clear {
+.clear,.cl {
 	clear: both;
 }
