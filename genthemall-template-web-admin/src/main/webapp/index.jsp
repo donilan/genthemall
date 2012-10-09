@@ -6,10 +6,8 @@
 <script type="text/javascript">
 	var contextPath = '<spring:url value="/" />';
 </script>
-	<!-- 
 	<link rel="stylesheet" type="text/css"
 		href="<spring:url value="/resources/admin/css/yui-cssreset-3.7.0.css" />">
-		 -->
 	<link rel="stylesheet" type="text/css"
 		href="<spring:url value="/resources/admin/css/jquery-ui/ui-lightness/jquery-ui-1.8.23.custom.css" />">
 	<link rel="stylesheet" type="text/css"

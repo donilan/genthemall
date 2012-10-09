@@ -48,8 +48,8 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 			<%if(idColumn){ %><input type="hidden" class="id-column" name="${idColumn.name }" value="\${vo.id }" /><%} %>
 		</td>
 		<td>
-			<a class="button button-edit" href="###"><spring:message code="edit" /></a>
-			<a class="button button-delete" href="###"><spring:message code="delete" /></a>
+			<a class="button button-edit" href="###" data-action="${camelName}" data-id="\${vo.id}" data-page="edit"><spring:message code="edit" /></a>
+			<a class="button button-delete" href="###" data-action="${camelName}" data-id="\${vo.id}" data-page="delete"><spring:message code="delete" /></a>
 		</td>
 	</tr>
 	</c:forEach>
