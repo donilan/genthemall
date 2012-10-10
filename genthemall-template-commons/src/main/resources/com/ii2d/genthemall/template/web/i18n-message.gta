@@ -9,6 +9,8 @@ version="0.0.1"
 ${table.camelName}=${table.pascalName}<%table.columns.each { column->%>
 ${table.camelName}.${column.camelName}=${column.pascalName}<%}%>
 <%}%>
+index=Index
+home=Home
 edit=Edit
 delete=Delete
 create=Create

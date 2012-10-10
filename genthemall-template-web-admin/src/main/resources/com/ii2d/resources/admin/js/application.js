@@ -36,19 +36,14 @@ function cookie(key, val) {
 	}
 	return $.cookie(k, val);
 }
-/**
- * Init method
- * @author Doni
- * @since 2012-10-07
- */
-(function(){
-	if(cookie('rows') == null) {
-		console.log(cookie('rows', 12));
-	}
-	less.watch();
-})();
 
 $(function() {
+	
+	if(cookie('rows') == null) {
+		LOG.debug('Add cookie: ' + cookie('rows', 12));
+	}
+	less.watch();
+	
 	/** 全局TAB */
 	window.$TOPBAR = $('#topbar-menu');
 	window.$LEFT_SIDE = $('#left-side');
@@ -59,6 +54,7 @@ $(function() {
 	$MAIN_TABS.tabs({
 		tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
 		add: function(event, ui ) {
+			LOG.debug('Add a tab: ' + ui);
 			var $panel = $(ui.panel);
 			var action = ui.tab.hash.substring(1);
 			var $wrapper = $(DIV).addClass('content-wrapper').appendTo($panel);
@@ -98,14 +94,17 @@ $(function() {
 			
 		}
 	});
+	
+	//增加一个首页tab
+	$MAIN_TABS.tabs('add', '#index', 'Home');
+	
 	//tab关闭事件
 	$MAIN_TABS.on('click', "span.ui-icon-close", function() {
 		var index = $("li", $MAIN_TABS).index($( this ).parent());
 		$MAIN_TABS.tabs("remove", index);
 	});
 	
-	//增加一个首页tab
-	$MAIN_TABS.tabs('add', '#index', 'Home');
+	
 	
 
 	//菜单事件,增加tab
@@ -129,9 +128,7 @@ $(function() {
 	//读取菜单
 	$LEFT_SIDE.loadMenu();
 	$LEFT_SIDE.bind('afterMenuLoaded', function(){
-		$(this).find('.menu-wrapper>.menu').menu({
-			
-		});
+		$(this).find('.menu-wrapper>.menu').menu();
 	});
 	
 });
@@ -280,3 +277,4 @@ function initSearchBtn($btn) {
 function initAdvancedSearchBtn($btn) {
 	
 }
+
