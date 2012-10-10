@@ -12,6 +12,17 @@ if(typeof console === 'undefined') {
 	else
 		console.log = function(msg){};
 }
+var LOG = {
+		debug: function(msg) {
+			console.log(msg);
+		},
+		info: function(msg) {
+			console.log(msg);
+		},
+		error: function(msg) {
+			console.log(msg);
+		}
+}
 
 /**
  * Cookie存取处理方法
@@ -53,6 +64,7 @@ $(function() {
 			var $wrapper = $(DIV).addClass('content-wrapper').appendTo($panel);
 			var $searchBar = $(DIV).addClass('search-bar').appendTo($wrapper);
 			var $tablePage = $(DIV).addClass('table-wrapper').appendTo($wrapper);
+			var $paginate = $(DIV).addClass('paginate').appendTo($wrapper);
 			
 			$tablePage.bind('afterPageLoaded', function(){
 				initTableEditor(ui);
@@ -62,7 +74,9 @@ $(function() {
 			});
 			$searchBar.bind('afterPageLoaded', function(){
 				var $buttons = $(this).find('.button').button();
-				initCreateBtn($(this).find('.button-create').button());
+				initCreateBtn($(this).find('.button-create'));
+				initSearchBtn($(this).find('.button-search'));
+				initAdvancedSearchBtn($(this).find('.button-advanced-search'));
 			});
 			
 			if(action != 'index') {
@@ -72,9 +86,9 @@ $(function() {
 				//初始页面
 				$tablePage.loadAdminPage({action: action, page: 'advancedSearch', data: {rows: cookie('rows')}});
 				$MAIN_TABS.tabs('select', ui.index);
-				var $pageDiv = $(DIV).addClass('page').appendTo($wrapper);
-				$pageDiv.loadPaginate({action: action, page: 'count'}, {rows: cookie('rows')});
-				$pageDiv.bind('pageChange', function(event2, p){
+				
+				$paginate.loadPaginate({action: action, page: 'count', data: {rows: cookie('rows')}});
+				$paginate.bind('pageChange', function(event2, p){
 					//分页处理
 					$tablePage.loadAdminPage({action: action, page: 'advancedSearch', data: {page: p, rows: cookie('rows')}});
 				});
@@ -233,9 +247,36 @@ function initCreateBtn($createBtn) {
 	});
 }
 
-function debug(msg) {
-	console.log(msg);
+function initSearchBtn($btn) {
+	var $input = $btn.parent().find('input[type=text]');
+	if($input.size() < 1) {
+		LOG.error('Cannot find search input form.');
+		return;
+	}
+	$btn.click(function(){
+		var $wrapper = $(this).parents('.content-wrapper:first');
+		if($wrapper.size() > 1) {
+			LOG.error('Found more than 1 wrapper.');
+			return;
+		}
+		var $btn = $(this);
+		var options = $btn.data();
+		options.data = $input.serializeJSON();
+		options.data.rows = cookie('rows');
+		var $tableWrapper = $wrapper.find('.table-wrapper');
+		var $pageWrapper = $wrapper.find('.paginate');
+		$tableWrapper.loadAdminPage(options);
+		$pageWrapper.empty();
+		$pageWrapper.loadPaginate({action: options.action, page: 'count4search', data: options.data});
+		$pageWrapper.unbind('pageChange');
+		$pageWrapper.bind('pageChange', function(event2, p){
+			//分页处理
+			options.data.page = p;
+			$tableWrapper.loadAdminPage(options);
+		});
+		
+	});
 }
-function log(msg) {
+function initAdvancedSearchBtn($btn) {
 	
 }

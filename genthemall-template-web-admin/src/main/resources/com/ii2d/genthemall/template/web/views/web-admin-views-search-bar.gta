@@ -19,10 +19,10 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 	</li>
 	<li>
 		<input type="text" class="search-text" name="keyword" />
-		<a class="button button-search" ><spring:message code="search" /></a>
+		<a class="button button-search" data-action="${camelName}" data-page="search" ><spring:message code="search" /></a>
 	</li>
 	<li>
-		<a class="button button-advanced-search" ><spring:message code="advancedSearch" /></a>
+		<a class="button button-advanced-search" data-action="${camelName}" data-page="advancedSearch" ><spring:message code="advancedSearch" /></a>
 	</li>
 </ul>
 <div class="advanced-search-wrapper">

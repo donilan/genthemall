@@ -100,6 +100,7 @@
 		var defaults = {
 				data: {rows: 12},
 				done: function(count) {
+					LOG.debug('Paginate was loaded, now creating paginate, page count is: ' + count);
 					var rows = parseInt(this.data.rows);
 					if(count <= rows) return;
 					$that.paginate({
@@ -120,6 +121,8 @@
 							$that.trigger('pageChange', [p]);
 						}
 					});
+					$that.trigger('afterPaginateLoaded', [count]);
+					
 				}
 		}
 		var options = $.extend(defaults, options);
