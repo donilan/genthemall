@@ -34,6 +34,7 @@ function cookie(key, val) {
 	if(cookie('rows') == null) {
 		console.log(cookie('rows', 12));
 	}
+	less.watch();
 })();
 
 $(function() {
@@ -41,7 +42,7 @@ $(function() {
 	window.$TOPBAR = $('#topbar-menu');
 	window.$LEFT_SIDE = $('#left-side');
 	window.$RIGHT_SIDE = $('#right-side');
-	window.$MAIN_TABS = $(DIV).append($(UL)).appendTo($RIGHT_SIDE);
+	window.$MAIN_TABS = $(DIV).append(UL).appendTo($RIGHT_SIDE);
 	
 	//初始化tab
 	$MAIN_TABS.tabs({
@@ -49,21 +50,22 @@ $(function() {
 		add: function(event, ui ) {
 			var $panel = $(ui.panel);
 			var pageName = ui.tab.hash.substring(1);
-			var $div = $(DIV).addClass('content-wrapper').appendTo($panel);
+			var $wrapper = $(DIV).addClass('content-wrapper').appendTo($panel);
+			var $tablePage = $(DIV).addClass('table-wrapper').appendTo($wrapper);
 			
-			$div.bind('afterPageLoaded', function(){
+			$tablePage.bind('afterPageLoaded', function(){
 				$MAIN_TABS.trigger('afterAddTab', [ui, this]);
 			});
 			//初始页面
-			$div.loadAdminPage({action: pageName, page: 'page', data: {rows: cookie('rows')}});
+			$tablePage.loadAdminPage({action: pageName, page: 'page', data: {rows: cookie('rows')}});
 			
 			if(pageName != 'index') {
 				$MAIN_TABS.tabs('select', ui.index);
-				var $pageDiv = $(DIV).addClass('page').appendTo($panel);
+				var $pageDiv = $(DIV).addClass('page').appendTo($wrapper);
 				$pageDiv.loadPaginate({action: pageName, page: 'count'}, {rows: cookie('rows')});
 				$pageDiv.bind('pageChange', function(event2, p){
 					//分页处理
-					$div.loadAdminPage({action: pageName, page: 'page', data: {page: p, rows: cookie('rows')}});
+					$tablePage.loadAdminPage({action: pageName, page: 'page', data: {page: p, rows: cookie('rows')}});
 				});
 			}
 			
@@ -104,7 +106,11 @@ $(function() {
 	});
 	//读取菜单
 	$LEFT_SIDE.loadMenu();
-	
+	$LEFT_SIDE.bind('afterMenuLoaded', function(){
+		$(this).find('.menu-wrapper>.menu').menu({
+			
+		});
+	});
 	
 });
 

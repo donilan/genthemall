@@ -24,9 +24,11 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 		</li>
 		<li>
 			<a class="button button-advanced-search" ><spring:message code="advancedSearch" /></a>
-			
 		</li>
 	</ul>
+	<div class="advanced-search-wrapper">
+	
+	</div>
 	<div class="clear"></div>
 </div>
 <table class="list-table" >
@@ -70,8 +72,3 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 	</tr>
 	</c:forEach>
 </table>
-<div class="page" >
-	<input type="hidden" name="url" value='<spring:url value="admin/${camelName}/page" />'/>
-	<input type="hidden" name="page" value="\${page.currentPage }" />
-	<input type="hidden" name="count" value="\${page.maxPage }" />
-</div>

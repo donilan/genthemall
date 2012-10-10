@@ -177,7 +177,7 @@
 			text = text.replace(regex, data[k]);
 		}
 		return text;
-	}
+	};
 	
 	$.adminAjax = function(options, data) {
 		var defaults = {
@@ -193,9 +193,9 @@
 		$.ajax({
 			url: url,
 			type: options.method,
-			data: options.data,
+			data: options.data
 		}).done(function(data){
 			options.done(data);
 		});
-	}
+	};
 })(jQuery);

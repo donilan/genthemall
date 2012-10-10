@@ -1,0 +1,135 @@
+//begin functions
+.min-height(@val) {
+	height: auto !important;
+	_height: @val;
+	min-height: @val;
+}
+
+//end functions
+//begin css
+body {font-size: 12px;}
+/* common */
+.hide {
+	display: none;
+}
+.clear, .cl {
+	clear: both;
+}
+//end css
+//begin less
+#main-wrapper {
+	width: 100%;
+	height: 99%;
+	margin: 0 auto;
+	display: block;
+	
+	a {text-decoration: none;}
+	
+	#left-side {
+		border-right: 1px solid #CCC;
+		padding: 3px;
+		.min-height(100%);
+		width: 15%;
+		float: left;
+		
+		.menu ul {
+			z-index: 99999;
+		}
+		
+	}
+	
+	#right-side {
+		.min-height(100%);
+		width: 80%;
+		padding: 3px;
+		float: left;
+		
+		//fix jquery ui icon
+		.ui-tabs {
+			width: 98%;
+			height: 98%;
+			min-width: 1024px;
+			min-height: 600px;
+			.ui-icon {
+				float: left;
+				margin: 0.4em 0.2em 0 0;
+				cursor: pointer;
+			}
+		}
+		.content-wrapper {
+			float: left;
+			width: 100%;
+			.table-topbar {
+				display: block;
+				
+				ul li {
+					diplay: block;
+					float: left;
+					padding-left: 5px;
+				}
+			}
+			
+			.list-table {
+				margin-top: 5px;
+				border-collapse: collapse;
+				width: 100%;
+				font-size: 12px;
+				
+				th, tr {
+					&:hover {
+						background: #b2d1ff;
+					}
+				}
+				.odd {background: #f7f7f7;}
+				.event {background: #fff;}
+				
+				td, th{
+					overflow: hidden;
+					padding: 2px 3px;
+					text-align: left;
+					border: 1px solid #ddd;
+				}
+				.editable {
+					cursor: pointer;
+					width: 100%;
+					height: 30px;
+					margin: 0 auto;
+					float: left;
+				}
+				input {
+					width: 120px;
+					height: 20px;
+					line-height: 20px;
+					border: 1px solid #CCC;
+				}
+			}
+			//paginate
+			.page {
+				position: absolute;
+				bottom: 0;
+				
+			}
+		}
+	}
+}
+.dialog {
+	.table-create, .table-edit {
+		width: 100%;
+		
+		td {
+			overflow: hidden;
+			padding: 2px 3px;
+			text-align: left;
+		}
+		
+		label {
+			font-size: 12px;
+			float: right;
+			margin-right: 4px;
+		}
+		input {
+			width: 150px;
+		}
+	}
+}
+//end less

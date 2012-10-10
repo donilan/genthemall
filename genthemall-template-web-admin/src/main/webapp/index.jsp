@@ -9,11 +9,18 @@
 	<link rel="stylesheet" type="text/css"
 		href="<spring:url value="/resources/admin/css/yui-cssreset-3.7.0.css" />">
 	<link rel="stylesheet" type="text/css"
-		href="<spring:url value="/resources/admin/css/jquery-ui/ui-lightness/jquery-ui-1.8.23.custom.css" />">
+		href="<spring:url value="/resources/admin/css/jquery-ui-1.9.0/redmond/jquery-ui-1.9.0.custom.css" />">
 	<link rel="stylesheet" type="text/css"
 		href="<spring:url value="/resources/admin/css/jPaginate.css" />">
+	<!-- 
 	<link rel="stylesheet" type="text/css"
 		href="<spring:url value="/resources/admin/css/default/style.css" />">
+	 -->
+	<link rel="stylesheet/less" type="text/css" 
+		href="<spring:url value="/resources/admin/css/default/style.less" /> ">
+	<script type="text/javascript"
+		src="<spring:url value="/resources/admin/js/less-1.3.0.min.js#!watch" />" ></script>
+		
 	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery-1.8.1.js" />"></script>
 	<script type="text/javascript"
@@ -21,7 +28,7 @@
 	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery.paginate.js" />"></script>
 	<script type="text/javascript"
-		src="<spring:url value="/resources/admin/js/jquery-ui-1.8.23.custom.min.js" />"></script>
+		src="<spring:url value="/resources/admin/js/jquery-ui-1.9.0.custom.min.js" />"></script>
 	<script type="text/javascript"
 		src="<spring:url value="/resources/admin/js/jquery.tmpl.js" />"></script>
 	<script type="text/javascript"
@@ -36,6 +43,7 @@
 		<div id="left-side"></div>
 		<div id="right-side"></div>
 		<div id="topbar-menu"></div>
+		<div class="clear"></div>
 	</div>
 </body>
 </html>
