@@ -25,15 +25,33 @@ import ${packageName}.model.${pascalName};
 @RequestMapping("/admin/${camelName}")
 public class ${pascalName}AdminController extends com.ii2d.dbase.web.controller.AbstractController {
 	
-	@RequestMapping(method = RequestMethod.GET, value="page")
-	public String page(
+	@RequestMapping(method = RequestMethod.GET, value="advancedSearch")
+	public String advancedSearch(
 			@ModelAttribute(value="${camelName}") ${pascalName} searchObj,
 			@RequestParam(value = "page", defaultValue="1") int page,
 			@RequestParam(value = "rows", defaultValue="10") int rows,
 			ModelMap model) {
 		Page pageInstance = commonService.queryForPage(searchObj, page, rows);
 		model.addAttribute(pageInstance);
-		return "admin/${camelName}/page";
+		return "admin/${camelName}/listTable";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="searchBar")
+	public String searchBar() {
+		return "admin/${camelName}/searchBar";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="search")
+	public String search(
+			@RequestParam(value="keyWord") String keyWord,
+			@RequestParam(value = "page", defaultValue="1") int page,
+			@RequestParam(value = "rows", defaultValue="10") int rows,
+			ModelMap model) {
+		${pascalName} searchObj = new ${pascalName}();
+		keyWord = String.format("%%%s%%", keyWord);
+		<%columns.findAll{it.classType == 'java.lang.String'}.each {%>
+		searchObj.getOrLike().put("${it.camelName}", keyWord);<%}%>
+		return advancedSearch(searchObj, page, rows, model);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="count")

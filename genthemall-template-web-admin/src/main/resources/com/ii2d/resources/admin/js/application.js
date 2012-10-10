@@ -49,24 +49,37 @@ $(function() {
 		tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
 		add: function(event, ui ) {
 			var $panel = $(ui.panel);
-			var pageName = ui.tab.hash.substring(1);
+			var action = ui.tab.hash.substring(1);
 			var $wrapper = $(DIV).addClass('content-wrapper').appendTo($panel);
+			var $searchBar = $(DIV).addClass('search-bar').appendTo($wrapper);
 			var $tablePage = $(DIV).addClass('table-wrapper').appendTo($wrapper);
 			
 			$tablePage.bind('afterPageLoaded', function(){
-				$MAIN_TABS.trigger('afterAddTab', [ui, this]);
+				initTableEditor(ui);
+				var $buttons = $(this).find('.button').button();
+				initEditBtn($(this).find('.button-edit'));
+				initDeleteBtn($(this).find('.button-delete'));
 			});
-			//初始页面
-			$tablePage.loadAdminPage({action: pageName, page: 'page', data: {rows: cookie('rows')}});
+			$searchBar.bind('afterPageLoaded', function(){
+				var $buttons = $(this).find('.button').button();
+				initCreateBtn($(this).find('.button-create').button());
+			});
 			
-			if(pageName != 'index') {
+			if(action != 'index') {
+				
+				$searchBar.loadAdminPage({action: action, page: 'searchBar'});
+				
+				//初始页面
+				$tablePage.loadAdminPage({action: action, page: 'advancedSearch', data: {rows: cookie('rows')}});
 				$MAIN_TABS.tabs('select', ui.index);
 				var $pageDiv = $(DIV).addClass('page').appendTo($wrapper);
-				$pageDiv.loadPaginate({action: pageName, page: 'count'}, {rows: cookie('rows')});
+				$pageDiv.loadPaginate({action: action, page: 'count'}, {rows: cookie('rows')});
 				$pageDiv.bind('pageChange', function(event2, p){
 					//分页处理
-					$tablePage.loadAdminPage({action: pageName, page: 'page', data: {page: p, rows: cookie('rows')}});
+					$tablePage.loadAdminPage({action: action, page: 'advancedSearch', data: {page: p, rows: cookie('rows')}});
 				});
+			}else {
+				$tablePage.loadAdminPage({action: action, page: 'page', data: {rows: cookie('rows')}});
 			}
 			
 		}
@@ -77,11 +90,6 @@ $(function() {
 		$MAIN_TABS.tabs("remove", index);
 	});
 	
-	//增加tab后既处理
-	$MAIN_TABS.bind('afterAddTab', function(event, tab, table){
-		initTableEditor(tab);
-		initTableButtons(table);
-	});
 	//增加一个首页tab
 	$MAIN_TABS.tabs('add', '#index', 'Home');
 	
@@ -138,12 +146,7 @@ function initTableEditor(ui) {
 	});
 }
 
-function initTableButtons(table) {
-	var $table = $(table);
-	$table.find('.button').button();
-	
-	//编辑按钮
-	var $editBtns = $table.find('.button-edit');
+function initEditBtn($editBtns) {
 	$editBtns.click(function(){
 		var $btn = $(this);
 		var options = $(this).data();
@@ -171,9 +174,9 @@ function initTableButtons(table) {
 		};
 		$.adminAjax(options);
 	});
-	
-	//删除按钮
-	var $deleteBtns = $table.find('.button-delete');
+};
+
+function initDeleteBtn($deleteBtns) {
 	$deleteBtns.click(function(){
 		var $that = $(this);
 		
@@ -199,7 +202,10 @@ function initTableButtons(table) {
 		});
 		
 	});
-	$table.find('.button-create').click(function(){
+};
+
+function initCreateBtn($createBtn) {
+	$createBtn.click(function(){
 		var $btn = $(this);
 		var options = $btn.data();
 		options.done = function(html){

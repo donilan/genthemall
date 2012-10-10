@@ -84,14 +84,13 @@
 	$.fn.loadAdminPage = function(options) {
 		var $that = $(this[0]);
 		var defaults = {
-			page: 'page',
 			done: function(html) {
 				$that.empty();
 				$that.html(html);
 				$that.trigger('afterPageLoaded', [html]);
 			}
 		};
-		$.extend(options, defaults);
+		var options = $.extend(defaults, options);
 		$.adminAjax(options);
 		return $that;
 	};

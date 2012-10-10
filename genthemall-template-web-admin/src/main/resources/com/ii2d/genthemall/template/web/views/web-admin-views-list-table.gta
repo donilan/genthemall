@@ -1,8 +1,8 @@
 <%/*
-name="web-admin-views-page"
+name="web-admin-views-list-table"
 type="jsp"
-description="Admin web view page."
-path="admin/__CAMEL_NAME__/page.jsp"
+description="Admin web view list table."
+path="admin/__CAMEL_NAME__/listTable.jsp"
 version="0.4.1"
 */%>
 ${'<' }%@ page language="java" pageEncoding="UTF-8"%>
@@ -13,24 +13,6 @@ ${'<' }%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% 
 def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'name') return -1; return 1;}
 %>
-<div class="table-topbar" >
-	<ul>
-		<li>
-			<a class="button button-create" data-action="${camelName}" data-page="create" ><spring:message code="create" /></a>
-		</li>
-		<li>
-			<input type="text" class="search-text" name="keyword" />
-			<a class="button button-search" ><spring:message code="search" /></a>
-		</li>
-		<li>
-			<a class="button button-advanced-search" ><spring:message code="advancedSearch" /></a>
-		</li>
-	</ul>
-	<div class="advanced-search-wrapper">
-	
-	</div>
-	<div class="clear"></div>
-</div>
 <table class="list-table" >
 	<thead>
 		<tr class="head">
