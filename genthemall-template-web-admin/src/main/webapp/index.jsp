@@ -5,6 +5,7 @@
 <head>
 <script type="text/javascript">
 	var contextPath = '<spring:url value="/" />';
+	contextPath = contextPath.replace(/;jsessionid.+/, '');
 </script>
 	<link rel="stylesheet" type="text/css"
 		href="<spring:url value="/resources/admin/css/yui-cssreset-3.7.0.css" />">
@@ -41,7 +42,16 @@
 <body>
 	<div id="main-wrapper">
 		<div id="left-side"></div>
-		<div id="right-side"></div>
+		<div id="right-side">
+			<div id="main-tabs">
+				<ul>
+					<li><a href='#tab-index'>Index</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>
+				</ul>
+				<div id="tab-index">
+				Hello world
+				</div>
+			</div>
+		</div>
 		<div id="topbar-menu"></div>
 		<div class="clear"></div>
 	</div>

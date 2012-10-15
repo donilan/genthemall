@@ -31,18 +31,25 @@
 	 * 读取menu
 	 */
 	$.fn.loadMenu = function(options) {
-		
+		LOG.debug('Start load menu function.');
 		this.trigger('beforeMenuLoaded');
 		var defaults = {
 			type: 1
 		};
 		var options = $.extend(defaults, options);
 		var that = this;
+		LOG.debug('Execute AJAX for load menu.');
 		$.ajax({
 			url: URL_MENU,
 			type: 'GET',
-			dataType: 'json'
+			dataType: 'json',
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				console.log(errorThrown);
+				console.log(textStatus);
+		      alert('Error submitting request.');
+		    }
 		}).done(function(data){
+			LOG.debug('AJAX return data by load menu.');
 			var menus = [];
 			var menuList = data['menuList'];
 			for(var i in menuList) {

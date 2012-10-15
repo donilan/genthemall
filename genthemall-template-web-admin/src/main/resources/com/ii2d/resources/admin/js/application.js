@@ -36,27 +36,33 @@ function cookie(key, val) {
 	}
 	return $.cookie(k, val);
 }
-
-$(function() {
-	
+/**
+ * Init method
+ * @author Doni
+ * @since 2012-10-07
+ */
+(function(){
 	if(cookie('rows') == null) {
-		LOG.debug('Add cookie: ' + cookie('rows', 12));
+		console.log(cookie('rows', 12));
 	}
 	less.watch();
-	
+})();
+
+$(function() {
+	LOG.info('Context path is: ' + contextPath);
 	/** 全局TAB */
 	window.$TOPBAR = $('#topbar-menu');
 	window.$LEFT_SIDE = $('#left-side');
 	window.$RIGHT_SIDE = $('#right-side');
-	window.$MAIN_TABS = $(DIV).append(UL).appendTo($RIGHT_SIDE);
+//	window.$MAIN_TABS = $(DIV).append(UL).appendTo($RIGHT_SIDE);
+	window.$MAIN_TABS = $('#main-tabs')
 	
 	//初始化tab
 	$MAIN_TABS.tabs({
 		tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
 		add: function(event, ui ) {
-			LOG.debug('Add a tab: ' + ui);
 			var $panel = $(ui.panel);
-			var action = ui.tab.hash.substring(1);
+			var action = getAction(ui);
 			var $wrapper = $(DIV).addClass('content-wrapper').appendTo($panel);
 			var $searchBar = $(DIV).addClass('search-bar').appendTo($wrapper);
 			var $tablePage = $(DIV).addClass('table-wrapper').appendTo($wrapper);
@@ -75,6 +81,7 @@ $(function() {
 				initAdvancedSearchBtn($(this).find('.button-advanced-search'));
 			});
 			
+			LOG.info('Loading tab for action: ' + action);
 			if(action != 'index') {
 				
 				$searchBar.loadAdminPage({action: action, page: 'searchBar'});
@@ -94,24 +101,21 @@ $(function() {
 			
 		}
 	});
-	
-	//增加一个首页tab
-	$MAIN_TABS.tabs('add', '#index', 'Home');
-	
 	//tab关闭事件
 	$MAIN_TABS.on('click', "span.ui-icon-close", function() {
 		var index = $("li", $MAIN_TABS).index($( this ).parent());
 		$MAIN_TABS.tabs("remove", index);
 	});
 	
-	
+	//增加一个首页tab
+//	$MAIN_TABS.tabs('add', '#index', 'Home');
 	
 
 	//菜单事件,增加tab
 	$LEFT_SIDE.bind('afterMenuLoaded', function(event, menu){
 		$(this).find('.sub-menu .item a').click(function(){
 			var item = $(this);
-			var tabName = item.attr('href');
+			var tabName = item.attr('href').substring(1);
 			var selectTab = null;
 			$MAIN_TABS.find('.ui-tabs-nav li>a').each(function(){
 				if($(this).attr('href') == tabName)
@@ -122,17 +126,23 @@ $(function() {
 				$MAIN_TABS.tabs('select', index);
 				return;
 			}
-			$MAIN_TABS.tabs('add', tabName, item.text());
+			$MAIN_TABS.tabs('add', '#tab-'+tabName, item.text());
 		});
 	});
 	//读取菜单
+	LOG.info('Loading menu...');
 	$LEFT_SIDE.loadMenu();
 	$LEFT_SIDE.bind('afterMenuLoaded', function(){
-		$(this).find('.menu-wrapper>.menu').menu();
+		$(this).find('.menu-wrapper>.menu').menu({
+			
+		});
 	});
 	
 });
 
+function getAction(ui) {
+	return ui.tab.hash.substring('#tab-'.length);
+}
 
 /**
  * 初始化tab panel的可以编辑属性
@@ -148,7 +158,7 @@ function initTableEditor(ui) {
 		var data = {};
 		data[$input.attr('name')] = $input.val();
 		$.adminAjax({
-			action: ui.tab.hash.substring(1),
+			action: getAction(ui),
 			page: 'update',
 			method: 'POST',
 			id: $idInput.val(),
@@ -268,6 +278,7 @@ function initSearchBtn($btn) {
 		$pageWrapper.unbind('pageChange');
 		$pageWrapper.bind('pageChange', function(event2, p){
 			//分页处理
+			//TODO 未完成
 			options.data.page = p;
 			$tableWrapper.loadAdminPage(options);
 		});
@@ -277,4 +288,3 @@ function initSearchBtn($btn) {
 function initAdvancedSearchBtn($btn) {
 	
 }
-
