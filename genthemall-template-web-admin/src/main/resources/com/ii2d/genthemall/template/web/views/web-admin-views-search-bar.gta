@@ -26,10 +26,18 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 	</li>
 </ul>
 <div class="advanced-search-wrapper">
-	<table class="advanced-search-table">
-		<tr>
-			<td></td>
-		</tr>
-	</table>
+	<%columns.findAll{it.classType == 'java.lang.String'}.eachWithIndex {col, index -> %>
+		<div class="text-column ${col.camelName }">
+			<span class="label"><spring:message code="${camelName}.${col.camelName }" /></span>
+			<span class="text-value"><input class="text" type="text" name="andEq[${col.camelName }]" data-class-type="${col.classType}"/></span>
+		</div>
+	<%}%>
+	<%columns.findAll{it.classType == 'java.util.Date'}.eachWithIndex {col, index -> %>
+		<div class="date-column ${col.camelName }">
+			<span class="label"><spring:message code="${camelName}.${col.camelName }" /></span>
+			<span class="date-value"><input class="date begin" type="text" name="andBetween[${col.camelName}Begin]" />~<input class="date end" type="text" name="andBetween[${col.camelName}End]" /></span>
+			<span class="date-range"><div></div></span>
+		</div>
+	<%}%>
 </div>
 <div class="clear"></div>

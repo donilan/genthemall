@@ -67,6 +67,8 @@ $(function() {
 			var $searchBar = $(DIV).addClass('search-bar').appendTo($wrapper);
 			var $tablePage = $(DIV).addClass('table-wrapper').appendTo($wrapper);
 			var $paginate = $(DIV).addClass('paginate').appendTo($wrapper);
+			//解决高度问题
+			$panel.append('<div class="clear"></div>');
 			
 			$tablePage.bind('afterPageLoaded', function(){
 				initTableEditor(ui);
@@ -74,11 +76,53 @@ $(function() {
 				initEditBtn($(this).find('.button-edit'));
 				initDeleteBtn($(this).find('.button-delete'));
 			});
+			//获取搜索菜单后事件
 			$searchBar.bind('afterPageLoaded', function(){
-				var $buttons = $(this).find('.button').button();
-				initCreateBtn($(this).find('.button-create'));
-				initSearchBtn($(this).find('.button-search'));
-				initAdvancedSearchBtn($(this).find('.button-advanced-search'));
+				var $this = $(this);
+				var $buttons = $this.find('.button').button();
+				initCreateBtn($this.find('.button-create'));
+				initSearchBtn($this.find('.button-search'));
+				initAdvancedSearch($searchBar);
+				(function(){
+					
+					var now = new Date();
+					var minDay = now.getDate()-365*4;
+					var maxDay = now.getDate()+365;
+					
+					LOG.debug('minDay is: ' + minDay + ' maxDay is: ' + maxDay);
+					$this.find('.date-range div').each(function(i,v){
+						var lastBegin = minDay;
+						var lastEnd = maxDay;
+						$(v).slider({
+							range: true,
+							min: minDay,
+							max: maxDay,
+							values: [ minDay, maxDay ],
+							slide: function( event, ui ) {
+								var $beginInput = $(this).parent().parent().find('.begin');
+								var $endInput = $(this).parent().parent().find('.end');
+								
+								var beginDate = new Date();
+								var endDate = new Date();
+								beginDate.setDate(ui.values[0]);
+								endDate.setDate(ui.values[1]);
+								$beginInput.val(formatDate(beginDate));
+								$endInput.val(formatDate(endDate));
+								
+								if(lastBegin != ui.values[0]) {
+									$beginInput.change();
+									lastBegin = ui.values[0];
+								}
+								if(lastEnd != ui.values[1]) {
+									$endInput.change();
+									lastEnd = $endInput.val();
+								}
+								
+				            }
+						});
+					});
+					
+				})();
 			});
 			
 			LOG.info('Loading tab for action: ' + action);
@@ -116,6 +160,7 @@ $(function() {
 		$(this).find('.sub-menu .item a').click(function(){
 			var item = $(this);
 			var tabName = item.attr('href').substring(1);
+			tabName = '#tab-'+tabName;
 			var selectTab = null;
 			$MAIN_TABS.find('.ui-tabs-nav li>a').each(function(){
 				if($(this).attr('href') == tabName)
@@ -126,7 +171,7 @@ $(function() {
 				$MAIN_TABS.tabs('select', index);
 				return;
 			}
-			$MAIN_TABS.tabs('add', '#tab-'+tabName, item.text());
+			$MAIN_TABS.tabs('add', tabName, item.text());
 		});
 	});
 	//读取菜单
@@ -278,13 +323,61 @@ function initSearchBtn($btn) {
 		$pageWrapper.unbind('pageChange');
 		$pageWrapper.bind('pageChange', function(event2, p){
 			//分页处理
-			//TODO 未完成
 			options.data.page = p;
 			$tableWrapper.loadAdminPage(options);
 		});
 		
 	});
 }
-function initAdvancedSearchBtn($btn) {
+
+function initAdvancedSearch($searchBar) {
+	var $wrapper = $searchBar.parents('.content-wrapper:first');
+	if($wrapper.size() > 1) {
+		LOG.error('Found more than 1 wrapper.');
+		return;
+	}
+	var $tableWrapper = $wrapper.find('.table-wrapper');
+	var $pageWrapper = $wrapper.find('.paginate');
 	
+	var $wrapper = $searchBar.find('.advanced-search-wrapper');
+	var $btn = $searchBar.find('.button-advanced-search');
+	$wrapper.hide();
+	$searchBar.find('.button-advanced-search').click(function(){
+		$wrapper.show(500);
+	});
+	var $allInput = $wrapper.find('input');
+	var options = $btn.data();
+	var doSearch = false;
+	function doAdvancedSearch() {
+		setTimeout(function(){doAdvancedSearch();}, 1000);
+		if(!doSearch) return;
+		doSearch = false;
+		var $params = $allInput.filter(function(i){
+			var $el = $($allInput.get(i));
+			if($el.val() == '')
+				return false;
+			return true;	
+		});
+		options.data = $params.serializeJSON();
+		options.data.rows = cookie('rows');
+		$tableWrapper.loadAdminPage(options);
+		$pageWrapper.empty();
+		$pageWrapper.loadPaginate({action: options.action, page: 'count', data: options.data});
+		$pageWrapper.unbind('pageChange');
+		$pageWrapper.bind('pageChange', function(event2, p){
+			//分页处理
+			options.data.page = p;
+			$tableWrapper.loadAdminPage(options);
+		});
+	}
+	doAdvancedSearch();
+	
+	$allInput.change(function(){
+		var $this = $(this);
+		doSearch = true;
+	});
+}
+
+function formatDate(d) {
+	return $.datepicker.formatDate('yy-mm-dd', d);
 }
