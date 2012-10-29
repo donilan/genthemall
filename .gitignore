@@ -16,3 +16,4 @@ target
 genthemall-template-web-admin/src/test
 genthemall-template-web-admin/src/main/webapp/WEB-INF/jsp
 genthemall-example/src/test
+genthemall-template-web-admin/genthemall.conf

@@ -26,6 +26,7 @@ import com.ii2d.genthemall.util.GeneratorUtils;
  * @description A Mojo for generating Java sources from some template file.
  * @goal generate
  * @phase generate-sources
+ * @requiresDependencyResolution runtime
  */
 public class GenerateMojo extends AbstractGenerateMojo {
 
@@ -91,7 +92,6 @@ public class GenerateMojo extends AbstractGenerateMojo {
 		if (targetPathMap != null) {
 			defaultTargetPathMap.putAll(targetPathMap);
 		}
-		System.out.println(defaultTargetPathMap);
 		try {
 			if (refeshCache) {
 				DatabaseSource ds = this.getDatabaseSource();

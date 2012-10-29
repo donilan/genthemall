@@ -29,7 +29,7 @@ def showCloumn = columns.findAll{it.isListable}.sort{a,b-> if(a.camelName == 'na
 	<%columns.findAll{it.classType == 'java.lang.String'}.eachWithIndex {col, index -> %>
 		<div class="text-column ${col.camelName }">
 			<span class="label"><spring:message code="${camelName}.${col.camelName }" /></span>
-			<span class="text-value"><input class="text" type="text" name="andEq[${col.camelName }]" data-class-type="${col.classType}"/></span>
+			<span class="text-value"><input class="text" type="text" name="andLike[${col.camelName }]" data-class-type="${col.classType}"/></span>
 		</div>
 	<%}%>
 	<%columns.findAll{it.classType == 'java.util.Date'}.eachWithIndex {col, index -> %>

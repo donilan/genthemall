@@ -20,6 +20,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.groovy.control.CompilationFailedException;
 
 import com.ii2d.dbase.util.Assert;
@@ -32,6 +34,7 @@ public class DatabaseCache {
 
 	public static final String CACHE_PATH = "target/genthemall/cache/db/";
 	public static final String CACHE_TEMPLATE_PATH = "database.gta";
+	public static final Log LOG = LogFactory.getLog(DatabaseCache.class);
 	
 	public static void makeCache(DataSource ds, String tables) throws CompilationFailedException, SQLException, IOException, ClassNotFoundException {
 		List<String> tableList = new ArrayList<String>();
@@ -67,7 +70,8 @@ public class DatabaseCache {
 	public static ConfigObject loadCache(String tableName) throws IOException {
 		InputStream in = DResourceUtils.getResourceAsStream(FilenameUtils.concat(CACHE_PATH, tableName + ".cache"));
 		String text = IOUtils.toString(in);
-		return new ConfigSlurper().parse(text);
+		ConfigObject conf = new ConfigSlurper().parse(text);
+		return _mergeConfig(conf, tableName);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -81,4 +85,28 @@ public class DatabaseCache {
 		conf.put(keyName, caches);
 		return conf;
 	}
+	
+	private static ConfigObject confCache;
+	private static ConfigObject _mergeConfig(ConfigObject toBeMerger, String table) {
+		if(confCache == null) {
+			try {
+				InputStream in = DResourceUtils.getResourceAsStream("genthemall.conf");
+				confCache =  new ConfigSlurper().parse(IOUtils.toString(in));
+			} catch (IOException e) {
+				//Do not thing.
+			}
+		}
+		if(confCache != null) {
+			Object obj = confCache.get(table);
+			if(obj instanceof ConfigObject) {
+				ConfigObject conf = (ConfigObject)obj;
+//				LOG.info("Load custom config for table: " + table);
+				toBeMerger.merge(conf);
+			}
+		}
+		
+		return toBeMerger;
+	}
+	
+	
 }

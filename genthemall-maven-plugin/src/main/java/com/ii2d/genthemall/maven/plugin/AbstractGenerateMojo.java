@@ -33,6 +33,11 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 	 * @parameter
 	 */
 	private DatabaseSource databaseSource;
+	
+	/**
+	 * @parameter default-value="classpath:genthemall.conf"
+	 */
+	protected String configFile;
 
 	public String getTemplatePath() {
 		return templatePath;
