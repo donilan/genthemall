@@ -14,8 +14,8 @@ version="0.1.0"
 	</settings>
 	<mappers>
 <%data.each {%>
-		<mapper resource="mybatis/mysql/${it.camelName}.xml"/>
-		<mapper resource="mybatis/mysql/ext/${it.camelName}Ext.xml"/>
+		<mapper resource="mybatis/${it.camelName}.xml"/>
+		<mapper resource="mybatis/ext/${it.camelName}Ext.xml"/>
 <%}%>
 	</mappers>
 </configuration>
