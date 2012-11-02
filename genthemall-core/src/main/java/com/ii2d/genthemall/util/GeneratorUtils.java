@@ -17,6 +17,9 @@ import com.ii2d.genthemall.template.Template;
 
 public class GeneratorUtils {
 
+	/**
+	 * @see #generate(Template, ConfigObject, String)
+	 */
 	public static void generate(Template t, ConfigObject bindingData)
 			throws FileNotFoundException, IOException,
 			CompilationFailedException, ClassNotFoundException {

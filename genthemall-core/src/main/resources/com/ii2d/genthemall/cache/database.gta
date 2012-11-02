@@ -3,18 +3,32 @@ import static com.ii2d.dbase.util.DNameUtils.toPascalName
 import static com.ii2d.dbase.util.DNameUtils.toCamelName
 import static com.ii2d.dbase.util.DDBUtils.TYPES
 import static com.ii2d.dbase.util.DDBUtils.DB_TYPE_MAP
+import static com.ii2d.genthemall.util.Functions.*
 
 def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'Address', 'Password', 'IdCard']
 def uneditableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'CreateDate']
 def datetimeColumnTypes = ['TIMESTAMP']
+
+def gVals(_key, _default, isScript=false) {
+	if(isScript) {
+		def _result = choiceOne(global?.get(table)?.get(_key), global?.get(_key))
+		if(_result)
+			return "${_key} = \"${_result}\""
+		return "${_key} = ${_default}"
+	} else {
+		return "${_key} = \"${choiceOne(global?.get(table)?.get(_key), global?.get(_key), _default)}\""
+	}
+}
+
 %>
-packageName = "com.ii2d"
-packagePath	= packageName.replaceAll(/\\./, '/')
-name 		= "${toPascalName(table)}"
-tableName 	= "${table}"
-pascalName 	= name
-camelName 	= name[0].toLowerCase()+name[1..-1]
-modelClassName = packageName + '.model.' + pascalName
+${gVals("packageName", "com.ii2d")}
+${gVals('name', toPascalName(table))}
+${gVals('tableName', table)}
+${gVals("packagePath", "packageName.replaceAll(/\\./, '/')", true)}
+${gVals("pascalName", "name", true)}
+${gVals("camelName", "name[0].toLowerCase()+name[1..-1]", true)}
+${gVals("modelClassName", "packageName + '.model.' + pascalName", true)}
+
 columns 	= 
 [ <% attrs.each { p-> %>
 	[

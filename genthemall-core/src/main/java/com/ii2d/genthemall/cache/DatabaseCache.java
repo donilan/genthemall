@@ -50,6 +50,16 @@ public class DatabaseCache {
 	public static void makeCache(DataSource ds, List<String> tables)
 			throws SQLException, IOException, CompilationFailedException,
 			ClassNotFoundException {
+		
+		//Global config
+		ConfigObject globalConfig = null;
+		try {
+			InputStream in = DResourceUtils.getResourceAsStream("genthemall.conf");
+			globalConfig =  new ConfigSlurper().parse(IOUtils.toString(in));
+		} catch (IOException e) {
+			//Do not thing.
+		}
+		
 		InputStream in = DatabaseCache.class
 				.getResourceAsStream(CACHE_TEMPLATE_PATH);
 		String templateText = IOUtils.toString(in);
@@ -58,6 +68,7 @@ public class DatabaseCache {
 		for (String table : tables) {
 			Map<String, Object> tMap = new HashMap<String, Object>();
 			DDBUtils.getColumns(ds, table, tMap);
+			tMap.put("global", globalConfig);
 			File file = new File(FilenameUtils.concat(CACHE_PATH, table + ".cache"));
 			FileUtils.touch(file);
 			OutputStream out = new FileOutputStream(file);
@@ -71,7 +82,7 @@ public class DatabaseCache {
 		InputStream in = DResourceUtils.getResourceAsStream(FilenameUtils.concat(CACHE_PATH, tableName + ".cache"));
 		String text = IOUtils.toString(in);
 		ConfigObject conf = new ConfigSlurper().parse(text);
-		return _mergeConfig(conf, tableName);
+		return conf;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -86,27 +97,7 @@ public class DatabaseCache {
 		return conf;
 	}
 	
-	private static ConfigObject confCache;
-	private static ConfigObject _mergeConfig(ConfigObject toBeMerger, String table) {
-		if(confCache == null) {
-			try {
-				InputStream in = DResourceUtils.getResourceAsStream("genthemall.conf");
-				confCache =  new ConfigSlurper().parse(IOUtils.toString(in));
-			} catch (IOException e) {
-				//Do not thing.
-			}
-		}
-		if(confCache != null) {
-			Object obj = confCache.get(table);
-			if(obj instanceof ConfigObject) {
-				ConfigObject conf = (ConfigObject)obj;
-//				LOG.info("Load custom config for table: " + table);
-				toBeMerger.merge(conf);
-			}
-		}
-		
-		return toBeMerger;
-	}
+
 	
 	
 }

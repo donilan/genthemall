@@ -8,6 +8,7 @@ version="0.4.0"
 package ${packageName}.controller.admin;
 
 import java.util.List;
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,12 +19,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ii2d.dbase.commons.service.CommonService;
 import com.ii2d.dbase.mybatis.Page;
 import ${packageName}.model.${pascalName};
 
 @Controller
 @RequestMapping("/admin/${camelName}")
 public class ${pascalName}AdminController extends com.ii2d.dbase.web.controller.AbstractController {
+
+	@Resource
+	protected CommonService commonService;
+	@Override
+	public CommonService getCommonService() {
+		return commonService;
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="advancedSearch")
 	public String advancedSearch(

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.ii2d</groupId>
 		<artifactId>genthemall-parent</artifactId>
-		<version>0.4.0-SNAPSHOT</version>
+		<version>0.4.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>genthemall-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
