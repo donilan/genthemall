@@ -2,9 +2,11 @@
 import static com.ii2d.dbase.util.DNameUtils.toPascalName
 import static com.ii2d.dbase.util.DNameUtils.toCamelName
 import static com.ii2d.dbase.util.DDBUtils.TYPES
+import static com.ii2d.dbase.util.DDBUtils.DB_TYPE_MAP
 
 def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'Address', 'Password', 'IdCard']
 def uneditableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'CreateDate']
+def datetimeColumnTypes = ['TIMESTAMP']
 %>
 packageName = "com.ii2d"
 packagePath	= packageName.replaceAll(/\\./, '/')
@@ -21,7 +23,7 @@ columns 	=
 		camelName 	: "${toCamelName(p.name)}",
 		columnName 	: "${p.name}",
 		columnType 	: "${TYPES[p.columnType]}",
-		classType 	: "${p.className == 'java.sql.Timestamp'? 'java.util.Date': p.className}",
+		classType 	: "${DB_TYPE_MAP[p.className]? DB_TYPE_MAP[p.className]: p.className}",
 		maxLength 	: ${p.length},
 		getter		: "get${toPascalName(p.name)}",
 		setter		: "set${toPascalName(p.name)}",
