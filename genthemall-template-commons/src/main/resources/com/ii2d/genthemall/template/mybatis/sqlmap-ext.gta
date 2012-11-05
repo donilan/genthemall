@@ -4,7 +4,7 @@ type="resources"
 overridable=false
 description="Mybatis sqlmap ext template"
 path="mybatis/ext/__CAMEL_NAME__Ext.xml"
-version="0.4.0"
+version="0.4.1"
 */%><?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="${packageName}">

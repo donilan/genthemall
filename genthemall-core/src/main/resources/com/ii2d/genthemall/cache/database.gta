@@ -9,57 +9,66 @@ def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'Las
 def uneditableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'CreateDate']
 def datetimeColumnTypes = ['TIMESTAMP']
 
-def gVals(_key, _default, isScript=false) {
-	if(isScript) {
-		def _result = choiceOne(global?.get(table)?.get(_key), global?.get(_key))
+def _genBaseProp(_key, _default, _isScript=false) {
+	def _globalProp = global?.get(table)?.get(_key)
+	if(_isScript) {
+		def _result = choiceOne(_globalProp, global?.get(_key))
 		if(_result)
 			return "${_key} = \"${_result}\""
 		return "${_key} = ${_default}"
 	} else {
-		return "${_key} = \"${choiceOne(global?.get(table)?.get(_key), global?.get(_key), _default)}\""
+		return "${_key} = \"${choiceOne(_globalProp, global?.get(_key), _default)}\""
 	}
 }
 
-%>
-${gVals("packageName", "com.ii2d")}
-${gVals('name', toPascalName(table))}
-${gVals('tableName', table)}
-${gVals("packagePath", "packageName.replaceAll(/\\./, '/')", true)}
-${gVals("pascalName", "name", true)}
-${gVals("camelName", "name[0].toLowerCase()+name[1..-1]", true)}
-${gVals("modelClassName", "packageName + '.model.' + pascalName", true)}
+def _genColumnProp(_column, _key, _default, _isScript=false) {
+	def _globalProp = global?.get(table)?.get('columns')?.get(_column)?.get(_key)
+	if(_isScript) {
+		def _result = choiceOne(_globalProp, global?.get('columns')?.get(_column)?.get(_key))
+		if(_result)
+			return "${_key} = \"${_result}\""
+		return "${_key} : ${_default},"
+	} else {
+		return "${_key} : \"${choiceOne(_globalProp, global?.get(_key), _default)}\","
+	}
+}
+
+%>${_genBaseProp("packageName", "com.ii2d")}
+${_genBaseProp('name', toPascalName(table))}
+${_genBaseProp('tableName', table)}
+${_genBaseProp("packagePath", "packageName.replaceAll(/\\./, '/')", true)}
+${_genBaseProp("pascalName", "name", true)}
+${_genBaseProp("camelName", "name[0].toLowerCase()+name[1..-1]", true)}
+${_genBaseProp("modelClassName", "packageName + '.model.' + pascalName", true)}
+${_genBaseProp('modelSuperClass', 'com.ii2d.mybatis.model.BaseMyBatisModel')}
 
 columns 	= 
 [ <% attrs.each { p-> %>
 	[
-		name 		: "${toPascalName(p.name)}",
-		pascalName 	: "${toPascalName(p.name)}",
-		camelName 	: "${toCamelName(p.name)}",
-		columnName 	: "${p.name}",
-		columnType 	: "${TYPES[p.columnType]}",
-		classType 	: "${DB_TYPE_MAP[p.className]? DB_TYPE_MAP[p.className]: p.className}",
-		maxLength 	: ${p.length},
-		getter		: "get${toPascalName(p.name)}",
-		setter		: "set${toPascalName(p.name)}",
-		isShow 		: ${!p.name.equalsIgnoreCase('id')},
-		isListable 	: ${!unlistableColumns.contains(toPascalName(p.name))},
-		isNullable 	: ${p.nullable},
-		isEditable	: ${!uneditableColumns.contains(toPascalName(p.name))},
-		isId 		: ${p.name?.equalsIgnoreCase('id')},
-		isEmail 	: ${p.name?.equalsIgnoreCase('email')},
-		isUrl 		: ${p.name?.equalsIgnoreCase('url')},
-		isPassword 	: ${p.name?.equalsIgnoreCase('password')},
-		isPhone 	: ${p.name.equalsIgnoreCase('phone')},
-		isTelephone	: ${p.name.equalsIgnoreCase('telephone')},
-		isStatus	: ${p.name.equalsIgnoreCase('status')},
-		isDeleted	: ${p.name.equalsIgnoreCase('deleted')},
+		${_genColumnProp(p.name, 'name', toPascalName(p.name))}
+		${_genColumnProp(p.name, 'pascalName', toPascalName(p.name))}
+		${_genColumnProp(p.name, 'camelName', toCamelName(p.name))}
+		${_genColumnProp(p.name, 'columnName', p.name)}
+		${_genColumnProp(p.name, 'columnType', TYPES[p.columnType])}
+		${_genColumnProp(p.name, 'classType', DB_TYPE_MAP[p.className]? DB_TYPE_MAP[p.className]: p.className)}
+		${_genColumnProp(p.name, 'type', toCamelName(p.name))}
+		${_genColumnProp(p.name, 'minLength', 0, true)}
+		${_genColumnProp(p.name, 'maxLength', p.length, true)}
+		${_genColumnProp(p.name, 'getter', 'get'+toPascalName(p.name))}
+		${_genColumnProp(p.name, 'setter', 'set'+toPascalName(p.name))}
+		${_genColumnProp(p.name, 'isShow', !p.name.equalsIgnoreCase('id'), true)}
+		${_genColumnProp(p.name, 'isListable', !unlistableColumns.contains(toPascalName(p.name)), true)}
+		${_genColumnProp(p.name, 'isNullable', p.nullable, true)}
+		${_genColumnProp(p.name, 'isEditable', !uneditableColumns.contains(toPascalName(p.name)), true)}
+		${_genColumnProp(p.name, 'isId', p.name?.equalsIgnoreCase('id'), true)}
+		${_genColumnProp(p.name, 'isStatus', p.name?.equalsIgnoreCase('status'), true)}
+		
 	],<%}%>
 ]
 idColumn 			= columns.find{it.isId}
 statusColumn		= columns.find{it.isStatus}
-deletedColumn		= columns.find{it.isDeleted}
 columnWithoutId 	= columns.findAll{!it.isId}
 allColumns			= fartherTable? columns + fartherTable.columns: columns
 allColumnsWithoutId = allColumns.findAll{!it.isId}
-defaultSuperModelClass = 'com.ii2d.mybatis.model.BaseMyBatisModel'
+
 	

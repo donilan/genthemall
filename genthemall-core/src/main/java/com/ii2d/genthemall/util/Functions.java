@@ -10,10 +10,10 @@ public class Functions {
 	 * @since 2012-11-2
 	 * @param opts
 	 */
-	public static String choiceOne(String... opts) {
-		for(String o: opts) {
-			if(StringUtils.isNotBlank(o))
-				return o;
+	public static String choiceOne(Object... opts) {
+		for(Object o: opts) {
+			if(o != null && StringUtils.isNotBlank(o.toString()))
+				return o.toString();
 		}
 		return "";
 	}
