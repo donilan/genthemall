@@ -6,28 +6,23 @@ import static com.ii2d.dbase.util.DDBUtils.DB_TYPE_MAP
 import static com.ii2d.genthemall.util.Functions.*
 
 def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'Address', 'Password', 'IdCard']
-def uneditableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'CreateDate']
+def uneditableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'CreateDate', 'Status']
 def datetimeColumnTypes = ['TIMESTAMP']
 
 def _genBaseProp(_key, _default, _isScript=false) {
-	def _globalProp = global?.get(table)?.get(_key)
+	def _globalProp = global?.get(toCamelName(table))?.get(_key)
 	if(_isScript) {
-		def _result = choiceOne(_globalProp, global?.get(_key))
-		if(_result)
-			return "${_key} = \"${_result}\""
-		return "${_key} = ${_default}"
+		return "${_key} = ${choiceOne(_globalProp, global?.get(_key), _default)}"
 	} else {
 		return "${_key} = \"${choiceOne(_globalProp, global?.get(_key), _default)}\""
 	}
 }
 
 def _genColumnProp(_column, _key, _default, _isScript=false) {
-	def _globalProp = global?.get(table)?.get('columns')?.get(_column)?.get(_key)
+	def camelColumn = toCamelName(_column)
+	def _globalProp = global?.get(toCamelName(table))?.get('columns')?.get(camelColumn)?.get(_key)
 	if(_isScript) {
-		def _result = choiceOne(_globalProp, global?.get('columns')?.get(_column)?.get(_key))
-		if(_result)
-			return "${_key} = \"${_result}\""
-		return "${_key} : ${_default},"
+		return "${_key} : ${choiceOne(_globalProp, global?.get('columns')?.get(camelColumn)?.get(_key), _default)},"
 	} else {
 		return "${_key} : \"${choiceOne(_globalProp, global?.get(_key), _default)}\","
 	}
@@ -61,7 +56,7 @@ columns 	=
 		${_genColumnProp(p.name, 'isNullable', p.nullable, true)}
 		${_genColumnProp(p.name, 'isEditable', !uneditableColumns.contains(toPascalName(p.name)), true)}
 		${_genColumnProp(p.name, 'isId', p.name?.equalsIgnoreCase('id'), true)}
-		${_genColumnProp(p.name, 'isStatus', p.name?.equalsIgnoreCase('status'), true)}
+		${_genColumnProp(p.name, 'isStatus', 'status'.equalsIgnoreCase(p.name), true)}
 		
 	],<%}%>
 ]
