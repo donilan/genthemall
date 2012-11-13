@@ -27,43 +27,50 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 	</dependencies>
+
+
 
 	<distributionManagement>
 		<site>
 			<id>ii2d-release</id>
-			<url>svn:https://ii2d.googlecode.com/svn/release</url>
+			<url>scm:git:https://github.com/ii2d/repo.git</url>
 		</site>
 		<snapshotRepository>
 			<uniqueVersion>false</uniqueVersion>
-			<id>ii2d-snapshots</id>
-			<url>svn:https://ii2d-maven.googlecode.com/svn/snapshot</url>
+			<id>git-snapshots</id>
+			<url>scm:git:https://github.com/ii2d/repo.git</url>
 		</snapshotRepository>
 	</distributionManagement>
+
+	<scm>
+		<developerConnection>
+		scm:git:https://github.com/ii2d/repo.git
+		</developerConnection>
+	</scm>
 
 	<build>
 		<extensions>
 			<extension>
-				<groupId>com.google.code.maven-svn-wagon</groupId>
-				<artifactId>maven-svn-wagon</artifactId>
-				<version>1.4</version>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-scm</artifactId>
+				<version>2.2</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-manager-plexus</artifactId>
+				<version>1.8</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-provider-gitexe</artifactId>
+				<version>1.8</version>
 			</extension>
 		</extensions>
 		<plugins>
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.7</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.google.code.maven-svn-wagon</groupId>
-						<artifactId>maven-svn-wagon</artifactId>
-						<version>1.4</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
