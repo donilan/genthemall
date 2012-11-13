@@ -3,16 +3,15 @@ name="commons-model"
 type="javaCode"
 description="Model template"
 path="__PACKAGE_PATH__/model/__PASCAL_NAME__.java"
-version="0.4.0"
+version="0.4.1"
 */%>
 package ${packageName}.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="${camelName}")
-public class <%print pascalName%> extends com.ii2d.dbase.mybatis.model.BaseMyBatisModel {
+public class <%print pascalName%> {
 
-	private static final long serialVersionUID = 1L;
 	<%columns.each {%>
 	protected ${it.classType} ${it.camelName};<%}%>
 	<%columns.each {%>
