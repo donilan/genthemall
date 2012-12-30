@@ -25,7 +25,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 	protected MavenProject project;
 	
 	/**
-	 * @parameter default-value="classpath:com/ii2d/genthemall/template/"
+	 * @parameter default-value="classpath:gt"
 	 */
 	private String templatePath;
 	

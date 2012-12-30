@@ -32,7 +32,7 @@ public class TemplateFinder {
 	}
 	public static List<Template> find(ClassLoader cl, String path) throws IOException {
 		List<Template> tList = new ArrayList<Template>();
-		List<String> templatePaths = DResourceFinder.find(cl, path, new String[]{".*\\.gta"}, null);
+		List<String> templatePaths = DResourceFinder.find(cl, path, new String[]{".*\\.gt"}, null);
 		for(String p: templatePaths) {
 			Template tmp = _makeTemplate(p);
 			if(tmp != null) {

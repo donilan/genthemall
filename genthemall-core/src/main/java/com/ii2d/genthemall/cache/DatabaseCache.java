@@ -33,7 +33,7 @@ import com.ii2d.genthemall.GeneratorFactory;
 public class DatabaseCache {
 
 	public static final String CACHE_PATH = "target/genthemall/cache/db/";
-	public static final String CACHE_TEMPLATE_PATH = "database.gta";
+	public static final String CACHE_TEMPLATE_PATH = "database.gt";
 	public static final Log LOG = LogFactory.getLog(DatabaseCache.class);
 	
 	public static void makeCache(DataSource ds, String tables) throws CompilationFailedException, SQLException, IOException, ClassNotFoundException {
