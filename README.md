@@ -37,10 +37,13 @@ GenThemAll 的Maven Plugin已经基本完成，现在已经能正确地生成想
 	</build>
 
 *通过以上配置就可以使用以下命令生成代码:*
+
 	mvn genthemall:generate
 
 *0.5.0 版本增加初始化命令，初始化命令能通过配置初始化的模板，生成初始化文件，命令如下:*
+
 	mvn genthemall:init
 
 *查看模板列表命令:*
+
 	mvn genthemall:list
