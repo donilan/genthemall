@@ -45,7 +45,9 @@ public class InitMojo extends AbstractGenerateMojo {
 			config.put("dataSource", ds);
 			for(Template t: tmplList) {
 				String basePath = getTargetBasePath(t.getType());
-				GeneratorUtils.generate(t, config, FilenameUtils.concat(basePath, t.getPath()));
+				String destPath = FilenameUtils.concat(basePath, t.getPath());
+				getLog().info("Init for: " + t.getName() + " to dest path: " + destPath);
+				GeneratorUtils.generate(t, config, destPath);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

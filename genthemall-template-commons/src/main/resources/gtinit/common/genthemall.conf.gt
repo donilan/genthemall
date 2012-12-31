@@ -1,0 +1,8 @@
+<%/*
+name="init-common-genthemall-conf"
+type="root"
+overridable=false
+description="Genthemall config file."
+path="genthemall.conf"
+version="0.1"
+*/%>packageName = "com.ii2d"

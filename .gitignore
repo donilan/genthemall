@@ -19,5 +19,6 @@ release.proeprties
 genthemall-template-web-admin/src/test
 genthemall-template-web-admin/src/main/webapp/WEB-INF/jsp
 genthemall-example/src/test
+genthemall-example/genthemall.conf
 genthemall-template-web-admin/genthemall.conf
 

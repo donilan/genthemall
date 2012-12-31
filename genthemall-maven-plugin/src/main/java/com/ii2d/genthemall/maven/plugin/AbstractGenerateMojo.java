@@ -56,6 +56,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 	private boolean refeshCache;
 	
 	public static final String TARGET_TYPE_DEFAULT = "default";
+	public static final String TARGET_TYPE_ROOT = "root";
 	public static final String TARGET_TYPE_WEB = "web";
 	public static final String TARGET_TYPE_JSP = "jsp";
 	public static final String TARGET_TYPE_RESOURCES = "resources";
@@ -67,6 +68,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 		defaultTargetPathMap.put(TARGET_TYPE_WEB, "src/main/webapp");
 		defaultTargetPathMap.put(TARGET_TYPE_DEFAULT, "target/genthemall");
 		defaultTargetPathMap.put(TARGET_TYPE_JSP, "src/main/webapp/WEB-INF/jsp");
+		defaultTargetPathMap.put(TARGET_TYPE_ROOT, "./");
 	}
 
 	public String getTemplatePath() {
