@@ -1,5 +1,5 @@
 <%/*
-name="init-axis2-application-context"
+name="init-springmvc-application-context"
 type="resources"
 overridable=false
 description="Spring config."
@@ -19,7 +19,7 @@ version="0.1"
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 	
-	<context:component-scan base-package="com.ii2d" />
+	<context:component-scan base-package="${project.groupId}" />
 	<import resource="classpath:application-context-security.xml"/>
 	<import resource="classpath:/com/ii2d/dbase/mybatis/applicationContext-mybatis.xml"/>
 

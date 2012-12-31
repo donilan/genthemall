@@ -43,6 +43,7 @@ public class InitMojo extends AbstractGenerateMojo {
 			}
 			DatabaseSource ds = this.getDatabaseSource();
 			config.put("dataSource", ds);
+			config.put("project", this.project);
 			for(Template t: tmplList) {
 				String basePath = getTargetBasePath(t.getType());
 				String destPath = FilenameUtils.concat(basePath, t.getPath());

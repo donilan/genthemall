@@ -17,6 +17,6 @@ version="0.1"
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<import resource="classpath:/com/ii2d/dbase/web/rest-servlet.xml" />
-	<context:component-scan base-package="com.ii2d.controller,com.ii2d.dbase.web.controller" />
+	<context:component-scan base-package="${project.groupId}.controller,com.ii2d.dbase.web.controller" />
 
 </beans>
