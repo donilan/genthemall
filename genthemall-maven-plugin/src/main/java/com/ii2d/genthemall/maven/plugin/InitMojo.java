@@ -2,7 +2,9 @@ package com.ii2d.genthemall.maven.plugin;
 
 import groovy.util.ConfigObject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -17,24 +19,34 @@ import com.ii2d.genthemall.util.GeneratorUtils;
  */
 public class InitMojo extends AbstractGenerateMojo {
 	
-	
 	/**
-	 * @parameter default-value="springmvc"
+	 * @parameter default-value="common,springmvc"
 	 */
 	private String initType;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void doExecute() throws MojoExecutionException, MojoFailureException {
 		try {
-			TemplateHolder common = getTemplateHolder("classpath:gtinit/common");
-			TemplateHolder initTmpl = getTemplateHolder("classpath:gtinit/" + initType);
-			List<Template> tmplList = common.getTemplates();
-			tmplList.addAll(initTmpl.getTemplates());
+			List<Template> tmplList = new ArrayList<Template>();
+			for(String dir: initType.split(",")) {
+				TemplateHolder initTmpl = getTemplateHolder("classpath:gtinit/" + dir);
+				tmplList.addAll(initTmpl.getTemplates());
+			}
+			ConfigObject config = new ConfigObject();
+			for(Entry<Object, Object> e:this.project.getProperties().entrySet()) {
+				Object key = e.getKey();
+				if(key instanceof String) {
+					key = ((String) key).replaceAll("\\.", "_");
+				}
+				config.put(key, e.getValue());
+			}
+			DatabaseSource ds = this.getDatabaseSource();
+			config.put("dataSource", ds);
 			for(Template t: tmplList) {
 				String basePath = getTargetBasePath(t.getType());
-				GeneratorUtils.generate(t, new ConfigObject(), FilenameUtils.concat(basePath, t.getPath()));
+				GeneratorUtils.generate(t, config, FilenameUtils.concat(basePath, t.getPath()));
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new MojoExecutionException(e.getMessage());

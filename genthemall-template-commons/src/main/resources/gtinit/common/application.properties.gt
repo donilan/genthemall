@@ -5,12 +5,12 @@ overridable=false
 description="Application init."
 path="application.properties"
 version="0.1"
-*/%>
+*/%>## Gnerate by genthemall
 ## JDBC properties
-jdbc.driverClassName=oracle.jdbc.OracleDriver
-jdbc.url=jdbc\\:oracle\\:thin\\:@192.168.2.217\\:1521\\:orcl
-jdbc.username=tds
-jdbc.password=tds
+jdbc.driverClassName=${dataSource.driverClassName}
+jdbc.url=${dataSource.url}
+jdbc.username=${dataSource.username}
+jdbc.password=${dataSource.password}
 
 ## II2D properties
 jaxb.scan.package=com.ii2d.model
