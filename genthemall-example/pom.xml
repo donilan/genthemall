@@ -17,6 +17,10 @@
 				<artifactId>genthemall-maven-plugin</artifactId>
 				<version>${project.version}</version>
 				<configuration>
+					<targetPathMap>
+						<javaCode>src/test/java</javaCode>
+						<resources>src/test/resources</resources>
+					</targetPathMap>
 					<databaseSource>
 						<driverClassName>${dataSource.driver}</driverClassName>
 						<url>${dataSource.url}</url>

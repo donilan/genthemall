@@ -3,9 +3,7 @@ package com.ii2d.genthemall.maven.plugin;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -30,44 +28,10 @@ import com.ii2d.genthemall.util.GeneratorUtils;
  */
 public class GenerateMojo extends AbstractGenerateMojo {
 
-	public static final String TARGET_TYPE_DEFAULT = "default";
-	public static final String TARGET_TYPE_WEB = "web";
-	public static final String TARGET_TYPE_JSP = "jsp";
-	public static final String TARGET_TYPE_RESOURCES = "resources";
-	public static final String TARGET_TYPE_JAVA_CODE = "javaCode";
-
-	/**
-	 * @parameter
-	 */
-	protected Map<String, String> targetPathMap;
-
-	private Map<String, String> defaultTargetPathMap = new HashMap<String, String>();
-
 	/**
 	 * @parameter
 	 */
 	private List<GenerateConfig> generateConfigs;
-
-	/**
-	 * @parameter
-	 */
-	private boolean refeshCache = true;
-
-	public GenerateMojo() {
-		defaultTargetPathMap.put(TARGET_TYPE_JAVA_CODE, "src/test/java");
-		defaultTargetPathMap.put(TARGET_TYPE_RESOURCES, "src/test/resources");
-		defaultTargetPathMap.put(TARGET_TYPE_WEB, "src/main/webapp");
-		defaultTargetPathMap.put(TARGET_TYPE_DEFAULT, "target/genthemall");
-		defaultTargetPathMap.put(TARGET_TYPE_JSP, "src/main/webapp/WEB-INF/jsp");
-	}
-
-	private String _getTargetBasePath(String type) {
-		String p = defaultTargetPathMap.get(type);
-		if (StringUtils.isEmpty(p)) {
-			return defaultTargetPathMap.get(TARGET_TYPE_DEFAULT);
-		}
-		return p;
-	}
 
 	@SuppressWarnings("unchecked")
 	private Collection<String> _findNames(TemplateHolder templates,
@@ -86,20 +50,10 @@ public class GenerateMojo extends AbstractGenerateMojo {
 	}
 
 	@Override
-	public void execute() throws MojoExecutionException, MojoFailureException {
+	public void doExecute() throws MojoExecutionException, MojoFailureException {
 		if (generateConfigs == null)
 			return;
-		if (targetPathMap != null) {
-			defaultTargetPathMap.putAll(targetPathMap);
-		}
 		try {
-			if (refeshCache) {
-				DatabaseSource ds = this.getDatabaseSource();
-				if (ds == null)
-					return;
-				DatabaseCache.makeCache(ds, ds.getTables());
-				getLog().info("Make database cache success.");
-			}
 			TemplateHolder templates = getTemplateHolder();
 			getLog().info(
 					String.format(
@@ -114,7 +68,7 @@ public class GenerateMojo extends AbstractGenerateMojo {
 				for (String name : names) {
 					getLog().info("+Template name is: " + name);
 					Template t = templates.getTemplateByName(name);
-					String basePath = _getTargetBasePath(t.getType());
+					String basePath = getTargetBasePath(t.getType());
 					if (t.isAllCache()) {
 						getLog().info("\t-Generate for all table.");
 						GeneratorUtils.generate(t,

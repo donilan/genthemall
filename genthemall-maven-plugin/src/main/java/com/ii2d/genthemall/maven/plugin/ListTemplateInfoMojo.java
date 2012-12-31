@@ -17,7 +17,7 @@ import com.ii2d.genthemall.template.Template;
 public class ListTemplateInfoMojo extends AbstractGenerateMojo {
 
 	@Override
-	public void execute() throws MojoExecutionException, MojoFailureException {
+	public void doExecute() throws MojoExecutionException, MojoFailureException {
 		try {
 			List<Template> templates = getTemplateHolder().getTemplates();
 			for (int i = 0; i < templates.size(); ++i) {

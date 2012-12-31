@@ -54,7 +54,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<goalPrefix>genthemall-maven-plugin</goalPrefix>
+					<goalPrefix>genthemall</goalPrefix>
 				</configuration>
 			</plugin>
 		</plugins>

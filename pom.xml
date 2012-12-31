@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<dbase.version>0.0.5-SNAPSHOT</dbase.version>
+		<dbase.version>0.1.0</dbase.version>
 		<dataSource.url>jdbc:mysql://127.0.0.1:3306/hnwnew</dataSource.url>
 		<dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
 		<dataSource.username>root</dataSource.username>
