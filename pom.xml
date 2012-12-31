@@ -5,7 +5,7 @@
 
 	<groupId>com.ii2d</groupId>
 	<artifactId>genthemall-parent</artifactId>
-	<version>0.4.2</version>
+	<version>0.5.0</version>
 	<packaging>pom</packaging>
 
 	<name>genthemall-parent</name>
