@@ -17,7 +17,7 @@ public class Generator {
 	
 	public void generate() throws CompilationFailedException, ClassNotFoundException, IOException {
 		SimpleTemplateEngine engine = new SimpleTemplateEngine();
-		Template t = engine.createTemplate(templateText);
+		Template t = engine.createTemplate(templateText.trim());
 		t.make(binding).writeTo(out);
 	}
 

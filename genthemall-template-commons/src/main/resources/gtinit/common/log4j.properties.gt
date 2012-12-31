@@ -5,31 +5,35 @@ overridable=false
 description="log4j init."
 path="log4j.properties"
 version="0.1"
-*/%>
-log4j.rootLogger=INFO,stdout
+*/%>log4j.rootLogger=INFO,stdout
 
+## Stdout log
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 
-# Pattern to output the caller's file name and line number.
+## File log
 log4j.appender.stdout.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n
-
 log4j.appender.debugLog=org.apache.log4j.RollingFileAppender
 log4j.appender.debugLog.File=\${catalina.home}/logs/${project.artifactId}-debug.log
-
 log4j.appender.debugLog.MaxFileSize=100KB
-# Keep one backup file
 log4j.appender.debugLog.MaxBackupIndex=1
-
 log4j.appender.debugLog.layout=org.apache.log4j.PatternLayout
 log4j.appender.debugLog.layout.ConversionPattern=%p %t %c - %m%n
 
-log4j.logger.com.createw=DEBUG
+
+## Project log
+log4j.logger.${project.groupId}=DEBUG
+
+## Spring log
 #log4j.logger.org.springframework.web.filter.CharacterEncodingFilter=DEBUG
+
+## Mybatis log
 log4j.logger.com.ibatis=DEBUG
 #log4j.logger.com.ibatis.common.jdbc.SimpleDataSource=DEBUG 
 #log4j.logger.com.ibatis.common.jdbc.ScriptRunner=DEBUG 
-#log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate=DEBUG 
+#log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate=DEBUG
+
+## JDBC log
 #log4j.logger.java.sql.Connection=DEBUG 
 #log4j.logger.java.sql.Statement=DEBUG 
 #log4j.logger.java.sql.PreparedStatement=DEBUG 
