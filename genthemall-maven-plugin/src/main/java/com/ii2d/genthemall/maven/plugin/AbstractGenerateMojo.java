@@ -31,7 +31,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 	protected MavenProject project;
 	
 	/**
-	 * @parameter default-value="classpath:gt"
+	 * @parameter default-value="classpath:gt/"
 	 */
 	private String templatePath;
 	
