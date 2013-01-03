@@ -18,6 +18,8 @@ import com.ii2d.dbase.util.DResourceFinder;
 import com.ii2d.dbase.util.DResourceUtils;
 
 public class TemplateFinder {
+	public static final String HEAD_RE_STR = "^\\s*<%/\\*(.+?)\\*/%>";
+	public static final Pattern HEAD_RE = Pattern.compile(HEAD_RE_STR, Pattern.DOTALL);
 	
 	public static TemplateHolder findToHodler(String path) throws IOException {
 		return findToHodler(DResourceUtils.getDefaultClassLoad(), path);
@@ -42,20 +44,11 @@ public class TemplateFinder {
 		return tList;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static Template _makeTemplate(String path) throws IOException {
 		Template t = new Template();
 		String templateText = IOUtils.toString(DResourceUtils.getResourceAsStream(path));
-		if(_loadHead(templateText, t)) {
-			t.setTemplateText(templateText);
-			return t;
-		}
-		return null;
-	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static boolean _loadHead(String templateText, Template t) {
-		Pattern substring = Pattern.compile("^\\s*<%/\\*(.+?)\\*/%>", Pattern.DOTALL);
-		Matcher m = substring.matcher(templateText);
+		Matcher m = HEAD_RE.matcher(templateText);
 		if(m.find()) {
 			ConfigObject co = new ConfigSlurper().parse(m.group(1));
 			try {
@@ -66,11 +59,12 @@ public class TemplateFinder {
 						BeanUtils.setProperty(t, (String)e.getKey(), e.getValue());
 					}
 				}
-				return true;
+				t.setTemplateText(templateText.substring(m.end()));
+				return t;
 			}catch (Exception e) {
-				return false;
+				e.printStackTrace();
 			}
 		}
-		return false;
+		return null;
 	}
 }

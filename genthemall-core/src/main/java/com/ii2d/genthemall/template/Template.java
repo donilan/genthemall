@@ -10,6 +10,7 @@ public class Template {
 	private String templateText;
 	private boolean allCache;
 	private boolean overridable = true;
+	private boolean genable = true;
 	
 	public boolean isOverridable() {
 		return overridable;
@@ -68,6 +69,14 @@ public class Template {
 	}
 	public void setTemplateText(String templateText) {
 		this.templateText = templateText;
+	}
+
+	public boolean isGenable() {
+		return genable;
+	}
+
+	public void setGenable(boolean genable) {
+		this.genable = genable;
 	}
 	
 }

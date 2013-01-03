@@ -55,6 +55,7 @@ public class GenerateMojo extends AbstractGenerateMojo {
 			return;
 		try {
 			TemplateHolder templates = getTemplateHolder();
+			templates.compile();
 			getLog().info(
 					String.format(
 							"Found %d templates, and load %d config in pom.xml file.",
@@ -68,6 +69,7 @@ public class GenerateMojo extends AbstractGenerateMojo {
 				for (String name : names) {
 					getLog().info("+Template name is: " + name);
 					Template t = templates.getTemplateByName(name);
+					if(!t.isGenable()) continue; 
 					String basePath = getTargetBasePath(t.getType());
 					if (t.isAllCache()) {
 						getLog().info("\t-Generate for all table.");

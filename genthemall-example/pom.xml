@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ii2d</groupId>
 		<artifactId>genthemall-parent</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.1</version>
 	</parent>
 	<artifactId>genthemall-example</artifactId>
 	<name>genthemall-example</name>
@@ -31,7 +31,7 @@
 					<generateConfigs>
 						<generateConfig>
 							<tables>user,product</tables>
-							<includeTemplate>sqlmap-mysql.*,mybatis-config</includeTemplate>
+							<includeTemplate>sqlmap-mysql,mybatis-config</includeTemplate>
 						</generateConfig>
 					</generateConfigs>
 				</configuration>

@@ -2,8 +2,6 @@ package com.ii2d.genthemall.maven.plugin;
 
 import groovy.util.ConfigObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.io.FilenameUtils;
@@ -28,11 +26,11 @@ public class InitMojo extends AbstractGenerateMojo {
 	@Override
 	public void doExecute() throws MojoExecutionException, MojoFailureException {
 		try {
-			List<Template> tmplList = new ArrayList<Template>();
+			TemplateHolder initTmpl = new TemplateHolder();
 			for(String dir: initType.split(",")) {
-				TemplateHolder initTmpl = getTemplateHolder("classpath:gtinit/" + dir);
-				tmplList.addAll(initTmpl.getTemplates());
+				initTmpl.merge(getTemplateHolder("classpath:gtinit/" + dir));
 			}
+			initTmpl.compile();
 			ConfigObject config = new ConfigObject();
 			for(Entry<Object, Object> e:this.project.getProperties().entrySet()) {
 				Object key = e.getKey();
@@ -44,7 +42,7 @@ public class InitMojo extends AbstractGenerateMojo {
 			DatabaseSource ds = this.getDatabaseSource();
 			config.put("dataSource", ds);
 			config.put("project", this.project);
-			for(Template t: tmplList) {
+			for(Template t: initTmpl.getTemplates()) {
 				String basePath = getTargetBasePath(t.getType());
 				String destPath = FilenameUtils.concat(basePath, t.getPath());
 				getLog().info("Init for: " + t.getName() + " to dest path: " + destPath);

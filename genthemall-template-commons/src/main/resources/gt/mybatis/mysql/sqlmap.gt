@@ -3,20 +3,10 @@ name="sqlmap-mysql"
 type="resources"
 description="Mysql mybatis sqlmap template"
 path="mybatis/__CAMEL_NAME__.xml"
-version="0.4.0"
-*/%><?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<%
-def insertColumnsStr = (columnWithoutId*.columnName).toString()[1..-2]
-def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\t\t"}).toString()[1..-2]
-%>
-<mapper namespace="${packageName}.model">
-
-	<!-- result map for ${packageName}.${pascalName} -->
-	<resultMap type="${modelClassName}" id="${camelName}">
-	<%columns.each {%><result column="${it.columnName}" property="${it.camelName}" javaType="${it.classType}"/>
-	<%}%></resultMap>
-	
+version="0.5.1"
+*/%>
+{{ extends base-sqlmap }}
+{{ block content }}
 <% if(idColumn) { //!-- generate if have id column. %>
 	<!-- select by id sql -->
 	<select id="select_by_id_${pascalName}" useCache="true" resultMap="${camelName}" >
@@ -108,4 +98,4 @@ def insertColumnValuesStr = (columnWithoutId*.camelName?.collect {"#{${it}}\n\t\
 	<%}%>
 	</delete>
 <%}%>
-</mapper>
+{{ endblock }}

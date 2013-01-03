@@ -20,9 +20,11 @@ public class ListTemplateInfoMojo extends AbstractGenerateMojo {
 	public void doExecute() throws MojoExecutionException, MojoFailureException {
 		try {
 			List<Template> templates = getTemplateHolder().getTemplates();
+			int counter = 0;
 			for (int i = 0; i < templates.size(); ++i) {
 				Template t = templates.get(i);
-				getLog().info(String.format("[%d] %s", i + 1, t.toString()));
+				if(t.isGenable())
+					getLog().info(String.format("[%d] %s", ++counter, t.toString()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
