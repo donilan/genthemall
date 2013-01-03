@@ -46,29 +46,6 @@ version="0.5.1"
 			</when>
 		</choose>
 	</select>
-	<!-- Count table. -->
-	<select id="count_${pascalName}" resultType="java.lang.Long">
-		SELECT COUNT(1) FROM ${tableName}
-		<trim prefix="WHERE" prefixOverrides="OR|AND">
-			<%columnWithoutId.each { %>
-			<if test="orEq.${it.camelName} != null">OR ${it.columnName} = #{orEq.${it.camelName}}</if>
-			<if test="orLike.${it.camelName} != null">OR ${it.columnName} LIKE concat('%', #{orLike.${it.camelName}}, '%')</if>
-			<if test="andEq.${it.camelName} != null">AND ${it.columnName} = #{andEq.${it.camelName}}</if>
-			<if test="andLike.${it.camelName} != null">AND ${it.columnName} LIKE concat('%', #{andLike.${it.camelName}}, '%')</if>
-				<%if(it.classType != 'java.lang.String'){%>
-			<if test="orBetween.${it.camelName}Begin != null and orBetween.${it.camelName}End != null">
-				OR ${it.columnName} BETWEEN STR_TO_DATE(#{orBetween.${it.camelName}Begin}, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(#{orBetween.${it.camelName}End}, '%Y-%m-%d %H:%i:%s')
-			</if>
-			<if test="andBetween.${it.camelName}Begin != null and andBetween.${it.camelName}End != null">
-				AND ${it.columnName} BETWEEN STR_TO_DATE(#{andBetween.${it.camelName}Begin}, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(#{andBetween.${it.camelName}End}, '%Y-%m-%d %H:%i:%s')
-			</if>
-				<%}%>
-			<%}%>
-			<%if(statusColumn) {%>
-			<if test="andEq.${statusColumn.camelName} == null">AND ${statusColumn.columnName} &gt; -1</if>
-			<%}%>
-		</trim>
-	</select>
 	
 	<insert id="insert_${pascalName}" parameterType="${modelClassName}">
 		INSERT INTO ${tableName} (${insertColumnsStr})

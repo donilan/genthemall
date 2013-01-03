@@ -5,7 +5,7 @@
 
 	<groupId>com.ii2d</groupId>
 	<artifactId>genthemall-parent</artifactId>
-	<version>0.5.1</version>
+	<version>0.5.2</version>
 	<packaging>pom</packaging>
 
 	<name>genthemall-parent</name>
@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<dbase.version>0.1.1</dbase.version>
+		<dbase.version>0.1.2</dbase.version>
 		<dataSource.url>jdbc:mysql://127.0.0.1:3306/hnwnew</dataSource.url>
 		<dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
 		<dataSource.username>root</dataSource.username>

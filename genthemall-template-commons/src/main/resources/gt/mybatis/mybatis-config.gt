@@ -4,23 +4,11 @@ type="resources"
 allCache=true
 description="Mybatis config file."
 path="mybatis-config.xml"
-version="0.1.0"
-*/%><?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<configuration>
-	<settings>
-		<setting name="cacheEnabled" value="false" />
-		<setting name="lazyLoadingEnabled" value="false" />
-	</settings>
-	<plugins>
-		<plugin interceptor="com.ii2d.dbase.mybatis.PaginationInterceptor">
-			<property name="dialectClass" value="com.ii2d.dbase.mybatis.dialect.db.OracleDialect"/>
-		</plugin>
-	</plugins>
-	<mappers>
-<%data.each {%>
-		<mapper resource="mybatis/${it.camelName}.xml"/>
-		<mapper resource="mybatis/ext/${it.camelName}Ext.xml"/>
-<%}%>
-	</mappers>
-</configuration>
+version="0.5.2"
+*/%>
+{{ extends base-mybatis-config }}
+{{ block plugins }}
+<plugin interceptor="com.ii2d.dbase.mybatis.PaginationInterceptor">
+	<property name="dialectClass" value="com.ii2d.dbase.mybatis.dialect.db.OracleDialect"/>
+</plugin>
+{{ endblock }}

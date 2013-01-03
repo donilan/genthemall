@@ -1,0 +1,23 @@
+<%/*
+name="base-mybatis-config"
+description="Base mybatis config file."
+genable=false
+version="0.5.2"
+*/%><?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	<plugins>
+{{ block plugins }}{{endblock}}
+	</plugins>
+	<mappers>
+<%data.each {%>
+		<mapper resource="mybatis/${it.camelName}.xml"/>
+		<mapper resource="mybatis/ext/${it.camelName}Ext.xml"/>
+<%}%>
+	{{ block mappers }}{{endblock}}
+	</mappers>
+</configuration>
