@@ -16,6 +16,11 @@ import com.ii2d.dbase.template.context.Context;
 import com.ii2d.dbase.template.finder.DTemplateFinder;
 import com.ii2d.dbase.template.finder.ITemplateFinder;
 
+/**
+ * hold all the templates
+ * @author Administrator
+ *
+ */
 public class TemplateHolder implements ITemplateFinder {
 
 	private Map<String, Template> nameMap = new HashMap<String, Template>();
@@ -59,6 +64,11 @@ public class TemplateHolder implements ITemplateFinder {
 		}
 	}
 
+	/**
+	 * template generate template
+	 * @throws ParserException
+	 * @throws IOException
+	 */
 	public void compile() throws ParserException, IOException {
 		DTemplateFinder.register(this);
 		for (Entry<String, Template> en : nameMap.entrySet()) {

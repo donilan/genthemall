@@ -36,12 +36,17 @@ public class DatabaseCache {
 	public static final String CACHE_TEMPLATE_PATH = "database.gt";
 	public static final Log LOG = LogFactory.getLog(DatabaseCache.class);
 	
+	/**
+	 * 以逗号拆分表名字符串，并连成链表
+	 */
 	public static void makeCache(DataSource ds, String tables) throws CompilationFailedException, SQLException, IOException, ClassNotFoundException {
 		List<String> tableList = new ArrayList<String>();
 		if(StringUtils.isNotBlank(tables)) {
 			String tableArr[] = tables.split(",");
 			for(String t: tableArr) {
-				tableList.add(t);
+				t = StringUtils.trim(t);
+				if(StringUtils.isNotBlank(t))
+					tableList.add(t);
 			}
 		}
 		makeCache(ds, tableList);
@@ -66,13 +71,13 @@ public class DatabaseCache {
 		in.close();
 		
 		for (String table : tables) {
-			Map<String, Object> tMap = new HashMap<String, Object>();
-			DDBUtils.getColumns(ds, table, tMap);
-			tMap.put("global", globalConfig);
+			Map<String, Object> binding = new HashMap<String, Object>();
+			DDBUtils.getColumns(ds, table, binding);
+			binding.put("global", globalConfig);
 			File file = new File(FilenameUtils.concat(CACHE_PATH, table + ".cache"));
 			FileUtils.touch(file);
 			OutputStream out = new FileOutputStream(file);
-			Generator g = GeneratorFactory.create(templateText, out, tMap);
+			Generator g = GeneratorFactory.create(templateText, out, binding);
 			g.generate();
 			out.close();
 		}
