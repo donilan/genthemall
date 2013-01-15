@@ -18,6 +18,9 @@ import com.ii2d.dbase.util.DResourceFinder;
 import com.ii2d.dbase.util.DResourceUtils;
 
 public class TemplateFinder {
+	/**
+	 * the .gt file must have a head like this <%/...../%>
+	 */
 	public static final String HEAD_RE_STR = "^\\s*<%/\\*(.+?)\\*/%>";
 	public static final Pattern HEAD_RE = Pattern.compile(HEAD_RE_STR, Pattern.DOTALL);
 	
