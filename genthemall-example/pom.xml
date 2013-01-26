@@ -31,7 +31,7 @@
 					<generateConfigs>
 						<generateConfig>
 							<tables>user,product</tables>
-							<includeTemplate>sqlmap-mysql,mybatis-config</includeTemplate>
+							<includeTemplate>sqlmap-mysql,mybatis-config,genthemall-conf-example</includeTemplate>
 						</generateConfig>
 					</generateConfigs>
 				</configuration>

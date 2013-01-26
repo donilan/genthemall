@@ -1,0 +1,9 @@
+packageName = 'com.ii2d'
+
+user.packageName = 'com.ii2d'
+user.name = 'User'
+user.tableName = 'user'
+
+product.packageName = 'com.ii2d'
+product.name = 'Product'
+product.tableName = 'product'

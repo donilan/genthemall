@@ -1,0 +1,14 @@
+<%/*
+name="genthemall-conf-example"
+type="root"
+allCache=true
+description="Genthemall config file example"
+path="genthemall.conf.example"
+version="0.1"
+*/%>
+packageName = 'com.ii2d'
+<% data.each { %>
+${it.camelName}.packageName = '${it.packageName}'
+${it.camelName}.name = '${it.name}'
+${it.camelName}.tableName = '${it.tableName}'
+<% } %>
