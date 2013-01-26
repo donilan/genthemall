@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
@@ -34,6 +37,11 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 	 * @parameter default-value="classpath:gt/"
 	 */
 	private String templatePath;
+	
+	/**
+	 * @parameter
+	 */
+	protected List<GenerateConfig> generateConfigs;
 	
 	/**
 	 * @parameter
@@ -132,6 +140,18 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		if (targetPathMap != null) {
 			defaultTargetPathMap.putAll(targetPathMap);
+		}
+		Set<String> tables = new HashSet<String>();
+		for( GenerateConfig gc: this.generateConfigs) {
+			if(StringUtils.isNotBlank(gc.getTables()))
+				for(String t: gc.getTables().split(",")) {
+					tables.add(StringUtils.trim(t));
+				}
+		}
+		try {
+			DatabaseCache.makeCache(this.getDatabaseSource(), new ArrayList<String>(tables));
+		} catch (Exception e) {
+			throw new MojoExecutionException(e.getMessage());
 		}
 		doExecute();
 	}

@@ -3,7 +3,6 @@ package com.ii2d.genthemall.maven.plugin;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -28,10 +27,6 @@ import com.ii2d.genthemall.util.GeneratorUtils;
  */
 public class GenerateMojo extends AbstractGenerateMojo {
 
-	/**
-	 * @parameter
-	 */
-	private List<GenerateConfig> generateConfigs;
 
 	@SuppressWarnings("unchecked")
 	private Collection<String> _findNames(TemplateHolder templates,
