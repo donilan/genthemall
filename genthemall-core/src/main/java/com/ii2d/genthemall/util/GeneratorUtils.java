@@ -5,7 +5,9 @@ import groovy.util.ConfigObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.codehaus.groovy.control.CompilationFailedException;
@@ -46,7 +48,9 @@ public class GeneratorUtils {
 			return;
 		}
 		FileUtils.touch(file);
-		Generator g = GeneratorFactory.create(t.getTemplateText(), file, bindingData);
+		OutputStream out = new FileOutputStream(file);
+		Generator g = GeneratorFactory.create(t.getTemplateText(), out, bindingData);
 		g.generate();
+		out.close();
 	}
 }

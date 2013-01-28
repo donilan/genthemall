@@ -61,6 +61,7 @@ columns 	=
 	],<%}%>
 ]
 idColumn 			= columns.find{it.isId}
+idColumns			= columns.findAll{it.isId}
 statusColumn		= columns.find{it.isStatus}
 columnWithoutId 	= columns.findAll{!it.isId}
 allColumns			= fartherTable? columns + fartherTable.columns: columns

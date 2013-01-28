@@ -3,17 +3,21 @@ name="commons-model"
 type="javaCode"
 description="Model template"
 path="__PACKAGE_PATH__/model/__PASCAL_NAME__.java"
-version="0.4.1"
+version="0.5.2"
 */%>
-package ${packageName}.model;
+package {{ block packageName }}${packageName}.model{{ endblock }};
 
-import javax.xml.bind.annotation.XmlRootElement;
+{{ block imports }}{{endblock}}
 
-@XmlRootElement(name="${camelName}")
-public class <%print pascalName%> {
-
+{{ block classAnnotation }}{{ endblock }}
+public class {{ block className }}<%print pascalName%>{{endblock}} {{ block extends }}{{ endblock }}{
+	{{ block properties }}{{ endblock }}
+	{{ block content }}
 	<%columns.each {%>
 	protected ${it.classType} ${it.camelName};<%}%>
+	
+	/*		Getter and Setter */
+	
 	<%columns.each {%>
 	public void ${it.setter}(${it.classType} ${it.camelName}) {
 		this.${it.camelName} = ${it.camelName};
@@ -22,18 +26,21 @@ public class <%print pascalName%> {
 		return this.${it.camelName};
 	}
 	<%}%>
+	{{ endblock }}
+	{{ block functions }}{{endblock}}
 	
+	{{ block toString }}
 	/**
 	 * Generate by genthemall
 	 */
 	public String toString() {
-		StringBuilder sb = new StringBuilder(100);
-		sb.append("${modelClassName}.toString {\\n\\t");
+		StringBuilder sb = new StringBuilder(256);
+		sb.append("${modelClassName} - ");
 		<%allColumns.findAll{it.maxLength < 256}.each {%>
 		sb.append("${it.camelName}: [");
 		sb.append(this.${it.camelName});
-		sb.append("], ");<%}%>
-		sb.append("\\n}");
+		sb.append("] ");<%}%>
 		return sb.toString();
 	}
+	{{ endblock }}
 }
