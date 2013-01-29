@@ -17,8 +17,6 @@ GenThemAll 的Maven Plugin已经基本完成，现在已经能正确地生成想
 						<url>${dataSource.url}</url>
 						<username>${dataSource.username}</username>
 						<password>${dataSource.password}</password>
-						<!-- 数据源的表，用","分隔 -->
-						<tables>user,shop,product</tables>
 					</databaseSource>
 					<generateConfigs>
 						<!-- 生成表用到的模板 -->
