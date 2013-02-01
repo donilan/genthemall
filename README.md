@@ -5,18 +5,18 @@ GenThemAll 是一个代码生成工具，核心思想是根据数据库源（或
 GenThemAll 的Maven Plugin已经基本完成，现在已经能正确地生成想要的东西，使用已经比过往版本简单多了。
 
  	<repositories>
-                <repository>
-                        <id>ii2d-releases</id>
-                        <url>http://ii2d-maven.googlecode.com/svn/releases/</url>
-                </repository>
-        </repositories>
+		<repository>
+			<id>ii2d-releases</id>
+			<url>http://ii2d-maven.googlecode.com/svn/releases</url>
+		</repository>
+	</repositories>
 
 	<pluginRepositories>
-        	<pluginRepository>
-                        <id>ii2d-releases</id>
-                        <url>http://ii2d-maven.googlecode.com/svn/releases</url>
-                </pluginRepository>
-        </pluginRepositories>
+		<pluginRepository>
+			<id>ii2d-releases</id>
+			<url>http://ii2d-maven.googlecode.com/svn/releases</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<build>
 		<plugins>
