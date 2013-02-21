@@ -63,6 +63,7 @@ public class TemplateFinder {
 					}
 				}
 				t.setTemplateText(templateText.substring(m.end()));
+				t.setOriginTemplateText(t.getTemplateText());
 				return t;
 			}catch (Exception e) {
 				e.printStackTrace();
