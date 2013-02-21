@@ -52,7 +52,7 @@ public class TemplateHolder implements ITemplateFinder {
 	public String getTemplateString(String name) throws IOException {
 		Template t = this.nameMap.get(name);
 		if (t != null) {
-			return t.getTemplateText();
+			return t.getOriginTemplateText();
 		}
 		throw new IOException(String.format("Template name [%s] not found.",
 				name));
@@ -74,8 +74,10 @@ public class TemplateHolder implements ITemplateFinder {
 		for (Entry<String, Template> en : nameMap.entrySet()) {
 			Template t = en.getValue();
 			String content = StringUtils.trimToNull(t.getTemplateText());
+			t.setOriginTemplateText(content);
 			DTemplate tmpl = new DTemplate(content, new Context());
 			t.setTemplateText(StringUtils.trimToNull(tmpl.render()));
+			
 		}
 	}
 }

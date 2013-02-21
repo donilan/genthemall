@@ -8,6 +8,7 @@ public class Template {
 	private String version;
 	private String path;
 	private String templateText;
+	private String originTemplateText;
 	private boolean allCache;
 	private boolean overridable = true;
 	private boolean genable = true;
@@ -77,6 +78,14 @@ public class Template {
 
 	public void setGenable(boolean genable) {
 		this.genable = genable;
+	}
+
+	public String getOriginTemplateText() {
+		return originTemplateText;
+	}
+
+	public void setOriginTemplateText(String originTemplateText) {
+		this.originTemplateText = originTemplateText;
 	}
 	
 }
