@@ -28,7 +28,9 @@ def _genColumnProp(_column, _key, _default, _isScript=false) {
 	}
 }
 
-%>${_genBaseProp("packageName", "com.ii2d")}
+%>${_genBaseProp("prefix", "ii2d")}
+${_genBaseProp("prefixPath", "prefix + '/'", true)}
+${_genBaseProp("packageName", "com.ii2d")}
 ${_genBaseProp('name', toPascalName(table))}
 ${_genBaseProp('tableName', table)}
 ${_genBaseProp("packagePath", "packageName.replaceAll(/\\./, '/')", true)}
