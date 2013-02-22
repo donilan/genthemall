@@ -35,6 +35,14 @@ public class GenerateMojo extends AbstractGenerateMojo {
 				config.getIncludeTemplate(), ",");
 		final String[] excludes = StringUtils.split(
 				config.getExcludeTemplate(), ",");
+		if(includes != null)
+			for(int i=0; i< includes.length; ++i) {
+				includes[i] = StringUtils.trim(includes[i]);
+			}
+		if(excludes != null)
+			for(int i=0; i< excludes.length; ++i) {
+				excludes[i] = StringUtils.trim(excludes[i]);
+			}
 		return CollectionUtils.select(templates.names(), new Predicate() {
 			@Override
 			public boolean evaluate(Object arg0) {
