@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.ii2d.dbase.template.DTemplate;
 import com.ii2d.dbase.template.ParserException;
@@ -22,6 +24,8 @@ import com.ii2d.dbase.template.finder.ITemplateFinder;
  *
  */
 public class TemplateHolder implements ITemplateFinder {
+	
+	public static final Log LOG = LogFactory.getLog(TemplateHolder.class);
 
 	private Map<String, Template> nameMap = new HashMap<String, Template>();
 
@@ -73,6 +77,7 @@ public class TemplateHolder implements ITemplateFinder {
 		DTemplateFinder.register(this);
 		for (Entry<String, Template> en : nameMap.entrySet()) {
 			Template t = en.getValue();
+			LOG.info(String.format("Compiling template: [%s] version: [%s]", t.getName(), t.getVersion()));
 			String content = StringUtils.trimToNull(t.getTemplateText());
 			t.setOriginTemplateText(content);
 			DTemplate tmpl = new DTemplate(content, new Context());
