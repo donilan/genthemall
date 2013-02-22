@@ -31,18 +31,10 @@ public class GenerateMojo extends AbstractGenerateMojo {
 	@SuppressWarnings("unchecked")
 	private Collection<String> _findNames(TemplateHolder templates,
 			GenerateConfig config) {
-		final String[] includes = StringUtils.split(
-				config.getIncludeTemplate(), ",");
-		final String[] excludes = StringUtils.split(
-				config.getExcludeTemplate(), ",");
-		if(includes != null)
-			for(int i=0; i< includes.length; ++i) {
-				includes[i] = StringUtils.trim(includes[i]);
-			}
-		if(excludes != null)
-			for(int i=0; i< excludes.length; ++i) {
-				excludes[i] = StringUtils.trim(excludes[i]);
-			}
+		final String[] includes = _trimStringArray(StringUtils.split(
+				config.getIncludeTemplate(), ","));
+		final String[] excludes = _trimStringArray(StringUtils.split(
+				config.getExcludeTemplate(), ","));
 		return CollectionUtils.select(templates.names(), new Predicate() {
 			@Override
 			public boolean evaluate(Object arg0) {
@@ -65,9 +57,10 @@ public class GenerateMojo extends AbstractGenerateMojo {
 							templates.size(), generateConfigs.size()));
 			getLog().info("* * * * Generating * * * *");
 			for (final GenerateConfig config : generateConfigs) {
-				String[] tables = StringUtils.split(config.getTables(), ",");
+				String[] tables = _trimStringArray(StringUtils.split(config.getTables(), ","));
 				if (tables == null)
 					return;
+				
 				Collection<String> names = _findNames(templates, config);
 				for (String name : names) {
 					getLog().info("+Template name is: " + name);
@@ -90,6 +83,15 @@ public class GenerateMojo extends AbstractGenerateMojo {
 			throw new MojoExecutionException(e.getMessage());
 		}
 
+	}
+	
+	private String[] _trimStringArray(String[] arr) {
+		if(arr == null)
+			return null; 
+		for(int i = 0; i < arr.length; ++i) {
+			arr[i] = StringUtils.trimToEmpty(arr[i]);
+		}
+		return arr;
 	}
 
 	private void gen4one(String[] tables, Template t, String basePath)
