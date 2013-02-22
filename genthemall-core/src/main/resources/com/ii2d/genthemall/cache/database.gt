@@ -1,0 +1,70 @@
+<% 
+import static com.ii2d.dbase.util.DNameUtils.toPascalName
+import static com.ii2d.dbase.util.DNameUtils.toCamelName
+import static com.ii2d.dbase.util.DDBUtils.TYPES
+import static com.ii2d.dbase.util.DDBUtils.DB_TYPE_MAP
+import static com.ii2d.genthemall.util.Functions.*
+
+def unlistableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'Address', 'Password', 'IdCard']
+def uneditableColumns = ['Id', 'OldId', 'RecentLoginIp', 'RecentLoginTime', 'LastLoginIp', 'LastLoginTime', 'CreateDate', 'Status']
+def datetimeColumnTypes = ['TIMESTAMP']
+
+def _genBaseProp(_key, _default, _isScript=false) {
+	def _globalProp = global?.get(toCamelName(table))?.get(_key)
+	if(_isScript) {
+		return "${_key} = ${choiceOne(_globalProp, global?.get(_key), _default)}"
+	} else {
+		return "${_key} = \"${choiceOne(_globalProp, global?.get(_key), _default)}\""
+	}
+}
+
+def _genColumnProp(_column, _key, _default, _isScript=false) {
+	def camelColumn = toCamelName(_column)
+	def _globalProp = global?.get(toCamelName(table))?.get('columns')?.get(camelColumn)?.get(_key)
+	if(_isScript) {
+		return "${_key} : ${choiceOne(_globalProp, global?.get('columns')?.get(camelColumn)?.get(_key), _default)},"
+	} else {
+		return "${_key} : \"${choiceOne(_globalProp, global?.get(_key), _default)}\","
+	}
+}
+
+%>${_genBaseProp("packageName", "com.ii2d")}
+${_genBaseProp('name', toPascalName(table))}
+${_genBaseProp('tableName', table)}
+${_genBaseProp("packagePath", "packageName.replaceAll(/\\./, '/')", true)}
+${_genBaseProp("pascalName", "name[0].toUpperCase()+name[1..-1]", true)}
+${_genBaseProp("camelName", "name[0].toLowerCase()+name[1..-1]", true)}
+${_genBaseProp("modelClassName", "packageName + '.model.' + pascalName", true)}
+${_genBaseProp('modelSuperClass', 'com.ii2d.mybatis.model.BaseMyBatisModel')}
+
+columns 	= 
+[ <% attrs.each { p-> %>
+	[
+		${_genColumnProp(p.name, 'name', toPascalName(p.name))}
+		${_genColumnProp(p.name, 'pascalName', toPascalName(p.name))}
+		${_genColumnProp(p.name, 'camelName', toCamelName(p.name))}
+		${_genColumnProp(p.name, 'columnName', p.name)}
+		${_genColumnProp(p.name, 'columnType', TYPES[p.columnType])}
+		${_genColumnProp(p.name, 'classType', DB_TYPE_MAP[p.className]? DB_TYPE_MAP[p.className]: p.className)}
+		${_genColumnProp(p.name, 'type', toCamelName(p.name))}
+		${_genColumnProp(p.name, 'minLength', 0, true)}
+		${_genColumnProp(p.name, 'maxLength', p.length, true)}
+		${_genColumnProp(p.name, 'getter', 'get'+toPascalName(p.name))}
+		${_genColumnProp(p.name, 'setter', 'set'+toPascalName(p.name))}
+		${_genColumnProp(p.name, 'isShow', !p.name.equalsIgnoreCase('id'), true)}
+		${_genColumnProp(p.name, 'isListable', !unlistableColumns.contains(toPascalName(p.name)), true)}
+		${_genColumnProp(p.name, 'isNullable', p.nullable, true)}
+		${_genColumnProp(p.name, 'isEditable', !uneditableColumns.contains(toPascalName(p.name)), true)}
+		${_genColumnProp(p.name, 'isId', p.name?.equalsIgnoreCase('id'), true)}
+		${_genColumnProp(p.name, 'isStatus', 'status'.equalsIgnoreCase(p.name), true)}
+		
+	],<%}%>
+]
+idColumn 			= columns.find{it.isId}
+idColumns			= columns.findAll{it.isId}
+statusColumn		= columns.find{it.isStatus}
+columnWithoutId 	= columns.findAll{!it.isId}
+allColumns			= fartherTable? columns + fartherTable.columns: columns
+allColumnsWithoutId = allColumns.findAll{!it.isId}
+
+	
