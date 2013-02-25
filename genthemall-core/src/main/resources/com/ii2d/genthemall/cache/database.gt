@@ -31,10 +31,9 @@ def _genColumnProp(_column, _key, _default, _isScript=false) {
 %>${_genBaseProp("prefix", "ii2d")}
 ${_genBaseProp("prefixPath", "prefix + '/'", true)}
 ${_genBaseProp("project", "")}
-${_genBaseProp("group", "")}
 ${_genBaseProp("domain", "ii2d.com")}
 ${_genBaseProp("packagePrefix", "domain.split('\\\\.')[-1..0].join('.')", true)}
-${_genBaseProp("packageName", '[packagePrefix, project, group].join(".").replaceAll("\\\\.+\\$", "")', true)}
+${_genBaseProp("packageName", '[packagePrefix, project].join(".").replaceAll("\\\\.+\\$", "")', true)}
 ${_genBaseProp('name', toPascalName(table))}
 ${_genBaseProp('tableName', table)}
 ${_genBaseProp("packagePath", "packageName.replaceAll(/\\\\./, '/')", true)}
@@ -46,6 +45,7 @@ ${_genBaseProp('modelSuperClass', 'com.ii2d.mybatis.model.BaseMyBatisModel')}
 columns 	= 
 [ <% attrs.each { p-> %>
 	[
+		${_genColumnProp(p.name, 'group', '')}
 		${_genColumnProp(p.name, 'name', toPascalName(p.name))}
 		${_genColumnProp(p.name, 'pascalName', toPascalName(p.name))}
 		${_genColumnProp(p.name, 'camelName', toCamelName(p.name))}
