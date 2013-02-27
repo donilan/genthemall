@@ -36,7 +36,7 @@ ${_genBaseProp("packagePrefix", "domain.split('\\\\.')[-1..0].join('.')", true)}
 ${_genBaseProp("packageName", '[packagePrefix, project].join(".").replaceAll("\\\\.+\\$", "")', true)}
 ${_genBaseProp('name', toPascalName(table))}
 ${_genBaseProp('tableName', table)}
-${_genBaseProp("packagePath", "packageName.replaceAll(/\\\\./, '/')", true)}
+${_genBaseProp("packagePath", "packageName.replaceAll('\\\\.', '/')", true)}
 ${_genBaseProp("pascalName", "name[0].toUpperCase()+name[1..-1]", true)}
 ${_genBaseProp("camelName", "name[0].toLowerCase()+name[1..-1]", true)}
 ${_genBaseProp("modelClassName", "packageName + '.model.' + pascalName", true)}
