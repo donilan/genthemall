@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.groovy.control.CompilationFailedException;
 
 import com.ii2d.dbase.util.DNameUtils;
@@ -18,6 +20,8 @@ import com.ii2d.genthemall.GeneratorFactory;
 import com.ii2d.genthemall.template.Template;
 
 public class GeneratorUtils {
+	
+	private static final Log LOG = LogFactory.getLog(GeneratorUtils.class);
 
 	/**
 	 * @see #generate(Template, ConfigObject, String)
@@ -43,10 +47,15 @@ public class GeneratorUtils {
 	public static void generate(Template t, ConfigObject bindingData, String destPath) throws FileNotFoundException, IOException, CompilationFailedException, ClassNotFoundException {
 		String path = replaceAll(destPath, DNameUtils.toReplaceMap(bindingData));
 		File file = new File(path);
+		if(file.lastModified() > t.getLastModified()) {
+			LOG.debug("Dest file is newst than template.");
+			return;
+		}
 		if(!t.isOverridable() && file.exists()) {
 			// return, If template cannot override.
 			return;
 		}
+		LOG.info("Generating to: " + file.getPath());
 		FileUtils.touch(file);
 		OutputStream out = new FileOutputStream(file);
 		Generator g = GeneratorFactory.create(t.getTemplateText(), out, bindingData);

@@ -9,6 +9,7 @@ public class Template {
 	private String path;
 	private String templateText;
 	private String originTemplateText;
+	private long lastModified;
 	private boolean allCache;
 	private boolean overridable = true;
 	private boolean genable = true;
@@ -86,6 +87,14 @@ public class Template {
 
 	public void setOriginTemplateText(String originTemplateText) {
 		this.originTemplateText = originTemplateText;
+	}
+
+	public void setLastModified(long lastModified) {
+		this.lastModified = lastModified;
+	}
+
+	public long getLastModified() {
+		return lastModified;
 	}
 	
 }

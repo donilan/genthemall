@@ -63,12 +63,11 @@ public class GenerateMojo extends AbstractGenerateMojo {
 				
 				Collection<String> names = _findNames(templates, config);
 				for (String name : names) {
-					getLog().info("+Template name is: " + name);
+					getLog().debug("+generating for Template: " + name);
 					Template t = templates.getTemplateByName(name);
 					if(!t.isGenable()) continue; 
 					String basePath = getTargetBasePath(t.getType());
 					if (t.isAllCache()) {
-						getLog().info("\t-Generate for all table.");
 						GeneratorUtils.generate(t,
 								DatabaseCache.loadCache(tables, "data"),
 								FilenameUtils.concat(basePath, t.getPath()));
@@ -98,7 +97,6 @@ public class GenerateMojo extends AbstractGenerateMojo {
 			throws CompilationFailedException, FileNotFoundException,
 			IOException, ClassNotFoundException {
 		for (String table : tables) {
-			getLog().info("\t-Generate for table: " + table);
 			GeneratorUtils.generate(t, DatabaseCache.loadCache(table),
 					FilenameUtils.concat(basePath, t.getPath()));
 		}

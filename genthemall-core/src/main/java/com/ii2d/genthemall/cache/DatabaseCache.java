@@ -72,7 +72,15 @@ public class DatabaseCache {
 		
 		for (String table : tables) {
 			Map<String, Object> binding = new HashMap<String, Object>();
-			DDBUtils.getColumns(ds, table, binding);
+			try {
+				DDBUtils.getColumns(ds, table, binding);
+				if(binding.size() < 1) {
+					throw new SQLException("No data is found in database. maybe is connecte error.");
+				}
+			} catch (SQLException e) {
+				LOG.warn(String.format("Fail to getting columns: ", e.getMessage()));
+				throw e;
+			}
 			binding.put("global", globalConfig);
 			File file = new File(FilenameUtils.concat(CACHE_PATH, table + ".cache"));
 			FileUtils.touch(file);

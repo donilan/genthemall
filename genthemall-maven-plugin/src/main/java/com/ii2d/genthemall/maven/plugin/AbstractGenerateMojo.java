@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -114,11 +115,14 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 				this.getClassloader(), this.getTemplatePath());
 	}
 	
-	protected TemplateHolder getTemplateHolder(String tmplPath) throws MalformedURLException, IOException, DependencyResolutionRequiredException {
+	protected TemplateHolder getTemplateHolder(String tmplPath) throws MalformedURLException, IOException, DependencyResolutionRequiredException, SQLException {
 		if (refeshCache) {
 			DatabaseSource ds = this.getDatabaseSource();
 			try {
 				DatabaseCache.makeCache(ds, ds.getTables());
+			} catch(SQLException e) {
+				getLog().error(String.format("Fail to making cache: ", e.getMessage()));
+				throw e;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

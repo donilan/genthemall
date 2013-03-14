@@ -77,7 +77,7 @@ public class TemplateHolder implements ITemplateFinder {
 		DTemplateFinder.register(this);
 		for (Entry<String, Template> en : nameMap.entrySet()) {
 			Template t = en.getValue();
-			LOG.info(String.format("Compiling template: [%s] version: [%s]", t.getName(), t.getVersion()));
+			LOG.debug(String.format("Compiling template: [%s] version: [%s]", t.getName(), t.getVersion()));
 			String content = StringUtils.trimToNull(t.getTemplateText());
 			t.setOriginTemplateText(content);
 			DTemplate tmpl = new DTemplate(content, new Context());
