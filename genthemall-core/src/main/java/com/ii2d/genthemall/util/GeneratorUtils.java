@@ -47,6 +47,7 @@ public class GeneratorUtils {
 	public static void generate(Template t, ConfigObject bindingData, String destPath) throws FileNotFoundException, IOException, CompilationFailedException, ClassNotFoundException {
 		String path = replaceAll(destPath, DNameUtils.toReplaceMap(bindingData));
 		File file = new File(path);
+//		System.out.printf("%s, %d < %d\n", t.getName(), t.getLastModified(), file.lastModified());
 		if(file.lastModified() > t.getLastModified()) {
 			LOG.debug("Dest file is newst than template.");
 			return;

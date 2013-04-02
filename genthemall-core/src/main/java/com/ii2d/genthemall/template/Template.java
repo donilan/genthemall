@@ -2,6 +2,8 @@ package com.ii2d.genthemall.template;
 
 public class Template {
 
+	private static final long DEFAULT_LONG_CACHE = -1;
+	
 	private String name;
 	private String description;
 	private String type;
@@ -10,9 +12,11 @@ public class Template {
 	private String templateText;
 	private String originTemplateText;
 	private long lastModified;
+	private long _lastModified = DEFAULT_LONG_CACHE; // cache
 	private boolean allCache;
 	private boolean overridable = true;
 	private boolean genable = true;
+	private Template subTemplate;
 	
 	public boolean isOverridable() {
 		return overridable;
@@ -93,8 +97,27 @@ public class Template {
 		this.lastModified = lastModified;
 	}
 
+	/**
+	 * @return last max modified time about this template and sub template modify time.
+	 */
 	public long getLastModified() {
-		return lastModified;
+		if(_lastModified == DEFAULT_LONG_CACHE) {
+			_lastModified = lastModified;
+			Template sub = getSubTemplate();
+			while(sub != null) {
+				if(sub.getLastModified() > lastModified) {
+					_lastModified = sub.getLastModified();
+				}
+				sub = sub.getSubTemplate();
+			}
+		}
+		return _lastModified;
 	}
-	
+
+	public void setSubTemplate(Template tmp) {
+		subTemplate = tmp;
+	}
+	public Template getSubTemplate() {
+		return subTemplate;
+	}
 }

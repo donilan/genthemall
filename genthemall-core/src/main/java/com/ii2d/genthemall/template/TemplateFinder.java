@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.ii2d.dbase.util.DResourceFinder;
 import com.ii2d.dbase.util.DResourceUtils;
@@ -25,6 +26,11 @@ public class TemplateFinder {
 	 * the .gt file must have a head like this <%/...../%>
 	 */
 	public static final String HEAD_RE_STR = "^\\s*<%/\\*(.+?)\\*/%>";
+	
+	public static final String SUB_TEMPLATE_RE_STR = "^\\s*\\{\\{\\s*extends\\s+([^\\s]+)\\s*\\}\\}";
+	
+	public static final Pattern SUB_TEMPLATE_RE = Pattern.compile(SUB_TEMPLATE_RE_STR);
+	
 	public static final Pattern HEAD_RE = Pattern.compile(HEAD_RE_STR,
 			Pattern.DOTALL);
 
@@ -52,6 +58,7 @@ public class TemplateFinder {
 				tList.add(tmp);
 			}
 		}
+		findSubTemplate4TemplateList(tList);
 		return tList;
 	}
 
@@ -91,5 +98,28 @@ public class TemplateFinder {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * find sub template for find the max last modify time.
+	 */
+	private static void findSubTemplate4TemplateList(List<Template> templates) {
+		for(Template t : templates) {
+			Matcher m = SUB_TEMPLATE_RE.matcher(t.getTemplateText());
+			if(m.find()) {
+				String sub = m.group(1);
+				for(Template tmp: templates) {
+					if(StringUtils.equals(sub, tmp.getName())) {
+						t.setSubTemplate(tmp);
+					}
+				}
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		Matcher m = SUB_TEMPLATE_RE.matcher("     {{       extends web-controller }}       ");
+		if(m.find())
+			System.out.println(m.group(1));
 	}
 }
