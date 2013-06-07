@@ -43,7 +43,7 @@ ${_genBaseProp("modelClassName", "packageName + '.model.' + pascalName", true)}
 ${_genBaseProp('modelSuperClass', 'com.ii2d.mybatis.model.BaseMyBatisModel')}
 
 columns 	= 
-[ <% attrs.each { p-> %>
+[ <% attrs.eachWithIndex { p, i-> %>
 	[
 		${_genColumnProp(p.name, 'group', '')}
 		${_genColumnProp(p.name, 'name', toPascalName(p.name))}
@@ -53,6 +53,7 @@ columns 	=
 		${_genColumnProp(p.name, 'columnType', TYPES[p.columnType])}
 		${_genColumnProp(p.name, 'classType', DB_TYPE_MAP[p.className]? DB_TYPE_MAP[p.className]: p.className)}
 		${_genColumnProp(p.name, 'type', toCamelName(p.name))}
+		${_genColumnProp(p.name, 'order', i, true)}
 		${_genColumnProp(p.name, 'minLength', 0, true)}
 		${_genColumnProp(p.name, 'maxLength', p.length, true)}
 		${_genColumnProp(p.name, 'getter', 'get'+toPascalName(p.name))}
