@@ -50,7 +50,7 @@ public class GeneratorUtils {
 //		System.out.printf("%s, %d < %d\n", t.getName(), t.getLastModified(), file.lastModified());
 		if(file.lastModified() > t.getLastModified()) {
 			LOG.debug("Dest file is newst than template.");
-			return;
+//			return;
 		}
 		if(!t.isOverridable() && file.exists()) {
 			// return, If template cannot override.
