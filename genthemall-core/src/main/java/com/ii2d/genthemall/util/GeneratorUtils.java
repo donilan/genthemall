@@ -26,10 +26,10 @@ public class GeneratorUtils {
 	/**
 	 * @see #generate(Template, ConfigObject, String)
 	 */
-	public static void generate(Template t, ConfigObject bindingData)
+	public static void generate(Template t, ConfigObject bindingData, boolean refreshAll)
 			throws FileNotFoundException, IOException,
 			CompilationFailedException, ClassNotFoundException {
-		generate(t, bindingData, t.getPath());
+		generate(t, bindingData, t.getPath(), refreshAll);
 	}
 	
 	/**
@@ -44,13 +44,13 @@ public class GeneratorUtils {
 	 * @throws CompilationFailedException
 	 * @throws ClassNotFoundException
 	 */
-	public static void generate(Template t, ConfigObject bindingData, String destPath) throws FileNotFoundException, IOException, CompilationFailedException, ClassNotFoundException {
+	public static void generate(Template t, ConfigObject bindingData, String destPath, boolean refreshAll) throws FileNotFoundException, IOException, CompilationFailedException, ClassNotFoundException {
 		String path = replaceAll(destPath, DNameUtils.toReplaceMap(bindingData));
 		File file = new File(path);
 //		System.out.printf("%s, %d < %d\n", t.getName(), t.getLastModified(), file.lastModified());
-		if(file.lastModified() > t.getLastModified()) {
+		if(!refreshAll && file.lastModified() > t.getLastModified()) {
 			LOG.debug("Dest file is newst than template.");
-//			return;
+			return;
 		}
 		if(!t.isOverridable() && file.exists()) {
 			// return, If template cannot override.

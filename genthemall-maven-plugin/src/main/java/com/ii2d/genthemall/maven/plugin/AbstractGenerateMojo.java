@@ -57,12 +57,13 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 	/**
 	 * @parameter default-value="classpath:genthemall.conf"
 	 */
+	@Deprecated
 	protected String configFile;
 	
 	/**
-	 * @parameter default-value=true
+	 * @parameter default-value=true expression="${maven.genthemall.refreshCache}"
 	 */
-	private boolean refeshCache;
+	private boolean refreshCache;
 	
 	public static final String TARGET_TYPE_DEFAULT = "default";
 	public static final String TARGET_TYPE_ROOT = "root";
@@ -116,7 +117,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 	}
 	
 	protected TemplateHolder getTemplateHolder(String tmplPath) throws MalformedURLException, IOException, DependencyResolutionRequiredException, SQLException {
-		if (refeshCache) {
+		if (refreshCache) {
 			DatabaseSource ds = this.getDatabaseSource();
 			try {
 				DatabaseCache.makeCache(ds, ds.getTables());

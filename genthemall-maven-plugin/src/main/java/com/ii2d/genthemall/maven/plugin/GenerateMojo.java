@@ -28,6 +28,20 @@ import com.ii2d.genthemall.util.GeneratorUtils;
 public class GenerateMojo extends AbstractGenerateMojo {
 
 
+	/**
+	 * @parameter expression="${maven.genthemall.refreshAll}"
+	 * 
+	 */
+	private boolean refreshAll;
+	
+	public boolean isRefreshAll() {
+		return refreshAll;
+	}
+
+	public void setRefreshAll(boolean refreshAll) {
+		this.refreshAll = refreshAll;
+	}
+
 	@SuppressWarnings("unchecked")
 	private Collection<String> _findNames(TemplateHolder templates,
 			GenerateConfig config) {
@@ -70,7 +84,8 @@ public class GenerateMojo extends AbstractGenerateMojo {
 					if (t.isAllCache()) {
 						GeneratorUtils.generate(t,
 								DatabaseCache.loadCache(tables, "data"),
-								FilenameUtils.concat(basePath, t.getPath()));
+								FilenameUtils.concat(basePath, t.getPath()),
+								refreshAll);
 					} else {
 						gen4one(tables, t, basePath);
 					}
@@ -98,7 +113,8 @@ public class GenerateMojo extends AbstractGenerateMojo {
 			IOException, ClassNotFoundException {
 		for (String table : tables) {
 			GeneratorUtils.generate(t, DatabaseCache.loadCache(table),
-					FilenameUtils.concat(basePath, t.getPath()));
+					FilenameUtils.concat(basePath, t.getPath()),
+					refreshAll);
 		}
 	}
 

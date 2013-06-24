@@ -21,7 +21,7 @@ public class GeneratorTests extends GenthemallBaseTestCase {
 		List<Template> templates = TemplateFinder.find(templatePath);
 		for(Template t: templates) {
 			t.setPath(FilenameUtils.concat("target/genthemall", t.getPath()));
-			GeneratorUtils.generate(t, DatabaseCache.loadCache("user"));
+			GeneratorUtils.generate(t, DatabaseCache.loadCache("user"), true);
 		}
 	}
 }

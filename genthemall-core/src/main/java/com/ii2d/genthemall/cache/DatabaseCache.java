@@ -4,6 +4,7 @@ import groovy.util.ConfigObject;
 import groovy.util.ConfigSlurper;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,20 +57,19 @@ public class DatabaseCache {
 			throws SQLException, IOException, CompilationFailedException,
 			ClassNotFoundException {
 		
-		//Global config
-		ConfigObject globalConfig = null;
-		try {
-			InputStream in = DResourceUtils.getResourceAsStream("genthemall.conf");
-			globalConfig =  new ConfigSlurper().parse(IOUtils.toString(in));
-		} catch (IOException e) {
-			//Do not thing.
+		File cacheTemplate = new File("genthemall.gt");
+		if(!cacheTemplate.exists()) {
+			OutputStream out = new FileOutputStream(cacheTemplate);
+			InputStream in = DatabaseCache.class
+					.getResourceAsStream(CACHE_TEMPLATE_PATH);
+			IOUtils.copy(in, out);
+			out.close();
 		}
 		
-		InputStream in = DatabaseCache.class
-				.getResourceAsStream(CACHE_TEMPLATE_PATH);
+		InputStream in = new FileInputStream(cacheTemplate);
 		String templateText = IOUtils.toString(in);
 		in.close();
-		
+		LOG.info("Generating cache...");
 		for (String table : tables) {
 			Map<String, Object> binding = new HashMap<String, Object>();
 			try {
@@ -81,7 +81,6 @@ public class DatabaseCache {
 				LOG.warn(String.format("Fail to getting columns: ", e.getMessage()));
 				throw e;
 			}
-			binding.put("global", globalConfig);
 			File file = new File(FilenameUtils.concat(CACHE_PATH, table + ".cache"));
 			FileUtils.touch(file);
 			OutputStream out = new FileOutputStream(file);
